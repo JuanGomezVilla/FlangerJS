@@ -18,7 +18,7 @@ var escenaCargando = new Escena({
 	}
 });
 
-var barraCargando = new BarraCargando({
+var barraCargando = new LoadBar({
 	x: 330,
 	y: 350,
 	ancho: 300,
