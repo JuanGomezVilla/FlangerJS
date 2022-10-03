@@ -15,7 +15,7 @@ class LoadBar {
         this.mostrarTexto   = datos.mostrarTexto;   //Permitir mostrar el progreso
         this.onFinish       = datos.onFinish;       //Método a ejecutar cuando termine
         this.carga          = 0;                    //Carga realizada (0 por defecto)
-        this.realizarFinish	= false;                //Interruptor de ejecución de onFinish()
+        this.realizarFinish = false;                //Interruptor de ejecución de onFinish()
     }
 
     /**
