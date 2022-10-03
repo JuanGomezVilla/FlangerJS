@@ -1,11 +1,11 @@
-# BarraCargando
-BarraCargando.js se encuentra en el propio framework como plugin. Imprime una barra de carga en movimiento y cuando finaliza ejecuta un método.
+# LoadBar
+LoadBar.js se encuentra en el propio framework como plugin. Imprime una barra de carga en movimiento y cuando finaliza ejecuta un método.
 
 ## Instalación
-1. Pegar el archivo *BarraCargando.js* en la carpeta Plugins del proyecto
+1. Pegar el archivo *LoadBar.js* en la carpeta Plugins del proyecto
 2. En el archivo *index.html* pegar la siguiente línea de código en el apartado de plugins de la cabecera:
 ```javascript
-<script type="text/javascript" src="scripts/Plugins/BarraCargando.js"></script>
+<script type="text/javascript" src="scripts/Plugins/LoadBar.js"></script>
 ```
 
 ## Parámetros
@@ -28,7 +28,7 @@ La velocidad tambien puede ser un número decimal, como 0.5, aunque en la tabla 
 
 ## Ejemplo
 ```javascript
-var barra = new BarraCargando({
+var barra = new LoadBar({
 	x: 330,
 	y: 350,
 	ancho: 300,

@@ -35,4 +35,4 @@ FlangerJS cuenta con plugins JS adaptados al mismo framework, que funcionan como
 
 | Plugin | README |
 | ------ | ------ |
-| BarraCargando | [Plugins/BarraCargando/README.md][PlDb] |
+| LoadBar | [Plugins/LoadBar/README.md][PlDb] |
