@@ -1,5 +1,5 @@
 # FlangerJS
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-blue.svg)](https://conventionalcommits.org)
+[![Conventional Commits](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://flangerjs.org)
 FlangerJS es un marco de desarrollo de videojuegos 2D escrito en JavaScript. Permite crear un videojuego a partir de un código predefinido utilizando librerías propias, que son el mismo framework.
 
 ## Ventajas
