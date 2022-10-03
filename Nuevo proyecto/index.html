@@ -1,46 +1,46 @@
 <html>
-	<head>
-		<!-- TÍTULO DEL VIDEOJUEGO -->
-		<title>My Title Game</title>
+    <head>
+        <!-- TÍTULO DEL VIDEOJUEGO -->
+        <title>My Title Game</title>
+        
+        <!-- ETIQUETAS META -->
+        <meta charset="UTF-8">
+        <meta name="description" content="Descripcion del videojuego">
+        <meta name="keywords" content="Palabras clave separadas por coma">
+        <meta name="author" content="Autor">
+        <meta name="google" content="notranslate"/>
+        
+        <!-- PLUGINS JS -->
+        <script type="text/javascript" src="scripts/Plugins/BarraCargando.js"></script>
+        <script type="text/javascript" src="scripts/Plugins/SniperSight.js"></script>
+        
+        <!-- LIBRERÍAS JS (NO ELIMINAR) -->
+        <script type="text/javascript" src="scripts/Flanger/Sistema.js"></script>
+        <script type="text/javascript" src="scripts/Flanger/Pantalla.js"></script>
+        <script type="text/javascript" src="scripts/Flanger/Utils.js"></script>
+        <script type="text/javascript" src="scripts/Flanger/Boton.js"></script>
+        <script type="text/javascript" src="scripts/Flanger/Escena.js"></script>
+        <script type="text/javascript" src="scripts/Objetos.js"></script>
 
-		<!-- ETIQUETAS META -->
-		<meta charset="UTF-8">
-		<meta name="description" content="Descripcion del videojuego">
-		<meta name="keywords" content="Palabras clave separadas por coma">
-		<meta name="author" content="Autor">
-		<meta name="google" content="notranslate"/>
-
-		<!-- PLUGINS JS -->
-		<script type="text/javascript" src="scripts/Plugins/LoadBar.js"></script>
-		<script type="text/javascript" src="scripts/Plugins/SniperSight.js"></script>
-		
-		<!-- LIBRERÍAS JS (NO ELIMINAR) -->
-		<script type="text/javascript" src="scripts/Flanger/Sistema.js"></script>
-		<script type="text/javascript" src="scripts/Flanger/Pantalla.js"></script>
-		<script type="text/javascript" src="scripts/Flanger/Utils.js"></script>
-		<script type="text/javascript" src="scripts/Flanger/Boton.js"></script>
-		<script type="text/javascript" src="scripts/Flanger/Escena.js"></script>
-		<script type="text/javascript" src="scripts/Objetos.js"></script>
-
-		<!-- ESTILOS CSS -->
-		<link rel="stylesheet" href="styles/main.css">
-	</head>
-	<body>
-		<canvas></canvas>
-		<script>
-			
-			//VARIABLES GLOBALES (NO ELIMINAR)
-			var lienzo, lapiz, intervalo, sistema, pantalla;
-
-			window.onload = () => {
-				sistema = new Sistema();
-				pantalla = new Pantalla({
-					ancho: 338,
-					alto: 600
-				});
-				escenaCargando.iniciar();
-			}
-
-		</script>
-	</body>
+        <!-- ESTILOS CSS -->
+        <link rel="stylesheet" href="styles/main.css">
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+        
+            //VARIABLES GLOBALES (NO ELIMINAR)
+            var lienzo, lapiz, intervalo, sistema, pantalla;
+    
+            window.onload = () => {
+                sistema = new Sistema();
+                pantalla = new Pantalla({
+                    ancho: 338,
+                    alto: 600
+                });
+                escenaCargando.iniciar();
+            }
+            
+        </script>
+    </body>
 </html>
