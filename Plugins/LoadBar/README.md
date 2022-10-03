@@ -29,18 +29,18 @@ La velocidad tambien puede ser un número decimal, como 0.5, aunque en la tabla 
 ## Ejemplo
 ```javascript
 var barra = new LoadBar({
-	x: 330,
-	y: 350,
-	ancho: 300,
-	alto: 15,
-	grosor: 2,
-	color1: "#FFFFFF",
-	color2: "#000000",
-	velocidad: 0.5,
-	mostrarTexto: true,
-	onFinish: function(){
-		console.log("Hello World!");
-	}
+    x: 330,
+    y: 350,
+    ancho: 300,
+    alto: 15,
+    grosor: 2,
+    color1: "#FFFFFF",
+    color2: "#000000",
+    velocidad: 0.5,
+    mostrarTexto: true,
+    onFinish: function(){
+        console.log("Hello World!");
+    }
 });
 
 ```

@@ -1,5 +1,9 @@
 class Sistema {
-	imprimirMensaje(mensaje){
-		console.log(mensaje);
-	}
+    constructor(){
+        
+    }
+
+    imprimirMensaje(mensaje){
+        console.log(mensaje);
+    }
 }

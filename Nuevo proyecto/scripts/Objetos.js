@@ -16,19 +16,19 @@ var escenaCargando = new Escena({
     }
 });
 
-var barraCargando = new BarraCargando({
-x: 330,
-y: 350,
-ancho: 300,
-alto: 15,
-grosor: 2,
-color1: "#FFFFFF",
-color2: "#000000",
-velocidad: 0.5,
-mostrarTexto: true,
-onFinish: function(){
-console.log("terminado");
-}
+var barraCargando = new LoadBar({
+    x: 330,
+    y: 350,
+    ancho: 300,
+    alto: 15,
+    grosor: 2,
+    color1: "#FFFFFF",
+    color2: "#000000",
+    velocidad: 0.5,
+    mostrarTexto: true,
+    onFinish: function(){
+        console.log("terminado");
+    }
 });
 
 var miraTelescopica = new SniperSight({

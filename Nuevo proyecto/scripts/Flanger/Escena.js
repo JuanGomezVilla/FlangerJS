@@ -1,24 +1,23 @@
 class Escena {
-	constructor(datos){
-		this.onLoad = datos.onLoad;
-		this.onRunning = datos.onRunning;
-		if(datos.pausa != null) this.pausa = datos.pausa;
-		else this.pausa = false;
-	}
+    constructor(datos){
+        this.onLoad = datos.onLoad;
+        this.onRunning = datos.onRunning;
+        if(datos.pausa != null) this.pausa = datos.pausa;
+        else this.pausa = false;
+    }
 
-	actualizar(){
-		intervalo = requestAnimationFrame(()=>this.actualizar());
-		this.onRunning();
-		pantalla.anularClick();
-	}
+    actualizar(){
+        intervalo = requestAnimationFrame(()=>this.actualizar());
+        this.onRunning();
+        pantalla.anularClick();
+    }
 
-	iniciar(){
-		this.onLoad();
-		this.actualizar();
-		console.log("última línea de escena");
-	}
+    iniciar(){
+        this.onLoad();
+        this.actualizar();
+    }
 
-	finalizar(){
-		window.cancelAnimationFrame(intervalo);
-	}
+    finalizar(){
+        window.cancelAnimationFrame(intervalo);
+    }
 }
