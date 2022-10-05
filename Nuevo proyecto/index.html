@@ -11,8 +11,9 @@
         <meta name="google" content="notranslate"/>
         
         <!-- PLUGINS JS -->
-        <script type="text/javascript" src="scripts/Plugins/BarraCargando.js"></script>
-        <script type="text/javascript" src="scripts/Plugins/SniperSight.js"></script>
+        <script type="text/javascript" src="scripts/Plugins/LoadBar.js"></script>
+        <script type="text/javascript" src="scripts/Plugins/Assets.js"></script>
+        <!--<script type="text/javascript" src="scripts/Plugins/SniperSight.js"></script>-->
         
         <!-- LIBRERÍAS JS (NO ELIMINAR) -->
         <script type="text/javascript" src="scripts/Flanger/Sistema.js"></script>
@@ -35,8 +36,8 @@
             window.onload = () => {
                 sistema = new Sistema();
                 pantalla = new Pantalla({
-                    ancho: 338,
-                    alto: 600
+                    ancho: 960,
+                    alto: 540
                 });
                 escenaCargando.iniciar();
             }

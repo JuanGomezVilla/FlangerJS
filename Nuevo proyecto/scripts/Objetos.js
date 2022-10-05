@@ -1,18 +1,18 @@
+var assets;
+
 var escenaCargando = new Escena({
-    pausa: true,
+    pausa: false,
     onLoad: function(){
-        console.log("Preparación");
+        assets = new Assets([
+            "assets/imagen.jpg",
+            "assets/imagen2.jpg"
+        ]);
     },
     onRunning: function(){
         pantalla.limpiar();
         pantalla.fondo("blue");
-        if(this.pausa){
-            console.log("hola");
-        } else {
-            console.log("No en pausa");
-            //botones[0].actualizar();
-        }
-        botones[0].dibujar();
+        barraCargando.actualizar();
+        barraCargando.dibujar();
     }
 });
 
@@ -31,7 +31,7 @@ var barraCargando = new LoadBar({
     }
 });
 
-var miraTelescopica = new SniperSight({
+/*var miraTelescopica = new SniperSight({
     x:50,
     y:50,
     radio: 100,
@@ -39,7 +39,7 @@ var miraTelescopica = new SniperSight({
     grosor: 10,
     raton: true,
     sombra: false
-});
+});*/
 
 
 var botones = [
