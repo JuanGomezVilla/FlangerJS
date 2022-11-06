@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <!-- TÍTULO DEL VIDEOJUEGO -->
@@ -10,18 +11,8 @@
         <meta name="author" content="Autor">
         <meta name="google" content="notranslate"/>
         
-        <!-- PLUGINS JS -->
-        <script type="text/javascript" src="scripts/Plugins/LoadBar.js"></script>
-        <script type="text/javascript" src="scripts/Plugins/Assets.js"></script>
-        <!--<script type="text/javascript" src="scripts/Plugins/SniperSight.js"></script>-->
-        
-        <!-- LIBRERÍAS JS (NO ELIMINAR) -->
-        <script type="text/javascript" src="scripts/Flanger/Sistema.js"></script>
-        <script type="text/javascript" src="scripts/Flanger/Pantalla.js"></script>
-        <script type="text/javascript" src="scripts/Flanger/Utils.js"></script>
-        <script type="text/javascript" src="scripts/Flanger/Boton.js"></script>
-        <script type="text/javascript" src="scripts/Flanger/Escena.js"></script>
-        <script type="text/javascript" src="scripts/Objetos.js"></script>
+        <!-- FlangerJS -->
+        <script type="text/javascript" src="scripts/Flanger/Flanger.js"></script>
 
         <!-- ESTILOS CSS -->
         <link rel="stylesheet" href="styles/main.css">
@@ -31,16 +22,76 @@
         <script>
         
             //VARIABLES GLOBALES (NO ELIMINAR)
-            var lienzo, lapiz, intervalo, sistema, pantalla;
+            var lienzo, lapiz, intervalo, pantalla;
     
             window.onload = () => {
-                sistema = new Sistema();
                 pantalla = new Pantalla({
                     ancho: 960,
                     alto: 540
                 });
                 escenaCargando.iniciar();
             }
+
+            var assets;
+            var escenaCargando = new Escena({
+                pausa: false,
+                onLoad: function(){
+                    //Carga de materiales
+                    /*
+                        Recomendación:
+                            No finalizar la escena desde assets
+
+                    */
+                    assets = new Assets({
+                        onFinish: function(){
+                            terminar = true;
+                        },
+                        sprites: [
+                            {
+                                url:"assets/coches.png", datos:{
+                                    cochePolicia: {x:130, y:16, w:48, h:93}
+                                }
+                            }
+                        ]
+                    });
+                    assets.cargar();
+                },
+                onRunning: function(){
+                    pantalla.limpiar();
+                    pantalla.fondo("blue");
+                    barraCargando.actualizar();
+                    barraCargando.dibujar();
+                }
+            });
+
+            var escenaJuego = new Escena({
+                pausa: false,
+                onLoad: function(){
+                    console.log("saludar");
+                },
+                onRunning: function(){
+                    pantalla.limpiar();
+                    pantalla.fondo("black");
+                    assets.dibujarSprite(0, "cochePolicia", 50, 50, 48, 93);
+                }
+            });
+
+            var barraCargando = new LoadBar({
+                x: 330,
+                y: 350,
+                ancho: 300,
+                alto: 15,
+                grosor: 2,
+                color1: "#FFFFFF",
+                color2: "#000000",
+                velocidad: 0.5,
+                mostrarTexto: true,
+                onFinish: function(){
+                    console.log("terminado");
+                    escenaCargando.finalizar();
+                    escenaJuego.iniciar();
+                }
+            });
             
         </script>
     </body>

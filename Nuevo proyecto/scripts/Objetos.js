@@ -3,16 +3,43 @@ var assets;
 var escenaCargando = new Escena({
     pausa: false,
     onLoad: function(){
-        assets = new Assets([
-            "assets/imagen.jpg",
-            "assets/imagen2.jpg"
-        ]);
+        //Carga de materiales
+        /*
+            Recomendación:
+                No finalizar la escena desde assets
+
+        */
+        assets = new Assets({
+            onFinish: function(){
+                terminar = true;
+            },
+            sprites: [
+                {
+                    url:"assets/coches.png", datos:{
+                        cochePolicia: {x:130, y:16, w:48, h:93}
+                    }
+                }
+            ]
+        });
+        assets.cargar();
     },
     onRunning: function(){
         pantalla.limpiar();
         pantalla.fondo("blue");
         barraCargando.actualizar();
         barraCargando.dibujar();
+    }
+});
+
+var escenaJuego = new Escena({
+    pausa: false,
+    onLoad: function(){
+        console.log("saludar");
+    },
+    onRunning: function(){
+        pantalla.limpiar();
+        pantalla.fondo("black");
+        assets.dibujarSprite(0, "cochePolicia", 50, 50, 48, 93);
     }
 });
 
@@ -28,6 +55,8 @@ var barraCargando = new LoadBar({
     mostrarTexto: true,
     onFinish: function(){
         console.log("terminado");
+        escenaCargando.finalizar();
+        escenaJuego.iniciar();
     }
 });
 
@@ -51,3 +80,66 @@ var botones = [
         }
     })
 ];
+
+/*
+var coche;
+var assets;
+var terminar = false;
+
+var escenaCargando = new Escena({
+    pausa: false,
+    onLoad: function(){
+        //Carga de materiales
+        //No finalizar la escena desde assets
+                assets = new Assets({
+                    onFinish: function(){
+                        terminar = true;
+                    },
+                    sprites: [
+                        {
+                            url:"assets/coches.png", datos:{
+                                cochePolicia: {x:130, y:16, w:48, h:93}
+                            }
+                        }
+                    ]
+                });
+                assets.cargar();
+            },
+            onRunning(){
+                console.log("Actualizando escena cargando");
+                if(terminar){
+                    escenaCargando.finalizar();
+                    escenaJuego.iniciar();
+                }
+            }
+        });
+        
+        var escenaJuego = new Escena({
+            pausa: false,
+            onLoad: function(){
+                coche = new Coche({
+                    x:100,
+                    y:100,
+                    ancho:25,
+                    alto:50
+                });
+            },
+            onRunning: function(){
+                pantalla.limpiar();
+                pantalla.fondo("#606060");
+                
+                for(let i=0; i<10; i++){
+                    utils.dibujarLinea(
+                        50*i + 200,
+                        50,
+                        50*i + 200,
+                        120, "#FFFFFF", 6
+                    );
+                }
+                coche.actualizar();
+                coche.dibujar();
+        
+                
+            }
+        });
+ */
