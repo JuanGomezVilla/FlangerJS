@@ -22,10 +22,14 @@ Las variables reservadas no pueden ser modificadas ni en el nombre ni en sus atr
 - lapiz: guarda el contexto del lienzo
 - intervalo: contiene los datos de actualización de pantalla
 - pantalla: aloja el lienzo, el lápiz, el intervalo para controlarlos directamente
-- sistema: controla el funcionamiento del sistema
+- utils: pertenece a FlangerJS, es una variable no visible directamente sobre el archivo index.html
 
 ### Clases reservadas
-
+- Pantalla
+- Boton, BotonTexto
+- Escena
+- Assets
+- LoadBar
 
 ## Plugins
 FlangerJS cuenta con plugins JS adaptados al mismo framework, que funcionan como componentes. Pueden ser extraídos del mismo marco o ser desarrollados por cuenta propia y más tarde integrarlos, respetando las directrices que se establecen.

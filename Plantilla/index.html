@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- TÍTULO DEL VIDEOJUEGO -->
+        <title>My Title Game</title>
+        
+        <!-- ETIQUETAS META -->
+        <meta charset="UTF-8">
+        <meta name="description" content="Descripcion del videojuego">
+        <meta name="keywords" content="palabras, clave, separadas, por, coma">
+        <meta name="author" content="Autor">
+        <meta name="google" content="notranslate"/>
+        
+        <!-- FlangerJS -->
+        <script type="text/javascript" src="scripts/FlangerJS.js"></script>
+
+        <!-- ESTILOS CSS -->
+        <link rel="stylesheet" href="styles/main.css">
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+
+            //VARIABLES GLOBALES (NO ELIMINAR)
+            var lienzo, lapiz, intervalo, pantalla;
+
+            window.onload = function(){
+                pantalla = new Pantalla({
+                    ancho: 960,
+                    alto: 540
+                });
+            }
+
+        </script>
+    </body>
+</html>
