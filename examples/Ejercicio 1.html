@@ -1,0 +1,85 @@
+<script src="Pantalla.js"></script>
+<canvas></canvas>
+<script>
+
+var lienzo, lapiz, intervalo, pantalla;
+
+
+
+class Bloque {
+    constructor(x, y, ancho, alto){
+        this.x = x;
+        this.y = y;
+        this.ancho = ancho;
+        this.alto = alto;
+    }
+
+    /**
+     * Función para actualizar
+     */
+    actualizar(){
+        this.x++;
+    }
+
+    dibujar(){
+        lapiz.fillRect(this.x, this.y, this.ancho, this.alto);
+    }
+
+    static getNombre(){
+        return "Persona 1";
+    }
+
+}
+
+var obstaculo = new Bloque(10, 20, 50, 50);
+
+
+
+//console.log(Bloque.getNombre());
+
+/*function actualizar(){
+    intervalo = requestAnimationFrame(actualizar);
+
+    //Limpiar la pantalla
+    lapiz.clearRect(0, 0, lienzo.width, lienzo.height);
+
+    //ACTUALIZACIÓN DE TODOS LOS OBJETOS
+    obstaculo.actualizar();
+
+    //DIBUJADO
+    obstaculo.dibujar();
+
+}*/
+
+/**
+function juan(ancho, alto){
+    console.log(ancho);
+}
+
+var boton = new Boton({
+    x:10,
+    y:10,
+    ancho: 20,
+    alto: 20,
+    onClick:function(){
+
+    },
+    onHover: function(){
+
+    },
+    onDraw: function(){
+
+    }
+});
+
+pantalla = new Pantalla({ancho:338, alto:600, borde:true});
+console.log("ANCHO: "+ pantalla.getAncho());
+console.log("ALTO: "+ pantalla.getAlto());
+
+console.log("PUNTO CENTRAL EN EL EJE X: "+ pantalla.getPuntoCentralX());
+console.log("PUNTO CENTRAL EN EL EJE Y: "+ pantalla.getPuntoCentralY());
+console.log("PUNTO CENTRAL EN EL EJE XY: "+ pantalla.getPuntoCentral());
+
+//actualizar();
+
+</script>

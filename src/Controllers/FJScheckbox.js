@@ -1,0 +1,5 @@
+class FJScheckbox {
+    constructor(data){
+
+    }
+}

@@ -1,0 +1,16 @@
+<script src="Pantalla.js"></script>
+<!-- ¿Cómo tratar el uso de varios canvas? -->
+<canvas></canvas>
+
+<script>
+
+var lienzo, lapiz, intervalo, pantalla;
+
+pantalla = new Pantalla({ancho:338, alto:600, borde:true});
+lienzo = pantalla.getLienzo();
+lapiz = pantalla.getLapiz();
+
+lapiz.fillStyle = "red";
+lapiz.fillRect(10,10,20,20);
+
+</script>

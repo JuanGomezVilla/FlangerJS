@@ -1,0 +1,91 @@
+<script src="FJSscreen.js"></script>
+<script src="FJSscene.js"></script>
+<canvas></canvas>
+<script>
+
+var personaje;
+var enemigos = [];
+
+//CONTROL DE FRAMES
+
+
+FJSscreen.init({
+    border: true,
+    width: 338,
+    height: 600,
+    fps: 60
+});
+
+var escenaJuego = new FJSscene({
+    pause: false,
+    onLoad: function(){
+        personaje = new Personaje(FJSscreen.getCentralPointX() - 25, 400, 50, 50, "#000000");
+    },
+    onRunning: function(){
+        FJSscreen.clearScreen();
+        FJSscreen.drawBackgroundColor("#0000FF");
+
+        personaje.actualizar();
+        
+
+        if(enemigos.length == 0 || enemigos[enemigos.length - 1].y > 300) enemigos.push(new Enemigo(100, -50, 50, 50, "#FF0000"));
+        for(var i=0; i<enemigos.length; i++){
+            if(enemigos[i].y > 600){
+                enemigos.splice(i, 1);
+            }
+        }
+        for(var i=0; i<enemigos.length; i++){
+            enemigos[i].y += 3;
+        }
+        
+        personaje.dibujar();
+        for(var i=0; i<enemigos.length; i++){
+            enemigos[i].dibujar();
+        }
+    }
+});
+
+
+class Enemigo {
+    constructor(x, y, ancho, alto, color){
+        this.x = x;
+        this.y = y;
+        this.ancho = ancho;
+        this.alto = alto;
+        this.color = color;
+    }
+
+    actualizar(){
+        
+    }
+
+    dibujar(){
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.ancho, this.alto);
+    }
+}
+
+class Personaje {
+    constructor(x, y, ancho, alto, color){
+        this.x = x;
+        this.y = y;
+        this.ancho = ancho;
+        this.alto = alto;
+        this.color = color;
+    }
+
+    actualizar(){
+        if(FJSscreen.keyboard.a && this.x >= 0) this.x -= 3;
+        if(FJSscreen.keyboard.d && this.x <= 338 - this.ancho) this.x += 3;
+    }
+
+    dibujar(){
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.ancho, this.alto);
+    }
+}
+
+
+escenaJuego.init();
+
+</script>
