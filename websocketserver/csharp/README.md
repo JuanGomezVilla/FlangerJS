@@ -1,9 +1,16 @@
+# Creación del proyecto
+
+## Preparación
+
 1. Instalar NET 6.0 desde https://dotnet.microsoft.com/en-us/download (versión compatible)
 
 2. Abrir este proyecto, no es necesario de una solución
 
 3. Ejecutar el comando para construir: dotnet build
 
+
+## Comandos útiles
+dotnet new console
 
 ## Pasos en la creación de un proyecto similar
 
