@@ -30,8 +30,9 @@ class FJSscene {
         if(delta > FJSscreen.fpsInterval){
             this.then = now - (delta % FJSscreen.fpsInterval);
             this.onRunning();
-            FJSscreen.cancelClick();
+            FJSscreen.finishCicle();
         }
+
     }
 
     /**

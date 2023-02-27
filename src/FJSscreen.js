@@ -13,6 +13,7 @@ let FJSscreen = {
         click: false, //Click control, single press
         pressed: false //Pressure control, long press
     },
+    mouseHoveringElement: false,
     init: function(data){
         //Sets the default amount of FPS
         this.fps = data.fps == null ? 60 : data.fps;
@@ -78,6 +79,9 @@ let FJSscreen = {
             this.width = canvas.width;
             this.height = canvas.height;
         }
+
+        //Obtención del
+        this.title = document.title == null ? "There is no title" : document.title;
         
         //DETECCIÓN DE PULSACIONES (TECLADO Y RATÓN)
         window.addEventListener("click", (evento) => this.mouse.click = true);
@@ -90,6 +94,12 @@ let FJSscreen = {
         });
         window.addEventListener("keydown", (evento) => this.keyboard[evento.key.toLowerCase()] = true);
         window.addEventListener("keyup", (evento) => this.keyboard[evento.key.toLowerCase()] = false);
+
+
+        if(data.easterEgg){
+            window.addEventListener("blur", (event) => document.title = "Come Back ;(");
+            window.addEventListener("focus", (event) => document.title = this.title);
+        }
 
     },
     /**
@@ -161,5 +171,10 @@ let FJSscreen = {
     cancelClick: function(){
         //El mouse de la propia clase es cancelado
         this.mouse.click = false;
+    },
+    finishCicle: function(){
+        this.cancelClick();
+        canvas.style.cursor = this.mouseHoveringElement ? "pointer" : "default";
+        this.mouseHoveringElement = false;
     }
 }

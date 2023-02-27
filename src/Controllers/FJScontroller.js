@@ -10,6 +10,24 @@
  */
 class FJScontroller {
     /**
+     * Function to draw by default
+     * @private
+     */
+    #drawMethod;
+
+    /**
+     * Function to perform when the mouse rests on the button
+     * @private
+     */
+    #onHover;
+
+    /**
+     * Function to perform when the mouse is pressing the button
+     * @private
+     */
+    #onPressed;
+    
+    /**
      * **Constructor**
      * 
      * Receives in order the elementary parameters: coordinates and dimensions.
@@ -17,10 +35,12 @@ class FJScontroller {
      * errors, parameters do not contain default values.
      * @param {number} x Coordinates on the X axis
      * @param {number} y Coordinates on the Y axis
-     * @param {number} width Width in pixels
-     * @param {number} height Height in pixels
+     * @param {function} draw Function to draw by default
+     * @param {function} onHover Function when mouse hover object
+     * @param {function} onPressed Function when mouse press object
+     * @param {function} onClick Function when mouse click the object
      */
-    constructor(x, y, width, height){
+    constructor(x, y, draw, onHover, onPressed, onClick){
         /**
          * Coordinates on the X axis
          * @type {number}
@@ -35,73 +55,53 @@ class FJScontroller {
          */
         this.y = y;
 
-        /**
-         * Width in pixels
-         * @type {number}
-         * @public
-         */
-        this.width = width;
+        //Set the private attributes
+        this.#drawMethod = draw;
+        this.#onHover = onHover || draw;
+        this.#onPressed = onPressed || (onHover || draw);
 
         /**
-         * Height in pixels
-         * @type {number}
+         * Call this function for when you want to click on
+         * the button without the need for the user to do it
          * @public
          */
-        this.height = height;
+        this.click = onClick || function(){};
     }
 
     /**
-     * Function used to check if the mouse is hovering over the object
-     * @returns {boolean} Boolean indicating if the mouse is sitting on the object
+     * Method to draw the button on the canvas, will execute the function
+     * that the user passed to it in the constructor. This method avoids
+     * that two layers are superimposed on each other, giving rise to shapes
+     * pixelated or not smooth.
      * @public
      */
-    hover(){
-        //Returns true when none of the conditions are met
-        return !(
-            (this.y + (this.height) < FJSscreen.mouse.y) ||
-            (this.y > FJSscreen.mouse.y) ||
-            (this.x + (this.width) < FJSscreen.mouse.x) ||
-            (this.x > FJSscreen.mouse.x)
-        );
+    draw(){
+        //When the mouse is over the object
+        if(this.hover()){
+            //Tells the main class that an object is being hovered over
+            FJSscreen.mouseHoveringElement = true;
+            //If the mouse is being pressed, execute onPressed, otherwise onHover
+            if(FJSscreen.mouse.pressed) this.#onPressed();
+            else this.#onHover();
+        } else {
+            //If no hover is performed, draw the object
+            this.#drawMethod();
+        }
     }
 
     /**
-     * Returns the width of the object
-     * @returns {number} Width in pixels
+     * Method to check clicks on the button. In case the mouse is hovering
+     * and a click is detected, the onClick method is executed. Important
+     * to mention that when clicking on the object, the click will be
+     * automatically cancelled.
      * @public
      */
-    getWidth(){
-        //Attribute return
-        return this.width;
-    }
-
-    /**
-     * Returns the height of the object
-     * @returns {number} Height in pixels
-     * @public
-     */
-    getHeight(){
-        //Attribute return
-        return this.height;
-    }
-
-    /**
-     * Method to change the width of the object, there is no default value
-     * @param {number} width Width in pixels
-     * @public
-     */
-    setWidth(width){
-        //The attribute receives a new value
-        this.width = width;
-    }
-
-    /**
-     * Method to change the height of the object, there is no default value
-     * @param {number} height Height in pixels
-     * @public
-     */
-    setHeight(height){
-        //The attribute receives a new value
-        this.height = height;
+    update(){
+        if(this.hover() && FJSscreen.mouse.click){
+            //Execute function click
+            this.click();
+            //Cancel the click
+            FJSscreen.cancelClick();
+        }
     }
 }
