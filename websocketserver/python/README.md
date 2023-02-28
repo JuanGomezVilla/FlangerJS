@@ -1,4 +1,3 @@
-
 # Websockets server in Python
 
 ## 1. Setup
