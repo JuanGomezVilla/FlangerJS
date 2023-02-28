@@ -21,7 +21,7 @@ typesMessage = {
 # Function to handle new connections
 async def handler(websocket, path):
     # Write to the console that a client has connected
-    sendLog("Client connected", "info")
+    print("Client connected")
     
     # The new customer is added to the list
     CLIENTS.add(websocket)
@@ -33,8 +33,8 @@ async def handler(websocket, path):
             # For every client of clients
             for client in CLIENTS:
                 # Send a message to all clients except the sender
-                if cliente != websocket:
-                    await cliente.send(message)
+                if client != websocket:
+                    await client.send(message)
     # Possible websocket error
     except websockets.ConnectionClosedError:
         pass
@@ -45,6 +45,9 @@ async def handler(websocket, path):
 
 # Main function to start the server
 async def main():
+    # Information message
+    sendLog("\nStarting the server", "info")
+
     # Start the server on localhost with the port that the user has indicated at the beginning
     async with websockets.serve(handler, "localhost", port):
         # It says by console that the server has been activated correctly
@@ -53,7 +56,7 @@ async def main():
 
 # Function to write messages to the console
 def sendLog(message, typeMessage):
-    print(typesMessage[typeMessage] + str(message) + '\033[0m')
+    print(typesMessage[typeMessage] + str(message) + "\033[0m")
 
 # In case of pressing CTRL + C to stop the server, avoid error messages
 try:
@@ -61,4 +64,4 @@ try:
     asyncio.run(main())
 except:
     # Show server stopped message
-    sendLog("\nServidor detenido", "error")
+    sendLog("\nServer stopped", "error")
