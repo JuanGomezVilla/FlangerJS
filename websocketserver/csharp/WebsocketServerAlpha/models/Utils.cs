@@ -15,6 +15,16 @@ namespace WebsocketServerAlpha {
 		public static bool isNumber(string s){
 			return Regex.IsMatch(s, @"^\d+$"); //@"[^\d]"
     	}
+
+        public static bool IsSocketConnected(Socket socket){
+		    try {
+				//Try to return a boolean if connection exists
+				return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0 || !socket.Connected);
+		    } catch(SocketException){
+				//Returns false if there is no connection
+				return false;
+			}
+		}
 		
 		public static byte[] EncodeMessageToSend(string message){
             byte[] response;

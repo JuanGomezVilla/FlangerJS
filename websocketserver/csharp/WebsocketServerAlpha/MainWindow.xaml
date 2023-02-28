@@ -70,6 +70,15 @@
 					PreviewTextInput="NumberValidationTextBox"
 					DataObject.Pasting="AvoidStringPasting"
 					TextChanged="textBoxPortHtmlTextChanged"/>
+
+				<CheckBox
+					Canvas.Top="120"
+					Canvas.Left="10">Habilitar servidor websocket
+				</CheckBox>
+				<CheckBox
+					Canvas.Top="150"
+					Canvas.Left="10">Habilitar servidor HTML
+				</CheckBox>
 			</Canvas>
 		</GroupBox>
 		<GroupBox
