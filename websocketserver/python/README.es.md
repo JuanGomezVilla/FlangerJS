@@ -1,6 +1,6 @@
 # Websockets - Python
 
-![](flag_spain_16.png)
+<img src="flag_spain_32.png"  width="15" height="15">
 
 
 ## 1. Configuración
