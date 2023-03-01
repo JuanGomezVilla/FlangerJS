@@ -6,17 +6,14 @@
 	```bash
 	python -m venv env
 	```
-
 2. Para instalar los requisitos en el entorno virtual, es necesario activarlo primero:
 	```bash
 	call env/scripts/activate
 	```
-
 3. Ejecuta el siguiente comando para instalar los requisitos:
 	```bash
 	pip install -r requirements.txt
 	```
-
 
 ## 2. Iniciando el servidor
 
