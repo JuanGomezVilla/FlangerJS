@@ -1,5 +1,8 @@
 # Websockets - Python
 
+![](flag_spain_16.png)
+
+
 ## 1. Configuración
 
 1. Se recomienda activar un entorno virtual para ejecutar el servidor. También se puede hacer directamente en la máquina. Para crear un entorno virtual llamado _env_, utiliza el siguiente comando:
@@ -35,6 +38,7 @@ Para iniciar ambos servidores, sigue los siguientes pasos:
 	python HTMLserver.py
 	```
 4. El servidor HTML se ejecutará con la dirección IP seguido del puerto (por ejemplo, _192.168.156.232:8000_). Para acceder al servidor HTML desde otro dispositivo, primero tienes que estar en la misma red del servidor y desde un navegador escribir la dirección del dispositivo que aloja el servidor (_192.168.156.232:8000_)
+
 
 ## 3. Anotaciones
 
