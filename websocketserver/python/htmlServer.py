@@ -17,16 +17,14 @@ def sendLog(message, typeMessage):
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 # Default port
-port = 8000
-try:
-    # If the user types a correct port
-    port = int(input("PORT: "))
-except:
-    pass
+port = int(input("PORT: ") or "8000")
+
+# Default folder
+folder = input("FOLDER: ")
 
 # Set the "static" folder with HTML files
 currrentFolder = os.path.dirname(os.path.abspath(__file__))
-os.chdir(os.path.join(currrentFolder, "static"))
+os.chdir(os.path.join(currrentFolder, folder))
 
 class CORSRequestHandler(SimpleHTTPRequestHandler):
     def end_headers (self):
@@ -40,7 +38,8 @@ sendLog("\nStarting server", "info")
 htmlServer = HTTPServer(("0.0.0.0", port), CORSRequestHandler)
 
 # Mentions that the server has been started at that address
-sendLog("\nWebsocket server running at "+ str(socket.gethostbyname(socket.gethostname())) +":"+ str(htmlServer.server_port) +"/", "warning")
+sendLog("HTML server running at "+ str(socket.gethostbyname(socket.gethostname())) +":"+ str(htmlServer.server_port), "warning")
+print("Press CTRL + C to stop")
 
 # Start the server and it will run forever
 try:

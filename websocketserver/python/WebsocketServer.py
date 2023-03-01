@@ -1,5 +1,5 @@
 # LIBRARIES (asynchronous tasks and websockets)
-import asyncio, websockets
+import asyncio, websockets, socket
 
 # Default port
 port = 8080
@@ -49,9 +49,10 @@ async def main():
     sendLog("\nStarting server", "info")
 
     # Start the server on localhost with the port that the user has indicated at the beginning
-    async with websockets.serve(handler, "localhost", port):
+    async with websockets.serve(handler, "0.0.0.0", port):
         # It says by console that the server has been activated correctly
-        sendLog("\nWebsocket server running at 127.0.0.1:"+ str(port), "warning")
+        sendLog("Websocket server running at "+ str(socket.gethostbyname(socket.gethostname())) +":"+ str(port), "warning")
+        print("Press CTRL + C to stop")
         await asyncio.Future() # Run forever
 
 # Function to write messages to the console
