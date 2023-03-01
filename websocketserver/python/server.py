@@ -2,7 +2,7 @@
 import asyncio, websockets
 
 # Default port
-port = 8000
+port = 8080
 try:
     # If the user types a correct port
     port = int(input("PORT: "))
@@ -46,7 +46,7 @@ async def handler(websocket, path):
 # Main function to start the server
 async def main():
     # Information message
-    sendLog("\nStarting the server", "info")
+    sendLog("\nStarting server", "info")
 
     # Start the server on localhost with the port that the user has indicated at the beginning
     async with websockets.serve(handler, "localhost", port):
