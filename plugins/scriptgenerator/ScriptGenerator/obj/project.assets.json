@@ -51,57 +51,6 @@
           "Microsoft.WindowsDesktop.App.WPF"
         ]
       }
-    },
-    "net6.0-windows7.0/win-x64": {
-      "MaterialDesignColors/2.1.2": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/MaterialDesignColors.dll": {
-            "related": ".pdb"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/MaterialDesignColors.dll": {
-            "related": ".pdb"
-          }
-        }
-      },
-      "MaterialDesignThemes/4.8.0": {
-        "type": "package",
-        "dependencies": {
-          "MaterialDesignColors": "2.1.2",
-          "Microsoft.Xaml.Behaviors.Wpf": "1.1.39"
-        },
-        "compile": {
-          "lib/net6.0/MaterialDesignThemes.Wpf.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/MaterialDesignThemes.Wpf.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "build": {
-          "build/MaterialDesignThemes.targets": {}
-        }
-      },
-      "Microsoft.Xaml.Behaviors.Wpf/1.1.39": {
-        "type": "package",
-        "compile": {
-          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WPF"
-        ]
-      }
     }
   },
   "libraries": {
@@ -263,11 +212,6 @@
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
-      }
-    },
-    "runtimes": {
-      "win-x64": {
-        "#import": []
       }
     }
   }
