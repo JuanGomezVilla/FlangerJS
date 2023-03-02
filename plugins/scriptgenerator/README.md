@@ -48,6 +48,47 @@
     </Window>
     ```
 
+## 3. Añadiendo la librería Material
+
+1. Abre el archivo _App.xaml_ y añade dentro de las etiquetas las siguientes líneas (modifica el color en la tercera y cuarta línea):
+    ```xml
+    <Application
+        ...
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        ...>
+        <Application.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <materialDesign:CustomColorTheme BaseTheme="Dark" PrimaryColor="Yellow" SecondaryColor="DarkGreen" />
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" /> 
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Application.Resources>
+    </Application>
+    ```
+2. Comprueba si en el archivo _ScriptGenerator.csproj_: se ha añadido la referencia a la librería (cambia el valor de _version_ si no fuera 4.8.0, pero por defecto esto ya debería estar):
+    ```xml
+    <ItemGroup>
+        <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
+    </ItemGroup>
+    ```
+
+3. Añade la referencia de Material en _MainWindow.xaml_ dentro de la etiqueta _Window_:
+    ```xml
+    <Window
+        ...
+        xmlns:MaterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="15"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+        ...
+    </Window>
+    ```
+
 ## 3. Compilación y publicación
 
 
