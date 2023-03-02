@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <Folder Include="assets\" />
+        <Resource Include="assets/icon.ico" />
+    </ItemGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <PublishSingleFile>true</PublishSingleFile>
+        <ApplicationIcon>assets/icon.ico</ApplicationIcon>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
+    </ItemGroup>
+</Project>
