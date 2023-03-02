@@ -1,2 +1,3 @@
 .git
-websocketserver/env
+plugins/websocketserver/bin
+plugins/websocketserver/obj

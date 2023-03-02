@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "qsrlIoGubwAQvc0g4aCkcTT5M5Pw7qmzdJfJUuHV04tWf93s7R4+EfD8HpyqRUreiTp3ZJqnFlgsBeP1KyLPwQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Usuario\\Documents\\GitHub\\FlangerJS\\plugins\\scriptgenerator\\ScriptGenerator\\ScriptGenerator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Usuario\\.nuget\\packages\\materialdesigncolors\\2.1.2\\materialdesigncolors.2.1.2.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\materialdesignthemes\\4.8.0\\materialdesignthemes.4.8.0.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512"
+  ],
+  "logs": []
+}
