@@ -1,1 +1,2 @@
-*.py linguist-detectable=false
+*.js linguist-detectable=true
+*.* linguist-detectable=false
