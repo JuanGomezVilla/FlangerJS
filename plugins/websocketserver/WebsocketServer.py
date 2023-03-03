@@ -9,6 +9,9 @@ try:
 except:
     pass
 
+# Allow the user to receive a message that he sends
+sendAll = input("Receive messages also from the sender [y/n]: ").lower()
+
 # Connecting clients will be added to the list below
 CLIENTS = set()
 # Message types for the command console
@@ -33,7 +36,7 @@ async def handler(websocket, path):
             # For every client of clients
             for client in CLIENTS:
                 # Send a message to all clients except the sender
-                if client != websocket:
+                if sendAll in ["yes", "y"] or client != websocket:
                     await client.send(message)
     # Possible websocket error
     except websockets.ConnectionClosedError:

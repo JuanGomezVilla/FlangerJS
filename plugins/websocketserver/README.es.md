@@ -1,8 +1,5 @@
 # Websockets - Python
 
-<img src="flag_spain_32.png"  width="15" height="15">
-
-
 ## 1. Configuración
 
 1. Se recomienda activar un entorno virtual para ejecutar el servidor. También se puede hacer directamente en la máquina. Para crear un entorno virtual llamado _env_, utiliza el siguiente comando:

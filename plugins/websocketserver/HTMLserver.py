@@ -13,7 +13,7 @@ typesMessage = {
 def sendLog(message, typeMessage):
     print(typesMessage[typeMessage] + str(message) + "\033[0m")
 
-# Establece que debe terminar la tarea al pulsar CTRL + C
+# Sets that the task should be terminated when pressing CTRL + C
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 # Default port
@@ -22,10 +22,11 @@ port = int(input("PORT: ") or "8000")
 # Default folder
 folder = input("FOLDER: ")
 
-# Set the "static" folder with HTML files
+# Set the folder with HTML files
 currrentFolder = os.path.dirname(os.path.abspath(__file__))
 os.chdir(os.path.join(currrentFolder, folder))
 
+# Server handler
 class CORSRequestHandler(SimpleHTTPRequestHandler):
     def end_headers (self):
         self.send_header('Access-Control-Allow-Origin', '*')
