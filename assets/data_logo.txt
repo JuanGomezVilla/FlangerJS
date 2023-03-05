@@ -1,4 +1,0 @@
-WEB: https://onlinepngtools.com/round-png-corners
-Radius (all corners): 120
-
-PNG TO ICO: https://redketchup.io/icon-converter

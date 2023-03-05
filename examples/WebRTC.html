@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>webrtc</title>
+    <script src="FJSwebrtc.js"></script>
+  </head>
+  <body>
+    <script>
+
+        var canal = new FJSwebrtc({
+            onMessage: function(mensaje){
+                alert(mensaje);
+            }
+        });
+
+    </script>
+
+    <table width="100%" border="1">
+      <tr>
+        <th>#</th>
+        <th>initiator</th>
+        <th>peer</th>
+      </tr>
+      <tr>
+        <td>step 1</td>
+        <td>
+          <input type="button" value="create offer" onclick="canal.createOffer()" />
+          <input id="createdOffer" type="text" hidden />
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>step 2</td>
+        <td></td>
+        <td>
+          <input id="remoteOffer" type="text" placeholder="offer from initiator" />
+          <input type="button" value="accept offer" onclick="canal.acceptRemoteOffer(remoteOffer.value)" />
+        </td>
+      </tr>
+      <tr>
+        <td>step 3</td>
+        <td></td>
+        <td>
+          <input type="button" value="create answer" onclick="canal.createAnswer()" />
+          <input id="createdAnswer" type="text" hidden />
+        </td>
+      </tr>
+      <tr>
+        <td>step 4</td>
+        <td>
+          <input id="remoteAnswer" type="text" placeholder="answer from peer" />
+          <input type="button" value="accept answer" onclick="canal.acceptRemoteOffer(remoteAnswer.value)" />
+        </td>
+        <td></td>
+      </tr>
+    </table>
+    <hr />
+    <input id="text" type="text" />
+    <input type="button" value="send" onclick="canal.sendData(text.value)" />
+    <hr />
+    <table border="1">
+      <tr>
+        <th colspan="2">connection</th>
+      </tr>
+      <tr>
+        <th>connectionState</th>
+        <td id="connectionState">unknown</td>
+      </tr>
+      <tr>
+        <th>iceConnectionState</th>
+        <td id="iceConnectionState">unknown</td>
+      </tr>
+    </table>
+  </body>
+</html>
