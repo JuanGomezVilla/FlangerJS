@@ -18,7 +18,7 @@ window.onload = function(){
     buttonSend = document.querySelector("#buttonSend");
     boxMessage = document.querySelector("#boxMessage");
 
-    websocketServer = new WebSocket("ws:192.168.156.232:8080");
+    websocketServer = new WebSocket("ws:192.168.1.77:8080");
     websocketServer.addEventListener("open", (event) => changeStatus("true", "green"));
     websocketServer.addEventListener("error", (event) => changeStatus("not", "red"));
     websocketServer.addEventListener("close", (event) => changeStatus("not", "red"));

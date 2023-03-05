@@ -11,7 +11,7 @@
 
 - Text: _FJS_
 - Padding: 35%
-- Font: no se seleccionó fuente (por defecto)
+- Font: no font selected (default)
 - Text color: _#323330_
 - Background color: _#F0DB4F_
 - Effect: _Cast shadow_
