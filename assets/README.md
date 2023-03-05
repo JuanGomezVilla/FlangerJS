@@ -16,4 +16,4 @@
 - Background color: _#F0DB4F_
 - Effect: _Cast shadow_
 - Shape: _Square_
-- Radus (all corners): 120
+- Radius (all corners): 120
