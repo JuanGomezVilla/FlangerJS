@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <script src="FJStileRotation.js"></script>
+    </head>
+    <body>
+        <canvas width=600 height=400 style="border:1px solid black"></canvas>
+        <script>
+
+            let canvas = document.querySelector("canvas");
+            let ctx = canvas.getContext("2d");
+
+            let logoExample = new FJStileRotation({
+                path:"tile.png",
+                angle: 0,
+                onLoad: function(){
+                    console.log("Tileset cargado");
+                    this.draw(20, 20);
+                }
+            });
+
+        </script>
+    </body>
+</html>

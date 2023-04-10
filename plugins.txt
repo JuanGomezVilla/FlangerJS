@@ -1,4 +1,9 @@
-Controllers\Buttons\Button.js
-Controllers\Buttons\ButtonPath.js
-Controllers\Checkboxs\Checkbox.js
-Controllers\Checkboxs\CheckboxPath.js
+src\FJSscreen.js
+src\FJSutils.js
+src\FJSscene.js
+src\Multiplayer\FJSwebrtc.js
+src\Multiplayer\FJSwebsocket.js
+src\Controllers\Buttons\FJSbutton.js
+src\Controllers\Buttons\FJSbuttonPath.js
+src\Controllers\Checkboxs\FJScheckbox.js
+src\Controllers\Checkboxs\FJScheckboxPath.js

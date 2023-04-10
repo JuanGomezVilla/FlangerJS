@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <script src="FJStileset.js"></script>
+    </head>
+    <body>
+        <canvas width=600 height=400 style="border:1px solid black"></canvas>
+        <script>
+
+            let canvas = document.querySelector("canvas");
+            let ctx = canvas.getContext("2d");
+
+            let tilesetCoches = new FJStileset({
+                path:"cars.png",
+                tiles: {
+                    coche1: {x:130, y:16, w:48, h:93}
+                },
+                onLoad: function(){
+                    console.log("Tileset cargado");
+                    this.drawTile("coche1", 20, 20, 48, 93);
+                }
+            });
+
+        </script>
+    </body>
+</html>

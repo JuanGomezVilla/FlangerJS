@@ -179,6 +179,70 @@ let FJSscreen = {
     }
 } 
  
+let FJSutils = {
+    /**
+     * **Get a random number**
+     * 
+     * Returns a random integer between two given integer numbers. 
+     * User must always give two numbers range as there are no default parameters.
+     * @param {number} min Minimum number the user gives
+     * @param {number} max Maximum number the user gives
+     * @returns {number} Returned integer
+     */
+    randomNumber: function(min, max){
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+    /**
+     * **Get a random value from a given list**
+     * 
+     * User gives by parameter an array of data. The program will return
+     * a random value of said list
+     * @param {array} data List with values
+     * @returns {*} Value returned
+     */
+    randomChoice: function(data){
+        return data[this.randomNumber(0, data.length - 1)];
+    },
+    /**
+     * **Get the content from an adress**
+     * 
+     * Returns text, usually from a web. It is understood that this text is in JSON format
+     * to receive calls. Content is returned in text format.
+     * @param {string} ruta Dirección del contenido
+     * @param {function} 
+     */
+    getContentFromURL: async function(ruta, callback){
+        let archivo = await fetch(ruta);
+        callback(await archivo.text());
+    },
+    /**
+     * **Turns text into JSON**
+     * 
+     * Gets a text content given by parameter and turns it into JSON format
+     * @param {string} data Text content to convert
+     * @returns Returns the content converted to JSON format
+     */
+    convertJSON: function(data){
+        return JSON.parse(data);
+    },
+    /**
+     * **Draws a rectangle**
+     * 
+     * Draws a Rectangle in the given coordinates (x,y), with the specified width, height  and color.
+     * In case no parameters were given, a black(#000000) rectangle with coordinates (0.0)
+     * and a width and height of 50 each is drawn by default.
+     * @param {number} x X axis coordinate
+     * @param {number} y Y axis coordinate
+     * @param {number} width Rectangle's width
+     * @param {number} height Rectangle's height
+     * @param {string} color Rectangle's color
+     */
+    fillRect: function(x=0, y=0, width=50, height=50, color="#000000"){
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, width, height);
+    }
+} 
+ 
 /**
  * This class creates scenes. User must define a method with update parameters.
  * The other methods are optional.
@@ -224,111 +288,139 @@ class FJSscene {
     }
 } 
  
+class FJSwebrtc {
+    constructor(data){
+        this.channel = null;
+        this.servers = data.servers || "stun:stun.l.google.com:19302";
+        this.connection = new RTCPeerConnection({iceServers: [{urls: this.servers}]});
+        this.connection.ondatachannel = (event) => {
+            //Save the channel;
+            this.channel = event.channel;
+            //Action to take when the offer recipient receives a message
+            this.channel.onmessage = (event) => this.onMessage(event.data);
+        };
+        this.connection.onconnectionstatechange = (event) => {
+            document.getElementById('connectionState').innerText = this.connection.connectionState;
+        };
+        this.connection.oniceconnectionstatechange = (event) => {
+            document.getElementById('iceConnectionState').innerText = this.connection.iceConnectionState;
+        };
+        this.onMessage = data.onMessage;
+    }
+
+    /**
+     * Method that accepts an offer. If the value is in string, converts it to
+     * JSON, otherwise return it in the variable. use this method
+     * to accept a remote call and to receive the answer.
+     * @param {data} data Offer value, can be string or JSON
+     */
+    async acceptRemoteOffer(data){
+        //Check the value and cast it if necessary
+        const jsonData = typeof data === "string" ? JSON.parse(data) : data;
+        //Sets the connection a description as response
+        await this.connection.setRemoteDescription(jsonData)
+    }
+
+    async createOffer(){
+        //Create a channel and set an action for the offer sender when they receive a message
+        this.channel = this.connection.createDataChannel("data");
+        this.channel.onmessage = (event) => this.onMessage(event.data);
+
+        this.connection.onicecandidate = (event) => {
+        // console.log('onicecandidate', event)
+        if (!event.candidate) {
+            document.getElementById('createdOffer').value = JSON.stringify(this.connection.localDescription)
+            document.getElementById('createdOffer').hidden = false
+        }
+        }
+
+        const offer = await this.connection.createOffer()
+        await this.connection.setLocalDescription(offer)
+    }
+
+    
+    
+
+    async createAnswer() {
+        this.connection.onicecandidate = (event) => {
+        if (!event.candidate) {
+            document.getElementById('createdAnswer').value = JSON.stringify(this.connection.localDescription)
+            document.getElementById('createdAnswer').hidden = false
+        }
+        }
+
+        const answer = await this.connection.createAnswer()
+        await this.connection.setLocalDescription(answer)
+    }
+
+    async sendData(data) {
+        //If channel exists, send data, otherwise notify user that data cannot be sent
+        if(this.channel) this.channel.send(data);
+        else console.error("Data cannot be sent because there is no communication channel");
+    }
+} 
+ 
 /**
- * Class to create controllers that respond to user actions, eg hover,
- * click. The class provides the methods common to all types of controllers.
- * Therefore, it is important to mention that the objects like checkboxes,
- * buttons, etc., extend this class.
+ * Class to create a direct interface with an object of type websocket.
+ * Once the constructor is executed, it creates a connection to the
+ * server, there is no init method. The objective of the class is to
+ * save lines and directly pass the methods action in different
+ * situations triggered by the websocket
  * @author JuanGV
  * @version 1.0.0.0
- * @name FJScontroller
+ * @name FJSwebsocket
  * @license MIT
  */
-class FJScontroller {
+class FJSwebsocket {
     /**
-     * Function to draw by default
-     * @private
+     * Websocket establishing a connection to the server of websockets,
+     * it is private but there is a method that returns the object
      */
-    #drawMethod;
-
-    /**
-     * Function to perform when the mouse rests on the button
-     * @private
-     */
-    #onHover;
+    #websocket;
 
     /**
-     * Function to perform when the mouse is pressing the button
-     * @private
+     * Constructor of the object, methods must be passed to it (optional)
+     * of the actions in case of receiving a message, when the connection,
+     * if it is closed, or if an error is raised. Besides, the user must
+     * provide the address of the server.
+     * @param {Array} data server, onMessage, onOpen, onClose, onError
      */
-    #onPressed;
-    
-    /**
-     * **Constructor**
-     * 
-     * Receives in order the elementary parameters: coordinates and dimensions.
-     * Use the _super_ command for when extending from another class. To avoid
-     * errors, parameters do not contain default values.
-     * @param {number} x Coordinates on the X axis
-     * @param {number} y Coordinates on the Y axis
-     * @param {function} draw Function to draw by default
-     * @param {function} onHover Function when mouse hover object
-     * @param {function} onPressed Function when mouse press object
-     * @param {function} onClick Function when mouse click the object
-     */
-    constructor(x, y, draw, onHover, onPressed, onClick){
-        /**
-         * Coordinates on the X axis
-         * @type {number}
-         * @public
-         */
-        this.x = x;
+    constructor(data){
+        //Default actions before possible events with the server
+        this.onMessage = data.onMessage || function(){};
+        this.onOpen = data.onOpen || function(){};
+        this.onClose = data.onClose || function(){};
+        this.onError = data.onError || function(){};
 
-        /**
-         * Coordinates on the Y axis
-         * @type {number}
-         * @public
-         */
-        this.y = y;
+        //Create the connection to the websocket server
+        this.websocket = new WebSocket(data.server);
 
-        //Set the private attributes
-        this.#drawMethod = draw;
-        this.#onHover = onHover || draw;
-        this.#onPressed = onPressed || (onHover || draw);
-
-        /**
-         * Call this function for when you want to click on
-         * the button without the need for the user to do it
-         * @public
-         */
-        this.click = onClick || function(){};
+        //Action to take when a connection to the server is established
+        this.websocket.addEventListener("open", (event) => this.onOpen(event.data));
+        //Action to take when the connection is closed
+        this.websocket.addEventListener("close", (event) => this.onClose(event.data));
+        //Action to perform when a message is received from the server
+        this.websocket.addEventListener("message", (event) => this.onMessage(event.data));
+        //Action to take when an error is triggered with the connection
+        this.websocket.addEventListener("error", (event) => this.onError(event.data));
     }
 
     /**
-     * Method to draw the button on the canvas, will execute the function
-     * that the user passed to it in the constructor. This method avoids
-     * that two layers are superimposed on each other, giving rise to shapes
-     * pixelated or not smooth.
-     * @public
+     * Send data through the connection with the websocket
+     * @param {object} data Data to send
      */
-    draw(){
-        //When the mouse is over the object
-        if(this.hover()){
-            //Tells the main class that an object is being hovered over
-            FJSscreen.mouseHoveringElement = true;
-            //If the mouse is being pressed, execute onPressed, otherwise onHover
-            if(FJSscreen.mouse.pressed) this.#onPressed();
-            else this.#onHover();
-        } else {
-            //If no hover is performed, draw the object
-            this.#drawMethod();
-        }
+    send(data){
+        //Using its own websocket, send the data passed
+        this.websocket.send(data);
     }
 
     /**
-     * Method to check clicks on the button. In case the mouse is hovering
-     * and a click is detected, the onClick method is executed. Important
-     * to mention that when clicking on the object, the click will be
-     * automatically cancelled.
-     * @public
+     * Method to obtain the websocket of the connection
+     * @returns {object} Returns the main websocket
      */
-    update(){
-        if(this.hover() && FJSscreen.mouse.click){
-            //Execute function click
-            this.click();
-            //Cancel the click
-            FJSscreen.cancelClick();
-        }
+    getWebsocket(){
+        //Returns the shortcut to the websocket
+        return this.websocket;
     }
 } 
  
@@ -447,4 +539,13 @@ class FJSbuttonPath extends FJScontroller {
     hover(){
         return ctx.isPointInPath(this.path, FJSscreen.mouse.x, FJSscreen.mouse.y);
     }
-}
+} 
+ 
+class FJScheckbox {
+    constructor(data){
+
+    }
+} 
+ 
+ 
+ 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Race Car</title>
+        <meta charset="UTF-8">
+        <script src="FJSsystem.js"></script>
+        <script src="FlangerJS.js"></script>
+    </head>
+    <body>
+        <!--<canvas></canvas>-->
+        <script>
+
+            
+
+            FJSscreen.init({
+                border: true,
+                height: 600,
+                width: 338
+            });
+
+            let sceneLoading = new FJSscene({
+                onRunning: function(){
+                    FJSscreen.clearScreen();
+                    FJSscreen.drawBackgroundColor("blue");
+                }
+            });
+            sceneLoading.init();
+
+        </script>
+    </body>
+</html>

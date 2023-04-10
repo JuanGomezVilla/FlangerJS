@@ -5,7 +5,7 @@ let canvas, ctx, interval;
  * keyboard and the mouse. The first runned method is init, which captures the data.
  */
 let FJSscreen = {
-    keyboard: {}, //El teclado guarda todas las teclas pulsadas, no con un número sino con el nombre de la tecla
+    keyboard: {}, //The keyboard saves all the keys pressed with the name of the key pressed
     //Mouse data
     mouse: {
         x: 0, //Coordinates on the X axis
@@ -25,8 +25,9 @@ let FJSscreen = {
 
         //Verify that the canvas contains data, is not null
         if(canvas == null){
-            console.error("No se ha encontrado una etiqueta <canvas> en el documento");
-            return;
+            //console.error("No <canvas> tag found");
+            canvas = document.createElement("canvas");
+            document.body.appendChild(canvas);
         }
 
         //With the canvas captured, the pencil is created
