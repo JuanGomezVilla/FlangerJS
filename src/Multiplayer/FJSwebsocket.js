@@ -13,6 +13,7 @@ class FJSwebsocket {
     /**
      * Websocket establishing a connection to the server of websockets,
      * it is private but there is a method that returns the object
+     * @private
      */
     #websocket;
 
