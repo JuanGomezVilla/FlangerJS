@@ -1,6 +1,7 @@
 <img width="400" src="assets/logo_min.png">
 
 [![FlangerJS](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://flangerjs.org)
+[![FlangerJS](https://img.shields.io/github/license/JuanGomezVilla/FlangerJS)](https://flangerjs.org)
 
 FlangerJS is a 2D game development framework written in JavaScript. It allows the programmer to have direct access to the canvas, at the same time that it has predefined controllers.
 
