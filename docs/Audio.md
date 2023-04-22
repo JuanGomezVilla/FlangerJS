@@ -115,8 +115,8 @@ audio.getAudioObject();
 
 ## 9. Formatos admitidos
 Un aspecto fundamental de los navegadores es que no aceptan todo tipo de formatos de audio. Esto no lo puede remediar Flanger como tal porque es algo que afecta al propio navegador. Los formatos admitidos son:
-- _mp3_: es audio comprimido, es útil cuando se requieren grandes cantidades de audios, pero puede tener pérdidas de calidad.
-- _wav_: es un formato de audio sin comprimir que conserva la calidad completa del archivo de audio original. Los archivos WAV son más grandes que los archivos MP3, pero proporcionan una calidad de audio superior. WAV a menudo se usa para efectos de sonido o música en videojuegos donde la alta fidelidad de audio es importante.
-- _ogg_: es un formato de audio comprimido que a menudo se usa en videojuegos porque proporciona buena calidad de audio mientras mantiene un tamaño de archivo pequeño. Los archivos OGG pueden ser tanto de pérdida como sin pérdida, dependiendo de los ajustes de compresión utilizados. OGG es un formato popular para la música en juegos, ya que proporciona un buen equilibrio entre calidad y tamaño de archivo. **Importante**: no es compatible en Safari.
+- _mp3_: es audio comprimido, es útil cuando se requieren grandes cantidades de audios, pero puede tener pérdidas de calidad. Puede enfocarse para sonidos de larga duración, como la banda sonora, por ejemplo.
+- _wav_: es un formato de audio sin comprimir que conserva la calidad completa del archivo de audio original, por lo que son más grandes que los mp3. Se usa a menudo para efectos de sonido o música en videojuegos.
+- _ogg_: es un formato de audio comprimido que a menudo se utiliza en videojuegos porque proporciona buena calidad de audio mientras mantiene un tamaño de archivo pequeño. Los archivos OGG pueden ser tanto de pérdida como sin pérdida, dependiendo de los ajustes de compresión utilizados. OGG es un formato popular para la música en juegos, ya que proporciona un buen equilibrio entre calidad y tamaño de archivo. **Importante**: no es compatible en Safari.
 
 
