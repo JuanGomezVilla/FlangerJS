@@ -1,4 +1,4 @@
-<img width="400" src="assets/logo.png">
+<img width="400" src="assets/logo_min.png">
 
 [![FlangerJS](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://flangerjs.org)
 
