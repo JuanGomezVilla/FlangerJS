@@ -149,7 +149,7 @@ let FJSscreen = {
      * Limpia todo el contenido de la pantalla. Llamar al principio de cada bucle.
      * Por defecto, lo utiliza la clase FJSscene.
      */
-    clearScreen: function(){
+    clear: function(){
         //Limpieza del lienzo
         ctx.clearRect(0, 0, this.width, this.height);
     },

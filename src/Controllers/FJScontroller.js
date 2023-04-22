@@ -56,9 +56,9 @@ class FJScontroller {
         this.y = y;
 
         //Set the private attributes
-        this.#drawMethod = draw;
-        this.#onHover = onHover || draw;
-        this.#onPressed = onPressed || (onHover || draw);
+        this.#drawMethod = draw || function(){};
+        this.#onHover = onHover || this.#drawMethod;
+        this.#onPressed = onPressed || (this.#onHover || this.#drawMethod);
 
         /**
          * Call this function for when you want to click on

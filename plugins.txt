@@ -3,6 +3,7 @@ src\FJSutils.js
 src\FJSscene.js
 src\Multiplayer\FJSwebrtc.js
 src\Multiplayer\FJSwebsocket.js
+src\Controllers\FJScontroller.js
 src\Controllers\Buttons\FJSbutton.js
 src\Controllers\Buttons\FJSbuttonPath.js
 src\Controllers\Checkboxs\FJScheckbox.js

@@ -26,7 +26,7 @@ class FJSaudio {
         //If the data passed is of the dictionary type
         if(typeof data === "object" && data !== null && Object.keys(data).length > 0){
             //Sets the file path and possible new data for the event functions
-            temporalPath = data.path;
+            temporalPath = data.src;
             this.onLoad = data.onLoad || function(){};
             this.onFinish = data.onFinish || function(){};
         } else {
@@ -68,8 +68,9 @@ class FJSaudio {
      * @returns {void}
      */
     togglePause(){
+        //Verify that the audio has not started because the current time is at 0
         //Use a ternary operator to change the pause state of the audio
-        this.audio.paused ? this.audio.play() : this.audio.pause();
+        if(this.audio.currentTime != 0) this.audio.paused ? this.audio.play() : this.audio.pause();        
     }
 
     /**
@@ -108,13 +109,13 @@ class FJSaudio {
      * Method to load a new audio passing its path
      * @function
      * @returns {void}
-     * @param {string} path - The new audio file path
+     * @param {string} src - The new audio file path
      */
-    changeAudio(path){
+    changeAudio(src){
         //Stops the current audio
         this.stop();
         //Changes the audio source to a new path
-        this.audio.src = path;
+        this.audio.src = src;
         //Loads the new audio
         this.audio.load();
         //Starts playback

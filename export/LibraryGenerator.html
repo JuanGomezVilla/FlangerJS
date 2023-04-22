@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Library Generator</title>
+        <meta charset="UTF-8">
+        <link rel="icon" href="../assets/original_rounded.ico">
+        <style>
+
+            body {
+                background-color: #0d1117;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                color: #FFFFFF;
+                margin: 0 auto;
+                width: 75%;
+                margin-top: 50px;
+                margin-bottom: 75px;
+            }
+
+            hr {
+                margin: 40px 0px;
+                border: none;
+                border-top: 1px solid rgba(255, 255, 255, .5);
+            }
+
+            .checkbox-form {
+                user-select: none;
+            }
+
+            input[type=checkbox] {
+                background-color: red;
+            }
+
+            .textarea-container {
+                flex: 1 1 auto;
+
+            }
+
+            textarea {
+                width: 100%;
+                resize: none;
+                background-color: #000000;
+                outline: none;
+                color: white;
+                height: 200px;
+                border: none;
+                border-radius: 5px;
+                padding: 15px;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            button {
+                background-color: #21262d;
+                cursor: pointer;
+                position: relative;
+                border: 1px solid rgb(240, 246, 252, 0.1);
+                padding: 5px 16px;
+                font-size: 16px;
+                color:#c9d1d9;
+                border-radius: 6px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                user-select: none;
+                line-height: 20px;
+                font-weight: 500;
+            }
+
+            button:hover {
+                background-color: #30363d;
+                border-color: rgb(240, 246, 252, 0.8)
+            }
+
+            input[type=checkbox] {
+                background: #3b3b3b;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <h1>Library Generator</h1>
+        <p style="text-align: justify;">Utiliza Library Generator para establecer los comandos de la librería a exportar. Dado que Flanger
+            se basa en módulos, no se importan todos, sino aquellos que el usuario va a utilizar. Si el usuario
+            no va a utilizar el módulo de audio, no es necesario que lo importe, ya que no lo va a utilizar y
+            la carga de algo innecesario puede ser un gasto de memoria.
+        </p>
+        <hr>
+
+        <!-- MÓDULOS -->
+        <div class="checkbox-form"><input type="checkbox" disabled checked><label>Base - FJSscreen</label></div>
+        <div class="checkbox-form"><input type="checkbox" disabled checked><label>Base - FJSscene</label></div>
+        <div class="checkbox-form"><input id="utils" type="checkbox"><label for="utils">Utils (recommended)</label></div>
+        <div class="checkbox-form"><input id="audio" type="checkbox"><label for="audio">Módulo de audio</label></div>
+        <br>
+        <button id="buttonCreate">Create</button>
+        <hr>
+
+        <!-- -->
+
+        <div style="display:flex">
+            <div class="textarea-container" style="margin-right:10px">
+                <p style="margin-top:0;"><i>export.bat</i><button id="buttonCopyExport" style="float:right">Copy</button></p>
+                <textarea id="textareaExport" readonly onclick="this.select()">Aquí aparecerá el contenido del archivo export.bat</textarea>
+            </div>
+            <div class="textarea-container" style="margin-left:10px">
+                <p style="margin-top:0;"><i></i>plugins.txt</i><button id="buttonCopyPlugins" style="float:right">Copy</button></p>
+                <textarea id="textareaPlugins" readonly onclick="this.select()">Aquí aparecerá el contenido del archivo plugins.txt</textarea>
+            </div>
+        </div>
+        <script>
+
+            let buttonCreate = document.querySelector("#buttonCreate");
+            let buttonCopyExport = document.querySelector("#buttonCopyExport");
+            let buttonCopyPlugins = document.querySelector("#buttonCopyPlugins");
+            let textareaExport = document.querySelector("#textareaExport");
+            let textareaPlugins = document.querySelector("#textareaPlugins");
+
+            buttonCopyExport.addEventListener("click", () => {
+                copyTextFromTextarea(textareaExport);
+                buttonCopyExport.innerText = "Copied";
+                setTimeout(() => buttonCopyExport.innerText = "Copy", 2000);
+            });
+            buttonCopyPlugins.addEventListener("click", () => {
+                copyTextFromTextarea(textareaPlugins);
+                buttonCopyPlugins.innerText = "Copied";
+                setTimeout(() => buttonCopyPlugins.innerText = "Copy", 2000);
+            });
+
+
+            buttonCreate.addEventListener("click", () => {
+                //EXPORT.BAT
+                let resultExport = "@echo off\ntitle ScriptGenerator\ndel FlangerJS.js >nul\necho Creating file...\n";
+                resultExport += "for /F \"tokens=*\" %%A in (plugins.txt) do (\n";
+                resultExport += "    type %%A >> FlangerJS.js\n    echo. >> FlangerJS.js\n    echo. >> FlangerJS.js\n) %%A";
+                
+                
+                //plugins.txt
+                let resultPlugins = "src&#92;FJSscreen.js\nsrc&#92;FJSscene.js";
+
+
+                //Pasa los resultados a las cajas
+                textareaExport.innerHTML = resultExport;
+                textareaPlugins.innerHTML = resultPlugins;
+
+            });
+
+
+            function copyTextFromTextarea(textarea){
+                //textarea.select();
+                //textarea.setSelectionRange(0, 99999); //Mobile devices
+                navigator.clipboard.writeText(textarea.innerHTML);
+            }
+
+        </script>
+
+    </body>
+</html>

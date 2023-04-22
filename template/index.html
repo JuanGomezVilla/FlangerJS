@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Game Title</title>
+        <link rel="icon" href="assets/icon.ico">
+        <link rel="stylesheet" href="css/main.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+
+        <!-- BASE -->
+        <script src="js/FlangerJS.js"></script>
+        <script src="js/Objects.js"></script>
+        <script src="js/Scenes.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <canvas></canvas>
+        </div>
+        <script>
+
+            //Establishes the main base
+            FJSscreen.init({
+                width: 338,
+                height: 600
+            });
+
+            //Initialize the loading scene
+            loadingScene.init();
+
+        </script>
+    </body>
+</html>
