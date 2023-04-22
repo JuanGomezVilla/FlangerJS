@@ -10,14 +10,21 @@
  */
 class FJSaudio {
     /**
+     * Audio, original object
+     * @private
+     */
+    #audio;
+
+    /**
      * Load the audio automatically, you can load only the route or
      * pass a dictionary with data and events. If you lack experience,
      * it is recommended to only pass the file path.
      * @param {*} data - The audio file path or a dictionary with events, etc
+     * @constructor
      */
     constructor(data){
         //Create the audio object and a temporary variable for the file path
-        this.audio = new Audio();
+        this.#audio = new Audio();
         let temporalPath;
         //Default empty functions for end of load and end method
         this.onLoad = function(){};
@@ -34,9 +41,9 @@ class FJSaudio {
             temporalPath = data;
         }
         //Set the data source, and the methods to play the audio and whether it's done
-        this.audio.src = temporalPath;
-        this.audio.addEventListener("canplay", this.onLoad(), false);
-        this.audio.addEventListener("ended", () => this.onFinish(), false);
+        this.#audio.src = temporalPath;
+        this.#audio.addEventListener("canplay", this.onLoad(), false);
+        this.#audio.addEventListener("ended", () => this.onFinish(), false);
     }
 
     /**
@@ -45,12 +52,13 @@ class FJSaudio {
      * @function
      * @returns {void}
      * @throws {Error} If there is an error while playing the audio
+     * @public
      */
     play() {
         //Try block to handle any exceptions that might occur while playing the audio
         try {
             //Attempts to play the audio
-            this.audio.play();
+            this.#audio.play();
         //Catch block to handle any exceptions thrown by the try block
         } catch(error) {
             //Logs the error to the console
@@ -66,59 +74,120 @@ class FJSaudio {
      * If the audio is playing, it will pause it
      * @function
      * @returns {void}
+     * @public
      */
     togglePause(){
         //Verify that the audio has not started because the current time is at 0
         //Use a ternary operator to change the pause state of the audio
-        if(this.audio.currentTime != 0) this.audio.paused ? this.audio.play() : this.audio.pause();        
+        if(this.#audio.currentTime != 0) this.#audio.paused ? this.#audio.play() : this.#audio.pause();        
     }
 
     /**
      * Stops the current audio playback and sets the current playback time to 0
      * @function
      * @returns {void}
+     * @public
      */
     stop(){
-        this.audio.pause();
-        this.audio.currentTime = 0;
+        this.#audio.pause();
+        this.#audio.currentTime = 0;
     }
 
     /**
      * Restarts the audio playback from the beginning
      * @function
      * @returns {void}
+     * @public
      */
     replay(){
         //Set the current time to 0
-        this.audio.currentTime = 0;
+        this.#audio.currentTime = 0;
         //Play the audio
-        this.audio.play();
+        this.#audio.play();
+    }
+
+    /**
+     * Method to load a new audio passing its path
+     * @function
+     * @returns {void}
+     * @param {string} src - The new audio file path
+     * @public
+     */
+    changeAudio(src){
+        //Stops the current audio
+        this.stop();
+        //Changes the audio source to a new path
+        this.#audio.src = src;
+        //Loads the new audio
+        this.#audio.load();
+        //Starts playback
+        this.play();
+    }
+
+    /**
+     * Returns the original object audio
+     * @returns {object} Original object audio
+     */
+    getAudioObject(){
+        //Returns the private audio
+        return this.#audio;
     }
 
     /**
      * Returns the duration of the audio element
      * @function
      * @returns {number} The duration of the audio in seconds
+     * @property duration
+     * @public
      */
     get duration(){
         //Gets the audio and returns the duration of the original object
-        return this.audio.duration;
+        return this.#audio.duration;
+    }
+
+    /**
+     * Returns the volume of the audio element
+     * @function
+     * @returns {number} The volume, value between 0 and 1
+     * @property {number} volume
+     * @public
+     */
+    get volume(){
+        //Gets the audio and returns the volume of the original object
+        return this.#audio.volume;
+    }
+
+    /**
+     * Sets the volume of the audio object
+     * @param {number} volume - The volume level to set. A number between 0 and 1
+     * @property {number} volume
+     * @public
+     */
+    set volume(volume){
+        //Gets the audio and set the volume of the original object
+        this.#audio.volume = volume;
     }
     
     /**
-     * Method to load a new audio passing its path
+     * Gets the muted state of the audio object
      * @function
-     * @returns {void}
-     * @param {string} src - The new audio file path
+     * @returns {boolean} muted state
+     * @property {boolean} muted
+     * @public
      */
-    changeAudio(src){
-        //Stops the current audio
-        this.stop();
-        //Changes the audio source to a new path
-        this.audio.src = src;
-        //Loads the new audio
-        this.audio.load();
-        //Starts playback
-        this.play();
+    get muted(){
+        //Gets the audio and returns the muted state of the original object
+        return this.#audio.muted;
+    }
+
+    /**
+     * Sets the muted state of the audio object
+     * @param {boolean} muted - Muted state
+     * @property {boolean} muted
+     * @public
+     */
+    set muted(muted){
+        //Gets the audio and set the muted state of the original object
+        this.#audio.muted = muted;
     }
 }

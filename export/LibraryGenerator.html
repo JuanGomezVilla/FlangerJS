@@ -72,22 +72,45 @@
 
             input[type=checkbox] {
                 background: #3b3b3b;
+                appearance: none;
+                width: 15px;
+                height: 15px;
+                cursor: pointer;
+                border: 1px solid rgb(240, 246, 252, 0.1);
+                border-radius: 4px;
+                margin: 10px 10px 0px 0px
+            }
+
+            input[type=checkbox]:checked {
+                background-color: rgb(240, 246, 252, 0.8)
+            }
+
+            .disabled-text {
+                color: rgba(132, 132, 132, 0.8);
             }
             
         </style>
     </head>
     <body>
         <h1>Library Generator</h1>
-        <p style="text-align: justify;">Utiliza Library Generator para establecer los comandos de la librería a exportar. Dado que Flanger
-            se basa en módulos, no se importan todos, sino aquellos que el usuario va a utilizar. Si el usuario
-            no va a utilizar el módulo de audio, no es necesario que lo importe, ya que no lo va a utilizar y
-            la carga de algo innecesario puede ser un gasto de memoria.
+        <p style="text-align: justify;">Use Library Generator to create the library creation commands. FlangerJS is
+            modular, so with this tool you can select the modules to use, and then merge all necessary files into one,
+            depending on the operating system, which can also be selected. The code will change depending on the system
+            operational. Next, you have the steps to follow to create the project and the library:
         </p>
+        <ol>
+            <li>Selecciona los módulos a utilizar</li>
+            <li>Cambia tu sistema operativo en caso de ser necesario</li>
+            <li>Pulsa el botón <i>Create</i></li>
+            <li>En un directorio, donde tiene que estar la carpeta <i>src</i>, pega los dos archivos</li>
+            <li>Ejecuta el archivo <i>.bat</i> o </li>
+        </ol>
+
         <hr>
 
         <!-- MÓDULOS -->
-        <div class="checkbox-form"><input type="checkbox" disabled checked><label>Base - FJSscreen</label></div>
-        <div class="checkbox-form"><input type="checkbox" disabled checked><label>Base - FJSscene</label></div>
+        <div class="checkbox-form"><input type="checkbox" disabled checked><label class="disabled-text">Base - FJSscreen</label></div>
+        <div class="checkbox-form"><input type="checkbox" disabled checked><label class="disabled-text">Base - FJSscene</label></div>
         <div class="checkbox-form"><input id="utils" type="checkbox"><label for="utils">Utils (recommended)</label></div>
         <div class="checkbox-form"><input id="audio" type="checkbox"><label for="audio">Módulo de audio</label></div>
         <br>
@@ -98,29 +121,44 @@
 
         <div style="display:flex">
             <div class="textarea-container" style="margin-right:10px">
-                <p style="margin-top:0;"><i>export.bat</i><button id="buttonCopyExport" style="float:right">Copy</button></p>
+                <p style="margin-top:0;"><i>export.bat</i>
+                    <button id="buttonDownloadExport" style="float:right">Download</button>
+                    <button id="buttonCopyExport" style="float:right;margin-right:5px;width:90px">Copy</button>
+                </p>
                 <textarea id="textareaExport" readonly onclick="this.select()">Aquí aparecerá el contenido del archivo export.bat</textarea>
             </div>
             <div class="textarea-container" style="margin-left:10px">
-                <p style="margin-top:0;"><i></i>plugins.txt</i><button id="buttonCopyPlugins" style="float:right">Copy</button></p>
+                <p style="margin-top:0;"><i>plugins.txt</i>
+                    <button id="buttonDownloadPlugins" style="float:right">Download</button>
+                    <button id="buttonCopyPlugins" style="float:right;margin-right:5px;width:90px">Copy</button>
+                </p>
                 <textarea id="textareaPlugins" readonly onclick="this.select()">Aquí aparecerá el contenido del archivo plugins.txt</textarea>
             </div>
         </div>
         <script>
 
+            //Buttons
             let buttonCreate = document.querySelector("#buttonCreate");
             let buttonCopyExport = document.querySelector("#buttonCopyExport");
             let buttonCopyPlugins = document.querySelector("#buttonCopyPlugins");
+            let buttonDownloadExport = document.querySelector("#buttonDownloadExport");
+            let buttonDownloadPlugins = document.querySelector("#buttonDownloadPlugins");
+
+            //Textarea
             let textareaExport = document.querySelector("#textareaExport");
             let textareaPlugins = document.querySelector("#textareaPlugins");
 
+            buttonDownloadExport.addEventListener("click", () => downloadFile(textareaExport.value, "export.bat"));
+            buttonDownloadPlugins.addEventListener("click", () => downloadFile(textareaPlugins.value, "plugins.txt"));
+            
+
             buttonCopyExport.addEventListener("click", () => {
-                copyTextFromTextarea(textareaExport);
+                navigator.clipboard.writeText(textareaExport.value);
                 buttonCopyExport.innerText = "Copied";
                 setTimeout(() => buttonCopyExport.innerText = "Copy", 2000);
             });
             buttonCopyPlugins.addEventListener("click", () => {
-                copyTextFromTextarea(textareaPlugins);
+                navigator.clipboard.writeText(textareaPlugins.value);
                 buttonCopyPlugins.innerText = "Copied";
                 setTimeout(() => buttonCopyPlugins.innerText = "Copy", 2000);
             });
@@ -143,11 +181,12 @@
 
             });
 
-
-            function copyTextFromTextarea(textarea){
-                //textarea.select();
-                //textarea.setSelectionRange(0, 99999); //Mobile devices
-                navigator.clipboard.writeText(textarea.innerHTML);
+            function downloadFile(text, filename){
+                let fileLink = document.createElement("a");
+                fileLink.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+                fileLink.setAttribute("download", filename);
+                fileLink.click();
+                fileLink.remove();
             }
 
         </script>

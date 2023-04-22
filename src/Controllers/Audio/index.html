@@ -10,7 +10,16 @@
         <script>
 
 
-            let audio = new FJSaudio("example.mp3");
+            let audio = new FJSaudio({
+    src: "example.mp3",
+    onLoad: function(){
+        console.log("Load!");
+        
+    },
+    onFinish: function(){
+        
+    }
+});
 
 
             function comenzar(){
