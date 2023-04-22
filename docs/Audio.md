@@ -33,11 +33,11 @@ audio.play();
 ```
 Ten en cuenta que los audios no se reproducen hasta que el usuario no interactúa con la página, esto se debe a una cuestión de políticas del navegador. Una vez que el usuario haya hecho click sobre la página u otro evento que suponga la interacción directa con la web, estará disponible la reproducción sin necesidad de que el usuario haga más.
 
-Puedes hacer una detección de la siguiente forma (cuando el usuario pulse una tecla, el audio se reproduce, por ejemplo):
+Puedes hacer una detección de la siguiente forma (cuando el usuario pulse una tecla, el audio se reproduce, ya que esto implica una interacción directa):
 ```js
 window.addEventListener("keydown", () => audio.play());
 ```
-> La pulsación de una tecla implica una interacción directa con la página
+Cabe destacar que la clase _FJSaudio_ no extiende de la clase _Audio_, recoge métodos de dicha clase pero no los hereda. El [punto 8](#punto8) explica como acceder a todos los métodos de esa clase.
 
 
 <div id="punto3"></div>
@@ -49,7 +49,7 @@ console.log(audio.volume);
 audio.volume = 0.5;
 ```
 
-Además, también puedes establecer el audio silenciado, u obtener su estado:
+Además, también puedes establecer el audio en silencio, u obtener su estado:
 ```js
 audio.muted = true;
 console.log(audio.muted);
@@ -64,6 +64,11 @@ El audio puede ser pausado para luego continuar desde el momento en el que se de
 audio.togglePause();
 ```
 > Este método solo funciona si el audio se ha reproducido. Si se detuvo con _stop_ (ver siguiente punto), el tiempo se fija a 0, por lo tanto, no se puede pausar algo que no ha comenzado todavía.
+
+Puedes comprobar si el audio está en pausa con el atributo _paused_:
+```js
+console.log(audio.paused);
+```
  
 
 <div id="punto5"></div>
@@ -107,7 +112,7 @@ let audio = new FJSaudio({
 ## 8. Objeto original
 El acceso al objeto original del audio está en privado, es decir, no se puede accedir directamente sino es con un método que lo permita. Para obtener el objeto original, utiliza:
 ```js
-audio.getAudioObject();
+audio.getObject();
 ```
 
 

@@ -128,9 +128,18 @@ class FJSaudio {
      * Returns the original object audio
      * @returns {object} Original object audio
      */
-    getAudioObject(){
+    getObject(){
         //Returns the private audio
         return this.#audio;
+    }
+    
+    /**
+     * Getter method that returns the value of the paused attribute of the audio object
+     * @returns {boolean} The current value of the "paused" attribute
+     */
+    get paused(){
+        //Gets the audio and returns the pause state
+        return this.#audio.paused;
     }
 
     /**
