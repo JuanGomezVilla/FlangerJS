@@ -14,11 +14,14 @@ class FJStileset {
 
     /**
      * 
-     * @param {string} spriteName - Nombre del sprite a dibujar
-     * @param {number} x - Ubicación en el eje X del canvas
-     * @param {number} y - Ubicación en el eje Y del canvas
-     * @param {number} width - Ancho del tile en el canvas
-     * @param {number} height - Alto del tile en el canvas
+     * @param {string} tileName - Name of the tile to draw
+     * @param {number} x - Location on the X axis of the canvas
+     * @param {number} y - Location on the Y axis of the canvas
+     * @param {number} width - Width of the tile on the canvas
+     * @param {number} height - Tile height on canvas
+     * @returns {void}
+     * @function
+     * @public
      */
     drawTile(tileName, x=0, y=0, width, height){
         let tile = this.tiles[tileName];

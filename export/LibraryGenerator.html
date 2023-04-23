@@ -111,8 +111,8 @@
         <!-- MÓDULOS -->
         <div class="checkbox-form"><input type="checkbox" disabled checked><label class="disabled-text">Base - FJSscreen</label></div>
         <div class="checkbox-form"><input type="checkbox" disabled checked><label class="disabled-text">Base - FJSscene</label></div>
-        <div class="checkbox-form"><input id="utils" type="checkbox"><label for="utils">Utils (recommended)</label></div>
-        <div class="checkbox-form"><input id="audio" type="checkbox"><label for="audio">Módulo de audio</label></div>
+        <div class="checkbox-form"><input id="checkboxUtils" type="checkbox"><label for="checkboxUtils">Utils (recommended)</label></div>
+        <div class="checkbox-form"><input id="checkboxAudio" type="checkbox"><label for="checkboxAudio">Módulo de audio</label></div>
         <br>
         <button id="buttonCreate">Create</button>
         <hr>
@@ -148,6 +148,10 @@
             let textareaExport = document.querySelector("#textareaExport");
             let textareaPlugins = document.querySelector("#textareaPlugins");
 
+            //Checkboxs
+            let checkboxUtils = document.querySelector("#checkboxUtils");
+            let checkboxAudio = document.querySelector("#checkboxAudio");
+
             buttonDownloadExport.addEventListener("click", () => downloadFile(textareaExport.value, "export.bat"));
             buttonDownloadPlugins.addEventListener("click", () => downloadFile(textareaPlugins.value, "plugins.txt"));
             
@@ -174,11 +178,13 @@
                 //plugins.txt
                 let resultPlugins = "src&#92;FJSscreen.js\nsrc&#92;FJSscene.js";
 
+                if(checkboxUtils.checked) resultPlugins += "\nsrc&#92;FJSutils.js";
+                if(checkboxAudio.checked) resultPlugins += "\nsrc&#92;Audio&#92;FJSaudio.js";
+
 
                 //Pasa los resultados a las cajas
                 textareaExport.innerHTML = resultExport;
                 textareaPlugins.innerHTML = resultPlugins;
-
             });
 
             function downloadFile(text, filename){

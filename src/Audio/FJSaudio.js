@@ -58,7 +58,7 @@ class FJSaudio {
         //Try block to handle any exceptions that might occur while playing the audio
         try {
             //Attempts to play the audio
-            this.#audio.play();
+            this.#audio.play(); 
         //Catch block to handle any exceptions thrown by the try block
         } catch(error) {
             //Logs the error to the console
@@ -79,7 +79,7 @@ class FJSaudio {
     togglePause(){
         //Verify that the audio has not started because the current time is at 0
         //Use a ternary operator to change the pause state of the audio
-        if(this.#audio.currentTime != 0) this.#audio.paused ? this.#audio.play() : this.#audio.pause();        
+        if(this.#audio.currentTime != 0) this.#audio.paused ? this.#audio.play() : this.#audio.pause();
     }
 
     /**
@@ -127,6 +127,7 @@ class FJSaudio {
     /**
      * Returns the original object audio
      * @returns {object} Original object audio
+     * @public
      */
     getObject(){
         //Returns the private audio
@@ -136,6 +137,7 @@ class FJSaudio {
     /**
      * Getter method that returns the value of the paused attribute of the audio object
      * @returns {boolean} The current value of the "paused" attribute
+     * @public
      */
     get paused(){
         //Gets the audio and returns the pause state

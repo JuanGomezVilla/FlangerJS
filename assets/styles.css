@@ -1,0 +1,82 @@
+body {
+    background-color: #0d1117;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #FFFFFF;
+    margin: 0 auto;
+    width: 75%;
+    margin-top: 50px;
+    margin-bottom: 75px;
+}
+
+hr {
+    margin: 40px 0px;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, .5);
+}
+
+.checkbox-form {
+    user-select: none;
+}
+
+input[type=checkbox] {
+    background-color: red;
+}
+
+.textarea-container {
+    flex: 1 1 auto;
+
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+    background-color: #000000;
+    outline: none;
+    color: white;
+    height: 200px;
+    border: none;
+    border-radius: 5px;
+    padding: 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #21262d;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid rgb(240, 246, 252, 0.1);
+    padding: 5px 16px;
+    font-size: 16px;
+    color:#c9d1d9;
+    border-radius: 6px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+    line-height: 20px;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: #30363d;
+    border-color: rgb(240, 246, 252, 0.8)
+}
+
+input[type=checkbox] {
+    background: #3b3b3b;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    border: 1px solid rgb(240, 246, 252, 0.1);
+    border-radius: 4px;
+    margin: 10px 10px 0px 0px
+}
+
+input[type=checkbox]:checked {
+    background-color: rgb(240, 246, 252, 0.8)
+}
+
+.disabled-text {
+    color: rgba(132, 132, 132, 0.8);
+}

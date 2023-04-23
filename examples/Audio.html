@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Title and charset -->
+        <title>Examples - Audio</title>
+        <meta charset="UTF-8">
+
+        <!-- Icon and styles -->
+        <link rel="icon" href="../assets/original_rounded.ico">
+        <link rel="stylesheet" href="../assets/styles.css">
+
+        <!-- FJSaudio module -->
+        <script src="../src/Audio/FJSaudio.js"></script>
+    </head>
+    <body>
+        <!-- Description -->
+        <h1>Audio</h1>
+        <p>Press the keys in the list below to perform different actions:</p>
+        <ul>
+            <li><b>Space</b>: change audio pause state</li>
+            <li><b>S</b>: stops the audio, but does not pause it. Time is set at the beginning</li>
+            <li><b>R</b>: play the sound again</li>
+            <li><b>P</b>: start the sound</li>
+            <li><b>Arrow Up</b>: increase the volume</li>
+            <li><b>Arrow Down</b>: decrease the volume</li>
+        </ul>
+        <hr>
+
+        <!-- Action buttons -->
+        <div style="user-select: none;">
+            <button id="buttonPlay">Play</button>
+            <button id="buttonStop">Stop</button>
+            <button id="buttonReplay">Replay</button>
+            <button id="buttonPause">Pause</button>
+            <button id="buttonVolumeUp">Volume +</button>
+            <button id="buttonVolumeDown">Volume -</button>
+            <label id="labelVolume" style="font-style:italic;margin-left:5px">100%</label>
+        </div>
+
+        <script>
+            
+            //Audio object
+            let audio = new FJSaudio("example.mp3");
+
+            //Action buttons and volume text
+            let buttonPlay = document.querySelector("#buttonPlay");
+            let buttonStop = document.querySelector("#buttonStop");
+            let buttonReplay = document.querySelector("#buttonReplay");
+            let buttonPause = document.querySelector("#buttonPause");
+            let buttonVolumeUp = document.querySelector("#buttonVolumeUp");
+            let buttonVolumeDown = document.querySelector("#buttonVolumeDown");
+            let labelVolume = document.querySelector("#labelVolume");
+
+            //Click listeners for buttons
+            buttonPlay.addEventListener("click", () => audio.play());
+            buttonStop.addEventListener("click", () => audio.stop());
+            buttonReplay.addEventListener("click", () => audio.replay());
+            buttonPause.addEventListener("click", () => audio.togglePause());
+            buttonVolumeUp.addEventListener("click", volumeUp);
+            buttonVolumeDown.addEventListener("click", volumeDown);
+
+            //Key listener
+            window.addEventListener("keydown", (event) => {
+                switch(event.key) {
+                    //Space key, change the pause state
+                    case " ":
+                        audio.togglePause();
+                        break;
+                    //S key, completely stop the audio
+                    case "s":
+                        audio.stop();
+                        break;
+                    //R key, play the audio again, automatically
+                    case "r":
+                        audio.replay();
+                        break;
+                    //P key, play the audio
+                    case "p":
+                        audio.play();
+                        break;
+                    //Arrow Up, increase the volume
+                    case "ArrowUp":
+                        volumeUp();
+                        break;
+                    //Arrow Down, decrease the volume
+                    case "ArrowDown":
+                        volumeDown();
+                        break;
+                }
+            });
+
+            //Function to increase the volume
+            function volumeUp(){
+                //Increases the volume preventing it from being out of range (0-1)
+                if(audio.volume < 0.9) audio.volume += 0.1;
+                else audio.volume = 1;
+
+                //Update volume text
+                updateAudioText();
+            }
+
+            //Function to decrease the volume
+            function volumeDown(){
+                //Decreases the volume preventing it from being out of range (0-1)
+                if(audio.volume > 0.1) audio.volume -= 0.1;
+                else audio.volume = 0;
+
+                //Update volume text
+                updateAudioText();
+            }
+
+            //Function to update the text indicating the volume
+            function updateAudioText(){
+                //Update the content of the volume label
+                labelVolume.innerText = Math.trunc((audio.volume * 100)) + "%";
+            }
+            
+        </script>
+    </body>
+</html>
