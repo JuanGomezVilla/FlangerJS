@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FJS - Select</title>
+        <meta charset="UTF-8">
+        <script src="../../FJSscreen.js"></script>
+        <script src="../../FJSscene.js"></script>
+        <script src="../FJScontroller.js"></script>
+        <script src="FJSslide.js"></script>
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+
+            FJSscreen.init({
+                width: 400,
+                height: 400,
+                border: true
+            });
+
+            let slideRange = new FJSslide({
+                x: 100,
+                y: 100,
+                width: 200,
+                height: 5,
+                min: 0,
+                max: 100,
+                draw: function(){
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                }
+            });
+
+            let sceneSelect = new FJSscene({
+                onRunning: function(){
+                    FJSscreen.clear();
+                    FJSscreen.drawBackgroundColor("blue");
+
+                    slideRange.update();
+                    slideRange.draw();
+                }
+            });
+            sceneSelect.init();
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FJS - Select</title>
+        <meta charset="UTF-8">
+        <script src="../../FJSscreen.js"></script>
+        <script src="../../FJSscene.js"></script>
+        <script src="../FJScontroller.js"></script>
+        <script src="FJSselect.js"></script>
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+
+            FJSscreen.init({
+                width: 400,
+                height: 400,
+                border: true
+            });
+
+            let selectOptions = new FJSselect({
+                x: 100,
+                y: 100,
+                width: 200,
+                height: 50,
+                items: ["Option 1", "Option 2", "Option 3"],
+                draw: function(item, i){
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(this.x, this.y + (this.height +10)* i, this.width, this.height);
+                    ctx.fillStyle = "black";
+                    ctx.font = "20px Arial";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(item, this.x + 20, this.y + (this.height +10)* i + 25);
+                }
+            });
+
+            let sceneSelect = new FJSscene({
+                onRunning: function(){
+                    FJSscreen.clear();
+                    FJSscreen.drawBackgroundColor("blue");
+
+                    selectOptions.update();
+                    selectOptions.draw();
+                }
+            });
+            sceneSelect.init();
+
+        </script>
+    </body>
+</html>

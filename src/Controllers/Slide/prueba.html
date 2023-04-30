@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FJS - Select</title>
+        <meta charset="UTF-8">
+        <script src="../../FJSscreen.js"></script>
+        <script src="../../FJSscene.js"></script>
+        <script src="../../FJStheme.js"></script>
+        <script src="../FJScontroller.js"></script>
+        <script src="../Buttons/FJSbutton.js"></script>
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+
+            FJSscreen.init({
+                width: 400,
+                height: 400,
+                border: true
+            });
+
+            let buttonTheme = new FJSbutton({
+                x: 100,
+                y: 100,
+                width: 200,
+                height: 50,
+                draw: function(){
+                    FJStheme.drawButton("Juan", this.x, this.y, this.width, this.height, "white");
+                },
+                onHover: function(){
+                    FJStheme.drawButton("Juan", this.x, this.y, this.width, this.height, "blue");
+                },
+                onPressed: function(){
+                    FJStheme.drawButton("Juan", this.x, this.y, this.width, this.height, "orange");
+                },
+                onClick: function(){
+                    console.log("clicked");
+                }
+            });
+
+            let sceneSelect = new FJSscene({
+                onRunning: function(){
+                    FJSscreen.clear();
+                    FJSscreen.drawBackgroundColor("black");
+
+                    buttonTheme.update();
+                    buttonTheme.draw();
+                }
+            });
+            sceneSelect.init();
+
+        </script>
+    </body>
+</html>

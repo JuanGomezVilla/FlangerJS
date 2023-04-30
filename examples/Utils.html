@@ -10,7 +10,22 @@
     <body>
         <h1>Utils</h1>
 
+        <hr>
+
+        <textarea id="textareaDownloadExample" spellcheck="false" placeholder="Write something here..."></textarea>
+        <input type="text" placeholder="Filename..." value="example.txt" spellcheck="false" id="inputFileName">
+        <button id="buttonDownload">Download</button>
+
         <script>
+
+            let buttonDownload = document.querySelector("#buttonDownload");
+            let inputFileName = document.querySelector("#inputFileName");
+            let textareaDownloadExample = document.querySelector("#textareaDownloadExample");
+
+            buttonDownload.addEventListener("click", () => {
+                FJSutils.downloadPlainTextFile(textareaDownloadExample.value, inputFileName.value);
+            });
+
 
             console.log(FJSutils.randomNumber(0.2, 3.1));
             console.log(FJSutils.randomChoice(["Juan", "Gómez", "Villa"]));

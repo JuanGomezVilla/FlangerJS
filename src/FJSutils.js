@@ -44,6 +44,13 @@ let FJSutils = {
     convertJSON: function(data){
         return JSON.parse(data);
     },
+    downloadPlainTextFile: function(text, filename){
+        let fileLink = document.createElement("a");
+        fileLink.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+        fileLink.setAttribute("download", filename);
+        fileLink.click();
+        fileLink.remove();
+    },
     /**
      * **Draws a rectangle**
      * 

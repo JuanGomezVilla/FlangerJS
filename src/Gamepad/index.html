@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FJS - Gamepad</title>
+        <meta charset="UTF-8">
+        <script src="FJSgamepad.js"></script>
+        <style>
+
+            body {
+                font: 16px Arial;
+            }
+
+        </style>
+    </head>
+    <body>
+        <p>Press a gamepad key to connect it with the computer...</p>
+        <canvas width="480" height="270" style="border:1px solid #000000"></canvas>
+        <script>
+
+            let canvas, ctx, block;
+
+            function update(){
+                requestAnimationFrame(update);
+                ctx.clearRect(0,0, 480, 270);
+                block.update();
+                block.draw();
+            }
+
+            class Block {
+                constructor(){
+                    this.x = 50;
+                    this.y = 100;
+                    this.width = 50;
+                    this.height = 50;
+                    this.angle = 0;
+                }
+
+                update(){
+                    if(FJSgamepad.isConnected()){
+                        FJSgamepad.updateGamepad();
+
+                        let button6 = FJSgamepad.getButton(6);
+
+                        if(button6.touched){
+                            console.log(button6.pressed);
+                        }
+
+                        this.angleObjetivo = Math.atan2(FJSgamepad.getAxe(3), FJSgamepad.getAxe(2));
+
+
+                        //console.log(FJSgamepad.getGamepadAxe(0,4));
+                        let xMove = FJSgamepad.getAxe(0, 4);
+                        let yMove = FJSgamepad.getAxe(1, 4);
+
+                        console.log(yMove);
+                        
+                        this.x += xMove * 3;
+                        this.y += yMove * 3;
+                    }
+                }
+
+                draw(){
+                    ctx.save();
+                    ctx.fillStyle = "black";
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+                    ctx.restore();
+                }
+            }
+
+            canvas = document.querySelector("canvas");
+            ctx = canvas.getContext("2d");
+            block = new Block();
+
+            FJSgamepad.init({
+                onConnect: function(event){
+                    console.log(`${event.gamepad.id} (${event.gamepad.buttons.length} buttons, ${event.gamepad.axes.length} joysticks) connected at ${event.gamepad.index}!`);
+                    update();
+                },
+                onDisconnect: function(event){
+                    console.log(event.gamepad.id +" disconnected!");
+                }
+            });
+        
+        </script>
+    </body>
+</html>

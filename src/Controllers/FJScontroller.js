@@ -35,12 +35,14 @@ class FJScontroller {
      * errors, parameters do not contain default values.
      * @param {number} x Coordinates on the X axis
      * @param {number} y Coordinates on the Y axis
+     * @param {number} width Width in pixels
+     * @param {number} height Height in pixels
      * @param {function} draw Function to draw by default
      * @param {function} onHover Function when mouse hover object
      * @param {function} onPressed Function when mouse press object
      * @param {function} onClick Function when mouse click the object
      */
-    constructor(x, y, draw, onHover, onPressed, onClick){
+    constructor(x, y, width, height, draw, onHover, onPressed, onClick, cursorPointer = false){
         /**
          * Coordinates on the X axis
          * @type {number}
@@ -54,6 +56,22 @@ class FJScontroller {
          * @public
          */
         this.y = y;
+
+        /**
+         * Width in pixels
+         * @type {number}
+         * @public
+         */
+        this.width = width;
+
+        /**
+         * Height in pixels
+         * @type {number}
+         * @public
+         */
+        this.height = height;
+
+        this.useCursorPointer = cursorPointer;
 
         //Set the private attributes
         this.#drawMethod = draw || function(){};
@@ -79,7 +97,7 @@ class FJScontroller {
         //When the mouse is over the object
         if(this.hover()){
             //Tells the main class that an object is being hovered over
-            FJSscreen.mouseHoveringElement = true;
+            FJSscreen.mouseHoveringElement = this.useCursorPointer;
             //If the mouse is being pressed, execute onPressed, otherwise onHover
             if(FJSscreen.mouse.pressed) this.#onPressed();
             else this.#onHover();
@@ -103,5 +121,20 @@ class FJScontroller {
             //Cancel the click
             FJSscreen.cancelClick();
         }
+    }
+
+    /**
+     * Function used to check if the mouse is hovering over the object
+     * @returns {boolean} Boolean indicating if the mouse is sitting on the object
+     * @public
+     */
+    hover(){
+        //Returns true when none of the conditions are met
+        return !(
+            (this.y + (this.height) < FJSscreen.mouse.y) ||
+            (this.y > FJSscreen.mouse.y) ||
+            (this.x + (this.width) < FJSscreen.mouse.x) ||
+            (this.x > FJSscreen.mouse.x)
+        );
     }
 }

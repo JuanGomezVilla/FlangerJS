@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FJS - TITLE</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+
+            FJSscreen.init({
+                width: 480,
+                height: 270,
+                border: true
+            });
+
+            let sceneDevelop = new FJSscene({
+                onRunning: function(){
+                    FJSscreen.clear();
+                    FJSscreen.drawBackgroundColor("#000000");
+                }
+            });
+            sceneDevelop.init();
+
+        </script>
+    </body>
+</html>

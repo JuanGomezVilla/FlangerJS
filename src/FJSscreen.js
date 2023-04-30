@@ -96,11 +96,15 @@ let FJSscreen = {
         window.addEventListener("keydown", (evento) => this.keyboard[evento.key.toLowerCase()] = true);
         window.addEventListener("keyup", (evento) => this.keyboard[evento.key.toLowerCase()] = false);
 
-
         if(data.easterEgg){
             window.addEventListener("blur", (event) => document.title = "Come Back ;(");
             window.addEventListener("focus", (event) => document.title = this.title);
         }
+
+        console.log("%cCreated with %cFlanger",
+            "color:white;font: 30px Bahnschrift;",
+            "color:#F0DB4F;font: 40px Bahnschrift;"
+        );
 
     },
     /**

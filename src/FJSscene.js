@@ -37,6 +37,9 @@ class FJSscene {
 
     /**
      * Ends current scene
+     * @function
+     * @returns {void}
+     * @public
      */
     finish(){
         cancelAnimationFrame(interval);

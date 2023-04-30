@@ -18,37 +18,8 @@ class FJSbutton extends FJScontroller {
      */
     constructor(data){
         //Super to pass the data to the parent constructor
-        super(data.x, data.y, data.draw, data.onHover, data.onPressed, data.onClick);
+        super(data.x, data.y, data.width, data.height, data.draw, data.onHover, data.onPressed, data.onClick, true);
 
-        //Set the private attributes
-        /**
-         * Width in pixels
-         * @type {number}
-         * @public
-         */
-        this.width = data.width;
-
-        /**
-         * Height in pixels
-         * @type {number}
-         * @public
-         */
-        this.height = data.height;
-    }
-
-    /**
-     * Function used to check if the mouse is hovering over the object
-     * @returns {boolean} Boolean indicating if the mouse is sitting on the object
-     * @public
-     */
-    hover(){
-        //Returns true when none of the conditions are met
-        return !(
-            (this.y + (this.height) < FJSscreen.mouse.y) ||
-            (this.y > FJSscreen.mouse.y) ||
-            (this.x + (this.width) < FJSscreen.mouse.x) ||
-            (this.x > FJSscreen.mouse.x)
-        );
     }
 
     /**

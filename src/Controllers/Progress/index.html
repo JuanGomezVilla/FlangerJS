@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FJS - Progress</title>
+        <meta charset="UTF-8">
+        <script src="../../FJSscreen.js"></script>
+        <script src="../../FJSscene.js"></script>
+        <script src="../../FJScolor.js"></script>
+        <script src="FJSprogress.js"></script>
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+
+            FJSscreen.init({
+                width: 480,
+                height: 270,
+                border: true
+            });
+
+            let progressBar = new FJSprogress({
+                x:20, y:20, width:200, height:40,
+                draw: function(progress){
+                    ctx.fillStyle = "red";
+                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(this.x, this.y, this.width * (progress/100), this.height);
+                },
+                onFinish: function(){
+                    console.log("run");
+                }
+            });
+
+            let sceneDevelop = new FJSscene({
+                onRunning: function(){
+                    FJSscreen.clear();
+                    FJSscreen.drawBackgroundColor(FJScolor.RoyalBlue);
+                    progressBar.update();
+                    progressBar.draw();
+                }
+            });
+            sceneDevelop.init();
+
+        </script>
+    </body>
+</html>
