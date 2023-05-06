@@ -26,6 +26,24 @@ let FJStheme = {
         ctx.fillStyle = color2;
         ctx.fillRect(x + 3, y + 3, width - (3*2), height - (3*2));
     },
+    drawProgress: function(x, y, width, height, color, progress){
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.rect(x, y, width, height);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fillStyle = color;
+        ctx.fillRect(x + 3, y + 3, width * (progress/100) - 6, height - 6);
+    },
+    drawRadius: function(x, y, radius, color){
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.stroke();
+    },
     drawSelect: function(){
 
     },

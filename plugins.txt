@@ -1,6 +1,7 @@
 src\FJSscreen.js
 src\FJSutils.js
 src\FJSscene.js
+src\FJScolor.js
 src\Multiplayer\FJSwebrtc.js
 src\Multiplayer\FJSwebsocket.js
 src\Controllers\FJScontroller.js

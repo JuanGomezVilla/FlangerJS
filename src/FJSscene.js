@@ -21,6 +21,7 @@ class FJSscene {
     }
 
     update(){
+
         interval = requestAnimationFrame(() => this.update());
         
         //CAPTURAR VALORES
@@ -32,7 +33,6 @@ class FJSscene {
             this.onRunning();
             FJSscreen.finishCicle();
         }
-
     }
 
     /**

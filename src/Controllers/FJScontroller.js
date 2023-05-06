@@ -42,7 +42,7 @@ class FJScontroller {
      * @param {function} onPressed Function when mouse press object
      * @param {function} onClick Function when mouse click the object
      */
-    constructor(x, y, width, height, draw, onHover, onPressed, onClick, cursorPointer = false){
+    constructor(x, y, draw, onHover, onPressed, onClick, cursorPointer = false){
         /**
          * Coordinates on the X axis
          * @type {number}
@@ -56,20 +56,6 @@ class FJScontroller {
          * @public
          */
         this.y = y;
-
-        /**
-         * Width in pixels
-         * @type {number}
-         * @public
-         */
-        this.width = width;
-
-        /**
-         * Height in pixels
-         * @type {number}
-         * @public
-         */
-        this.height = height;
 
         this.useCursorPointer = cursorPointer;
 

@@ -177,9 +177,51 @@ let FJSscreen = {
         //El mouse de la propia clase es cancelado
         this.mouse.click = false;
     },
+    fade: {
+        r: 0,
+        g: 0,
+        b: 0,
+        transparency: 0,
+        running: false,
+        speed: 0.01,
+        callback: function(){},
+        begin: function(r, g, b, callback){
+            this.reset();
+            this.r = r;
+            this.g = g;
+            this.b = b;
+            this.callback = callback;
+            this.running = true;
+        },
+        finish: function(){
+            this.running = false;
+            this.transparency = 0;
+        },
+        reset: function(){
+            this.running = false;
+            this.transparency = 0;
+        }  
+    },
     finishCicle: function(){
+        let fade = this.fade;
+        //Posible fade
+        if(fade.running){
+            ctx.fillStyle = `rgb(${fade.r}, ${fade.g}, ${fade.b}, ${fade.transparency})`;
+            ctx.fillRect(0, 0, this.width, this.height);
+            this.fade.transparency += fade.speed;
+
+            //Detecta cuando ha completado todo el ciclo
+            if(this.fade.transparency >= 1){
+                this.fade.speed = -0.01;
+                this.fade.callback();
+            }
+
+            //Si la velocidad es negativa y la transparencia 0, finaliza el fade
+            if(fade.speed < 0 && fade.transparency <= 0)  this.fade.finish();
+        }
+
         this.cancelClick();
         canvas.style.cursor = this.mouseHoveringElement ? "pointer" : "default";
         this.mouseHoveringElement = false;
-    }
+    },
 }

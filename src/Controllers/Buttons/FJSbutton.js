@@ -3,7 +3,7 @@
  * initials, such as hover, coordinates, and dimensions. If you want to
  * create a more path button, use FJSbuttonPath
  * @author JuanGV
- * @version 1.0.0.0
+ * @version 1.0.0
  * @name FJSbutton
  * @license MIT
  * @extends {FJScontroller}
@@ -18,8 +18,20 @@ class FJSbutton extends FJScontroller {
      */
     constructor(data){
         //Super to pass the data to the parent constructor
-        super(data.x, data.y, data.width, data.height, data.draw, data.onHover, data.onPressed, data.onClick, true);
+        super(data.x, data.y, data.draw, data.onHover, data.onPressed, data.onClick, true);
+        /**
+         * Width in pixels
+         * @type {number}
+         * @public
+         */
+        this.width = data.width;
 
+        /**
+         * Height in pixels
+         * @type {number}
+         * @public
+         */
+        this.height = data.height;
     }
 
     /**

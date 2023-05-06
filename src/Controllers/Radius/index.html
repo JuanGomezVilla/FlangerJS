@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FJS - Select</title>
+        <meta charset="UTF-8">
+        <script src="../../FJSscreen.js"></script>
+        <script src="../../FJSscene.js"></script>
+        <script src="../../FJStheme.js"></script>
+        <script src="../FJScontroller.js"></script>
+        <script src="FJSgroupRadius.js"></script>
+        <script src="../Checkboxs/FJScheckbox.js"></script>
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+
+            FJSscreen.init({
+                width: 400,
+                height: 400,
+                border: true
+            });
+
+
+            let radioGrupo = new FJSgroupRadius([
+                new FJScheckbox({x:30, y:50, width:20, height:20, value:"Checkbox 1",
+                    draw:function(){FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", "transparent")},
+                    onChecked: function(){FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", "white")},
+                    onClick: function(){this.checked = !this.checked;},
+                    onHover: function(){FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", this.checked ? "white" : "rgb(255,255,255,0.5)");}
+                }),
+                new FJScheckbox({x:30, y:80, width:20, height:20, value:"Checkbox 2",
+                    draw:function(){FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", "transparent")},
+                    onChecked: function(){FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", "white")},
+                    onClick: function(){this.checked = !this.checked;},
+                    onHover: function(){FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", this.checked ? "white" : "rgb(255,255,255,0.5)");}
+                }),
+                new FJScheckbox({x:30, y:110, width:20, height:20, value:"Checkbox 3",
+                    draw:function(){FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", "transparent")},
+                    onChecked: function(){FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", "white")},
+                    onClick: function(){this.checked = !this.checked;},
+                    onHover: function(){FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", this.checked ? "white" : "rgb(255,255,255,0.5)");}
+                })
+            ]);
+
+            let sceneSelect = new FJSscene({
+                onRunning: function(){
+                    FJSscreen.clear();
+                    FJSscreen.drawBackgroundColor("black");
+
+                    radioGrupo.update();
+                    radioGrupo.draw();
+                }
+            });
+            sceneSelect.init();
+
+        </script>
+    </body>
+</html>

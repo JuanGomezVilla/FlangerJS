@@ -1,5 +1,5 @@
 /**
- * Listado de colores
+ * Listado de colores. Se han extraído de C#
  */
 const FJScolor = {
     AliceBlue: "#F0F8FF",

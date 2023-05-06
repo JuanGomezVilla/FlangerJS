@@ -6,7 +6,14 @@
         <script src="../../FJSscreen.js"></script>
         <script src="../../FJSscene.js"></script>
         <script src="../../FJScolor.js"></script>
-        <script src="FJSprogress.js"></script>
+        <script src="../../FJStheme.js"></script>
+        <script src="../../FJSsettings.js"></script>
+        <script src="../../FJSutils.js"></script>
+        <script src="../../FJSperformance.js"></script>
+        <script src="../../Controllers/FJScontroller.js"></script>
+        <script src="../Progress/FJSprogress.js"></script>
+        <script src="../Buttons/FJSbutton.js"></script>
+        <script src="../Checkboxs/FJScheckbox.js"></script>
     </head>
     <body>
         <canvas></canvas>
@@ -18,28 +25,86 @@
                 border: true
             });
 
+            let frases = [
+                "Frase de prueba 1",
+                "Frase de prueba 2",
+                "Frase de prueba 3"
+            ];
+
+            let buttonDevelop = new FJSbutton({
+                x: 120, y:120, height:50, width:200,
+                draw: function(){
+                    FJStheme.drawButton("Prueba", this.x, this.y, this.width, this.height, "white");
+                },
+                onClick: function(){
+                    console.log("hola");
+                },
+                onHover: function(){
+                    FJStheme.drawButton("Prueba", this.x, this.y, this.width, this.height, "blue");
+                }
+            });
+
+            
+
+            let checkboxDevelop = new FJScheckbox({
+                x:30, y:50, width:20, height:20,
+                draw: function(){
+                    FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", "transparent");
+                },
+                onChecked: function(){
+                    FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", "white");
+                },
+                onClick: function(){
+                    this.checked = !this.checked;
+                    FJSsettings.easterEggs = this.checked;
+                },
+                onHover: function(){
+                    FJStheme.drawCheckbox(this.x, this.y, this.width, this.height, "white", this.checked ? "white" : "rgb(255,255,255,0.5)");
+                }
+            });
+
             let progressBar = new FJSprogress({
-                x:20, y:20, width:200, height:40,
+                x:480/2-300/2, y:200, width:300, height:20,
                 draw: function(progress){
-                    ctx.fillStyle = "red";
-                    ctx.fillRect(this.x, this.y, this.width, this.height);
-                    ctx.fillStyle = "white";
-                    ctx.fillRect(this.x, this.y, this.width * (progress/100), this.height);
+                    FJStheme.drawProgress(this.x, this.y, this.width, this.height, "white", progress);
                 },
                 onFinish: function(){
-                    console.log("run");
+                    FJSscreen.fade.begin(0,0,0, function(){
+                        sceneProgress.finish();
+                        sceneDevelop.init();
+                    });
+                }
+            });
+
+            let fraseSeleccionada = "";
+            let sceneProgress = new FJSscene({
+                onLoad: function(){
+                    fraseSeleccionada = FJSutils.randomChoice(frases);
+                },
+                onRunning: function(){
+                    FJSscreen.clear();
+                    FJSscreen.drawBackgroundColor("#000000");
+
+                    progressBar.update();
+                    progressBar.draw();
+                    FJSutils.fillText(fraseSeleccionada, 480/2, 270/2, "white", "italic");
+
                 }
             });
 
             let sceneDevelop = new FJSscene({
                 onRunning: function(){
                     FJSscreen.clear();
-                    FJSscreen.drawBackgroundColor(FJScolor.RoyalBlue);
-                    progressBar.update();
-                    progressBar.draw();
+                    FJSscreen.drawBackgroundColor("#000000");
+                    
+                    buttonDevelop.update();
+                    checkboxDevelop.update();
+
+                    checkboxDevelop.draw();
+                    buttonDevelop.draw();
                 }
             });
-            sceneDevelop.init();
+            sceneProgress.init();
 
         </script>
     </body>
