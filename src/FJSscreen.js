@@ -2,7 +2,11 @@ let canvas, ctx, interval;
 
 /**
  * This class establishes the videogame's bases. It creates the controllers for both the
- * keyboard and the mouse. The first runned method is init, which captures the data.
+ * keyboard and the mouse. The first runned method is init, which captures the data
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJSutils
+ * @license MIT
  */
 let FJSscreen = {
     keyboard: {}, //The keyboard saves all the keys pressed with the name of the key pressed
@@ -11,9 +15,19 @@ let FJSscreen = {
         x: 0, //Coordinates on the X axis
         y: 0, //Coordinates on the Y axis
         click: false, //Click control, single press
-        pressed: false //Pressure control, long press
+        pressed: false, //Pressure control, long press
+        isHoveringElement: false //Possibility of being on an object
     },
-    mouseHoveringElement: false,
+    /**
+     * **Establish the bases of the game**
+     * 
+     * Function to start or establish a canvas on which to work and
+     * will represent the elements. Easter eggs can be activated
+     * @param {*} data - Dictionary with keys, canvas settings
+     * @returns {void}
+     * @function
+     * @public
+     */
     init: function(data){
         //Sets the default amount of FPS
         this.fps = data.fps == null ? 60 : data.fps;
@@ -25,19 +39,19 @@ let FJSscreen = {
 
         //Verify that the canvas contains data, is not null
         if(canvas == null){
-            //console.error("No <canvas> tag found");
+            //Creates a canvas tag and adds it to the body of the page
+            //IMPORTANT: this should be avoided in production and not in development environments
             canvas = document.createElement("canvas");
             document.body.appendChild(canvas);
         }
 
-        //With the canvas captured, the pencil is created
+        //With the canvas captured or created, the pencil is created
         ctx = canvas.getContext("2d");
 
         //Add a border based on what the user says
         if(data.border) canvas.style.border = "1px solid #000000";
 
-        //Verificación de que existe valores de ancho y alto
-        //TODO: observar si el usuario puede aportar dos valores o uno (preguntar a don borja)
+        //Checking that width and height values ​​exist
         let width = data.width;
         let height = data.height;
 
@@ -81,26 +95,30 @@ let FJSscreen = {
             this.height = canvas.height;
         }
 
-        //Obtención del
+        //Get the tab title (easter egg)
         this.title = document.title == null ? "There is no title" : document.title;
         
-        //DETECCIÓN DE PULSACIONES (TECLADO Y RATÓN)
-        window.addEventListener("click", (evento) => this.mouse.click = true);
-        window.addEventListener("mousedown", (evento) => this.mouse.pressed = true);
-        window.addEventListener("mouseup", (evento) => this.mouse.pressed = false);
-        window.addEventListener("mousemove", (evento) => {
+        //Detection of keys (keyboard and mouse)
+        window.addEventListener("keydown", (event) => this.keyboard[event.key] = true); //Keystroke
+        window.addEventListener("keyup", (event) => this.keyboard[event.key] = false); //End of a key press
+        window.addEventListener("click", (event) => this.mouse.click = true); //Mouse click
+        window.addEventListener("mousedown", (event) => this.mouse.pressed = true); //Mouse pressure
+        window.addEventListener("mouseup", (event) => this.mouse.pressed = false); //End of mouse pressure
+        window.addEventListener("mousemove", (event) => {
+            //Returns information from the DOMrect. Sets the location of X and Y relative to the canvas
             let boundingClientRect = canvas.getBoundingClientRect();
-            this.mouse.x = evento.clientX - boundingClientRect.left;
-            this.mouse.y = evento.clientY - boundingClientRect.top;
+            this.mouse.x = event.clientX - boundingClientRect.left;
+            this.mouse.y = event.clientY - boundingClientRect.top;
         });
-        window.addEventListener("keydown", (evento) => this.keyboard[evento.key.toLowerCase()] = true);
-        window.addEventListener("keyup", (evento) => this.keyboard[evento.key.toLowerCase()] = false);
 
+        //If easter eggs are user activated
         if(data.easterEgg){
+            //When the user switches tabs, the title of the game tab will change
             window.addEventListener("blur", (event) => document.title = "Come Back ;(");
             window.addEventListener("focus", (event) => document.title = this.title);
         }
 
+        //Library creation message
         console.log("%cCreated with %cFlanger",
             "color:white;font: 30px Bahnschrift;",
             "color:#F0DB4F;font: 40px Bahnschrift;"
@@ -108,36 +126,56 @@ let FJSscreen = {
 
     },
     /**
-     * Devuelve el ancho de la pantalla, cantidad en píxeles
-     * @returns Ancho de la pantalla
+     * **Get canvas width**
+     * 
+     * Returns the width of the screen, amount in pixels
+     * @returns {number} Screen width
+     * @function
+     * @public
      */
     getWidth: function(){
+        //Returns the width of the canvas, attribute of the class
         return this.width;
     },
     /**
-     * Devuelve el alto de la pantalla, cantidad en píxeles
-     * @returns Alto de la pantalla
+     * **Get canvas height**
+     * 
+     * Returns the height of the screen, amount in pixels
+     * @returns {number} Screen height
+     * @function
+     * @public
      */
     getHeight: function(){
+        //Returns the height of the canvas, attribute of the class
         return this.height;
     },
     /**
-     * Devuelve el punto central truncado (sin decimales) a partir del ancho
-     * @returns Número entero
+     * **Get the center point on the X axis**
+     * 
+     * Returns the truncated center point (no decimal places) from the width
+     * @returns {number} Center point on the X axis
+     * @function
+     * @public
      */
     getCentralPointX: function(){
-        //El valor es dividido entre dos y truncado
+        //The value is divided by two and truncated
         return Math.trunc(this.width/2);
     },
     /**
-     * Devuelve el punto central truncado (sin decimales) a partir del alto
-     * @returns Número entero
+     * **Get the center point on the Y axis**
+     * 
+     * Returns the truncated center point (no decimal places) from the height
+     * @returns {number} Center point on the Y axis
+     * @function
+     * @public
      */
     getCentralPointY: function(){
-        //El valor es dividido entre dos y truncado
+        //The value is divided by two and truncated
         return Math.trunc(this.height/2);
     },
     /**
+     * **Get the center point of the screen**
+     * 
      * Obtiene el punto central en ambos ejes, útil para cuando se requiere ubicar
      * un objeto en el punto central de la pantalla, de lo contrario utilizar el
      * método correspondiente según el eje
@@ -221,7 +259,7 @@ let FJSscreen = {
         }
 
         this.cancelClick();
-        canvas.style.cursor = this.mouseHoveringElement ? "pointer" : "default";
-        this.mouseHoveringElement = false;
+        canvas.style.cursor = this.mouse.isHoveringElement ? "pointer" : "default";
+        this.mouse.isHoveringElement = false;
     },
 }

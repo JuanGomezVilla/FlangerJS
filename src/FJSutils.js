@@ -16,8 +16,8 @@ let FJSutils = {
      * @param {number} min - Minimum number the user gives
      * @param {number} max - Maximum number the user gives
      * @returns {number} Returned integer
-     * @public
      * @function
+     * @public
      */
     randomNumber: function(min, max){
         //Returns a random number between a minimum and a maximum
@@ -30,8 +30,8 @@ let FJSutils = {
      * a random value of said list
      * @param {array} data - List with values
      * @returns {object} Value returned
-     * @public
      * @function
+     * @public
      */
     randomChoice: function(data){
         //Select a random number and the value obtained will be the order within the list
@@ -44,8 +44,9 @@ let FJSutils = {
      * to receive calls, but content is returned in text format
      * @param {string} path - Path of data
      * @param {function} callback - Callback function
-     * @public
+     * @returns {void}
      * @function
+     * @public
      */
     getContentFromURL: async function(path, callback){
         //Gets the data and passes it as a parameter to the callback function
@@ -59,8 +60,9 @@ let FJSutils = {
      * parse over the fetched data. A JS object would be returned
      * @param {string} path - Path of data
      * @param {function} callback - Callback function
-     * @public
+     * @returns {void}
      * @function
+     * @public
      */
     getJSON: async function(path, callback){
         //Gets the data and passes it as a JS object in the parameter of the callback function
@@ -73,8 +75,8 @@ let FJSutils = {
      * Gets a text content given by parameter and turns it into JSON format
      * @param {string} data - Text content to convert
      * @returns {object} Returns the content converted to JSON format
-     * @public
      * @function
+     * @public
      */
     convertJSON: function(data){
         //Returns the parse result of the data with the JSON object
@@ -88,8 +90,9 @@ let FJSutils = {
      * compatible with plain text
      * @param {string} text - Content of the file
      * @param {string} filename - Name of the file, also with format
-     * @public
+     * @returns {void}
      * @function
+     * @public
      */
     downloadPlainTextFile: function(text, filename){
         //Create a hidden element of type link
@@ -113,8 +116,9 @@ let FJSutils = {
      * @param {number} [width=50] - Rectangle's width
      * @param {number} [height=50] - Rectangle's height
      * @param {string} [color="#000000"] - Rectangle's color
-     * @public
+     * @returns {void}
      * @function
+     * @public
      */
     fillRect: function(x=0, y=0, width=50, height=50, color="#000000"){
         //Sets the color of the context
@@ -138,8 +142,9 @@ let FJSutils = {
      * @param {string} [family=Arial] - Font family
      * @param {string} [align=left] - Horizontal alignment
      * @param {string} [baseline=middle] - Vertical alignment
-     * @public
+     * @returns {void}
      * @function
+     * @public
      */
     fillText: function(text, x=0, y=0, color="#000000", style="", size=16, family="Arial", align="left", baseline="middle"){
         //Sets the color of the text
