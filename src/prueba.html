@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="FJSscreen.js"></script>
+        <script src="FJSscene.js"></script>
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+
+            FJSscreen.init({width:338, height:600, border:true});
+
+            let sceneDevelop = new FJSscene({
+                onInit: function(){
+                    console.log("message");
+                },
+                update: function(){
+                    FJSscreen.clear();
+                    FJSscreen.setBackgroundColor("blue");
+                }
+            });
+            sceneDevelop.init();
+
+        </script>
+    </body>
+</html>

@@ -88,7 +88,32 @@
             .disabled-text {
                 color: rgba(132, 132, 132, 0.8);
             }
-            
+
+            table {
+                width: 100%;
+            }
+
+            tr, td, table, th {
+                border-collapse: collapse;
+            }
+
+            /*.cuerpo {
+                background-color: #161d27;
+            }*/
+
+            td {
+                border-collapse: collapse;
+                border: 1px solid #161d27;
+            }
+
+            td, th {
+                padding: 5px;
+            }
+
+            label[for] {
+                cursor: pointer;
+            }
+
         </style>
     </head>
     <body>
@@ -109,10 +134,45 @@
         <hr>
 
         <!-- MÓDULOS -->
-        <div class="checkbox-form"><input type="checkbox" disabled checked><label class="disabled-text">Base - FJSscreen</label></div>
-        <div class="checkbox-form"><input type="checkbox" disabled checked><label class="disabled-text">Base - FJSscene</label></div>
-        <div class="checkbox-form"><input id="checkboxUtils" type="checkbox"><label for="checkboxUtils">Utils (recommended)</label></div>
-        <div class="checkbox-form"><input id="checkboxAudio" type="checkbox"><label for="checkboxAudio">Módulo de audio</label></div>
+        <table>
+            <!-- BASE -->
+            <tbody class="cuerpo">
+            <tr><td rowspan="4" style="padding-left:20px">Base</td><td><div class="checkbox-form"><input type="checkbox" disabled checked><label class="disabled-text">Screen</label></div></td></tr>
+            <tr><td><div class="checkbox-form"><input type="checkbox" disabled checked><label class="disabled-text">FJSscene</label></div></td></tr>
+            <tr><td><div class="checkbox-form"><input id="checkboxUtils" type="checkbox"><label for="checkboxUtils">Utils (recommended)</label></div></td></tr>
+            <tr><td><div class="checkbox-form"><input id="checkboxColor" type="checkbox"><label for="checkboxColor">Color</label></div></td></tr>
+            </tbody>
+
+            <!-- IMAGES -->
+            <tbody>
+            <tr><td rowspan="3" style="padding-left:20px">Images</td><td><div class="checkbox-form"><input id="checkboxTile" type="checkbox"><label for="checkboxTile">Tile</label></div></td></tr>
+            <tr><td><div class="checkbox-form"><input id="checkboxTileRotation" type="checkbox"><label for="checkboxTileRotation">Tile Rotation</label></div></td></tr>
+            <tr><td><div class="checkbox-form"><input id="checkboxTileset" type="checkbox"><label for="checkboxTileset">Tileset</label></div></td></tr>
+            </tbody>
+
+            <!-- CONTROLLERS -->
+            <tbody class="cuerpo">
+            <tr><td rowspan="2" style="padding-left:20px">Controllers</td><td><div class="checkbox-form"><input id="checkboxButton" type="checkbox"><label for="checkboxButton">Button</label></div></td></tr>
+            <tr><td><div class="checkbox-form"><input id="checkboxCheckbox" type="checkbox"><label for="checkboxCheckbox">Checkbox</label></div></td></td></tr>
+            </tbody>
+
+            <!-- GAMEPAD -->
+            <tbody>
+            <tr><td rowspan="2" style="padding-left:20px">Gamepad</td><td><div class="checkbox-form"><input id="checkboxGamepad" type="checkbox"><label for="checkboxGamepad">Gamepad - One</label></div></td></tr>
+            <tr><td><div class="checkbox-form"><input id="checkboxGamepads" type="checkbox"><label for="checkboxGamepads">Gamepad - More than one gamepad</label></div></td></tr>
+            </tbody>
+
+            <!-- MULTIPLAYER -->
+            <tbody class="cuerpo">
+            <tr><td rowspan="2" style="padding-left:20px">Multiplayer</td><td><div class="checkbox-form"><input id="checkboxWebrtc" type="checkbox"><label for="checkboxWebrtc">WebRTC</label></div></td></tr>
+            <tr><td><div class="checkbox-form"><input id="checkboxWebsocket" type="checkbox"><label for="checkboxWebsocket">WebSocket</label></div></td></tr>
+            </tbody>
+
+            <!-- AUDIO -->
+            <tbody>
+            <tr><td style="padding-left:20px">Audio</td><td><div class="checkbox-form"><input id="checkboxAudio" type="checkbox"><label for="checkboxAudio">Audio</label></div></td></tr>
+            </tbody>
+        </table>
         <br>
         <button id="buttonCreate">Create</button>
         <hr>
@@ -150,7 +210,18 @@
 
             //Checkboxs
             let checkboxUtils = document.querySelector("#checkboxUtils");
+            let checkboxColor = document.querySelector("#checkboxColor");
             let checkboxAudio = document.querySelector("#checkboxAudio");
+            let checkboxTile = document.querySelector("#checkboxTile");
+            let checkboxTileRotation = document.querySelector("#checkboxTileRotation");
+            let checkboxTileset = document.querySelector("#checkboxTileset");
+            let checkboxWebsocket = document.querySelector("#checkboxWebsocket");
+            let checkboxWebrtc = document.querySelector("#checkboxWebrtc");
+            let checkboxGamepad = document.querySelector("#checkboxGamepad");
+            let checkboxGamepads = document.querySelector("#checkboxGamepads");
+
+            let checkboxButton = document.querySelector("#checkboxButton");
+            let checkboxCheckbox = document.querySelector("#checkboxCheckbox");
 
             buttonDownloadExport.addEventListener("click", () => downloadFile(textareaExport.value, "export.bat"));
             buttonDownloadPlugins.addEventListener("click", () => downloadFile(textareaPlugins.value, "plugins.txt"));
@@ -170,7 +241,7 @@
 
             buttonCreate.addEventListener("click", () => {
                 //EXPORT.BAT
-                let resultExport = "@echo off\ntitle ScriptGenerator\ndel FlangerJS.js >nul\necho Creating file...\n";
+                let resultExport = "@echo off\ntitle Library Generator\ndel FlangerJS.js >nul\necho Creating file...\n";
                 resultExport += "for /F \"tokens=*\" %%A in (plugins.txt) do (\n";
                 resultExport += "    type %%A >> FlangerJS.js\n    echo. >> FlangerJS.js\n    echo. >> FlangerJS.js\n) %%A";
                 
@@ -179,7 +250,23 @@
                 let resultPlugins = "src&#92;FJSscreen.js\nsrc&#92;FJSscene.js";
 
                 if(checkboxUtils.checked) resultPlugins += "\nsrc&#92;FJSutils.js";
+                if(checkboxColor.checked) resultPlugins += "\nsrc&#92;FJScolor.js";
+
+
+                if(checkboxButton.checked || checkboxCheckbox.checked) resultPlugins += "\nsrc&#92;Controllers&#92;FJScontroller.js";
+                if(checkboxButton.checked) resultPlugins += "\nsrc&#92;Controllers&#92;Buttons&#92;FJSbutton.js";
+                if(checkboxCheckbox.checked) resultPlugins += "\nsrc&#92;Controllers&#92;Checkboxs&#92;FJScheckbox.js";
+                
+                if(checkboxTile.checked) resultPlugins += "\nsrc&#92;Images&#92;FJStile.js";
+                if(checkboxTileRotation.checked) resultPlugins += "\nsrc&#92;Images&#92;FJStileRotation.js";
+                if(checkboxTileset.checked) resultPlugins += "\nsrc&#92;Images&#92;FJStileset.js";
+                
                 if(checkboxAudio.checked) resultPlugins += "\nsrc&#92;Audio&#92;FJSaudio.js";
+                if(checkboxWebsocket.checked) resultPlugins += "\nsrc&#92;Multiplayer&#92;FJSwebsocket.js";
+                if(checkboxWebrtc.checked) resultPlugins += "\nsrc&#92;Multiplayer&#92;FJSwebrtc.js";
+                if(checkboxGamepad.checked) resultPlugins += "\nsrc&#92;Gamepad&#92;FJSgamepad.js";
+                if(checkboxGamepads.checked) resultPlugins += "\nsrc&#92;Gamepad&#92;FJSgamepads.js";
+                
 
 
                 //Pasa los resultados a las cajas

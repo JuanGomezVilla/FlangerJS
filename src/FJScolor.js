@@ -1,5 +1,7 @@
 /**
- * Listado de colores. Se han extraído de C#
+ * List of colors, extracted from the CSharp Color class. It's not possible
+ * change some value since the class is constant. Each value has associated
+ * a hexadecimal code, representing said color
  */
 const FJScolor = {
     AliceBlue: "#F0F8FF",

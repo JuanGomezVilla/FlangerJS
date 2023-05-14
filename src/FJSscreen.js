@@ -1,3 +1,4 @@
+//Global variables for the canvas, the context, and the update interval
 let canvas, ctx, interval;
 
 /**
@@ -5,18 +6,84 @@ let canvas, ctx, interval;
  * keyboard and the mouse. The first runned method is init, which captures the data
  * @author JuanGV
  * @version 1.0.0
- * @name FJSutils
+ * @name FJSscreen
  * @license MIT
  */
 let FJSscreen = {
     keyboard: {}, //The keyboard saves all the keys pressed with the name of the key pressed
-    //Mouse data
+    /**
+     * Object representing a fade effect
+     * @namespace
+     * @property {number} x - Coordinates on the X axis, default 0
+     * @property {number} y - Coordinates on the Y axis, default 0
+     * @property {boolean} click - Click control, single press, default false
+     * @property {boolean} pressed - Pressure control, long press, default false
+     * @property {boolean} isHoveringElement - Possibility of being on an object, default false
+    */
     mouse: {
         x: 0, //Coordinates on the X axis
         y: 0, //Coordinates on the Y axis
         click: false, //Click control, single press
         pressed: false, //Pressure control, long press
         isHoveringElement: false //Possibility of being on an object
+    },
+    /**
+     * Object representing a fade effect
+     * @namespace
+     * @property {number} r - The red component of the fade color (0-255)
+     * @property {number} g - The green component of the fade color (0-255)
+     * @property {number} b - The blue component of the fade color (0-255)
+     * @property {number} transparency - The transparency level of the fade (0-1)
+     * @property {boolean} running - Indicates if the fade effect is currently running
+     * @property {number} speed - The speed at which the fade effect occurs
+     * @property {Function} callback - The callback function to be executed when the fade effect completes
+     * @property {Function} begin - Begins the fade effect with the specified color and callback
+     * @property {Function} reset - Resets the fade effect by stopping it and resetting the transparency level
+    */
+    fade: {
+        r: 0, //Red color
+        g: 0, //Green color
+        b: 0, //Blue color
+        transparency: 0, //Transparency, value between 0 and 1
+        running: false, //Animation trigger
+        speed: 0.01, //Default speed
+        callback: function(){}, //Callback function on finish first phase
+        /**
+         * **Begin the animation**
+         * 
+         * Function to start the animation. Reset all values, and activate
+         * the activation trigger, to avoid repeating the animation
+         * @param {number} [r=0] - Red color, default 0
+         * @param {number} [g=0] - Green color, default 0
+         * @param {number} [b=0] - Blue color, default 0
+         * @param {Function} [callback=function(){}] - Callback function on finish first phase, default empty
+         * @returns {void}
+         * @function
+         * @public
+         */
+        begin: function(r=0, g=0, b=0, callback=function(){}){
+            this.reset(); //Reset values
+            this.r = r; //Sets the red value
+            this.g = g; //Sets the green value
+            this.b = b; //Sets the blue value
+            this.callback = callback; //Callback function
+            this.running = true; //Activate the animation trigger
+        },
+        /**
+         * **Reset data**
+         * 
+         * Resets the fade effect by stopping it and resetting the transparency level,
+         * also used to finish the animation
+         * @returns {void}
+         * @function
+         * @public
+         */
+        reset: function(){
+            //Disable the animation trigger
+            this.running = false;
+            //Hide the fade layer with transparency at 0
+            this.transparency = 0;
+        }  
     },
     /**
      * **Establish the bases of the game**
@@ -73,7 +140,7 @@ let FJSscreen = {
             }
         }
 
-        //Verificacion de que existen valores para el ancho y el alto
+        //Checking that values ​​for width and height exist
         if(width != null && height != null){
             if(data.aspectRatio == null){
                 //Verificar que los datos pasados son numeros enteros
@@ -123,7 +190,6 @@ let FJSscreen = {
             "color:white;font: 30px Bahnschrift;",
             "color:#F0DB4F;font: 40px Bahnschrift;"
         );
-
     },
     /**
      * **Get canvas width**
@@ -176,90 +242,98 @@ let FJSscreen = {
     /**
      * **Get the center point of the screen**
      * 
-     * Obtiene el punto central en ambos ejes, útil para cuando se requiere ubicar
-     * un objeto en el punto central de la pantalla, de lo contrario utilizar el
-     * método correspondiente según el eje
+     * Obtains the center point in both axes, useful for when it is required to locate
+     * an object in the center point of the screen, otherwise use the
+     * corresponding method according to the axis
+     * @returns {void}
+     * @function
+     * @public
      */
     getCentralPoint: function(){
-        //Devuelve un diccionario con las coordenadas, obtenidas con los métodos propios
+        //Returns a dictionary with the coordinates, obtained with the proper methods
         return {
-            x: this.getCentralPointX(), //Para el eje X
-            y: this.getCentralPointY() //Paa el eje Y
+            x: this.getCentralPointX(), //For the X axis
+            y: this.getCentralPointY() //For the Y axis
         }
     },
     /**
-     * Limpia todo el contenido de la pantalla. Llamar al principio de cada bucle.
-     * Por defecto, lo utiliza la clase FJSscene.
+     * **Clear the screen**
+     * 
+     * Clean all the content on the screen. Call the beginning of each loop.
+     * By default, it is used by the FJSscene class.
+     * @returns {void}
+     * @function
+     * @public
      */
     clear: function(){
-        //Limpieza del lienzo
+        //Cleaning the canvas
         ctx.clearRect(0, 0, this.width, this.height);
     },
     /**
-     * Dibuja el color de fondo de la pantalla. El usuario debe proporcionar un
-     * color, como string, dentro de la lista de formatos admitidos.
+     * **Sets the background color**
+     * 
+     * Draws the background color of the screen. The user must provide a
+     * color, as a string, within the list of supported formats
      * @param {string} color 
+     * @returns {void}
+     * @function
+     * @public
      */
-    drawBackgroundColor: function(color){
-        //Fija el color predeterminado
+    setBackgroundColor: function(color){
+        //Set default color
         ctx.fillStyle = color;
-        //Dibuja desde el inicio de coordenadas hasta el ancho y el alto un rectángulo
+        //Draws from the start of coordinates to the width and height a rectangle
         ctx.fillRect(0, 0, this.width, this.height);
     },
     /**
-     * Cancela el click producido por el usuario. Lo utilizará un objeto del tipo
-     * FJSscene al final de un ciclo, también lo puede escribir un usuario si
-     * desea que un click no afecte a otros posteriores.
+     * **Cancel the click status**
+     * 
+     * Cancels the click produced by the user. It will be used by an object
+     * of type FJSscene at the end of a loop, can also be written by a user
+     * if you want a click not to affect subsequent ones
+     * @returns {void}
+     * @function
+     * @public
      */
     cancelClick: function(){
-        //El mouse de la propia clase es cancelado
+        //The mouse click of the own class is canceled
         this.mouse.click = false;
     },
-    fade: {
-        r: 0,
-        g: 0,
-        b: 0,
-        transparency: 0,
-        running: false,
-        speed: 0.01,
-        callback: function(){},
-        begin: function(r, g, b, callback){
-            this.reset();
-            this.r = r;
-            this.g = g;
-            this.b = b;
-            this.callback = callback;
-            this.running = true;
-        },
-        finish: function(){
-            this.running = false;
-            this.transparency = 0;
-        },
-        reset: function(){
-            this.running = false;
-            this.transparency = 0;
-        }  
-    },
+    /**
+     * *Ends a render cycle**
+     * 
+     * Function called at the end of each rendering cycle, is used to control the
+     * mouse, possible effects like fade, or cursor icon
+     */
     finishCicle: function(){
+        //Capture the fade to avoid calling it constantly
         let fade = this.fade;
-        //Posible fade
+        //Possible fade
         if(fade.running){
+            //Sets the color of the fade layer, with transparency
             ctx.fillStyle = `rgb(${fade.r}, ${fade.g}, ${fade.b}, ${fade.transparency})`;
+            //Fill all the screen with the layer
             ctx.fillRect(0, 0, this.width, this.height);
+            //Increases the transparency with the speed
             this.fade.transparency += fade.speed;
 
-            //Detecta cuando ha completado todo el ciclo
+            //Detects when it has completed one the two phases
             if(this.fade.transparency >= 1){
+                //Change the speed to negative
                 this.fade.speed = -0.01;
+                //Runs the callback function
                 this.fade.callback();
             }
 
-            //Si la velocidad es negativa y la transparencia 0, finaliza el fade
-            if(fade.speed < 0 && fade.transparency <= 0)  this.fade.finish();
+            //If the speed is negative and the transparency 0, end the fade by resetting the data
+            if(fade.speed < 0 && fade.transparency <= 0)  this.fade.reset();
         }
 
+        //Cancel mouse click
         this.cancelClick();
+        //Changes the mouse icon if it was resting on an object
         canvas.style.cursor = this.mouse.isHoveringElement ? "pointer" : "default";
+        //At the end of the cycle, it is considered that it would have finished sitting on an object
         this.mouse.isHoveringElement = false;
-    },
+    }
 }
