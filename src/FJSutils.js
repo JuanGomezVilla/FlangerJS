@@ -1,4 +1,6 @@
 /**
+ * **Utils**
+ * 
  * Class used to speed up some useful actions or to be run multiple
  * times, like generating a random number for example. The class is
  * not independent of the library

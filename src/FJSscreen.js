@@ -2,6 +2,8 @@
 let canvas, ctx, interval;
 
 /**
+ * **Screen**
+ * 
  * This class establishes the videogame's bases. It creates the controllers for both the
  * keyboard and the mouse. The first runned method is init, which captures the data
  * @author JuanGV
@@ -143,18 +145,19 @@ let FJSscreen = {
         //Checking that values ​​for width and height exist
         if(width != null && height != null){
             if(data.aspectRatio == null){
-                //Verificar que los datos pasados son numeros enteros
+                //Verify that the data passed are integers
                 if(!Number.isInteger(data.width) || !Number.isInteger(data.height)){
-                    console.error("El ancho y el alto deben ser numeros enteros");
+                    //Error message
+                    console.error("Width and height must be integers");
                     return;
                 }
             }
             
-            //Atributos de la misma clase
+            //Attributes of the same class
             this.width = width;
             this.height = height;
 
-            //Asignar los valores creados al lienzo
+            //Assign the created values ​​to the canvas
             canvas.width = this.width;
             canvas.height = this.height;
         } else {
