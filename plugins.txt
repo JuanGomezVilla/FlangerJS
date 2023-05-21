@@ -9,6 +9,7 @@ src\Controllers\Progress\FJSprogress.js
 src\Images\FJStile.js
 src\Images\FJStileRotation.js
 src\Images\FJStileset.js
+src\Images\FJStilesetRotation.js
 src\Audio\FJSaudio.js
 src\Multiplayer\FJSwebsocket.js
 src\Multiplayer\FJSwebrtc.js

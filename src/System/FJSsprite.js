@@ -6,23 +6,12 @@ class FJSsprite {
         this.height = height;
     }
 
-    get getWidth(){
-        return this.width;
-    }
-
-    get getHeight(){
-        return this.height;
-    }
-
-    set setWidth(width = 0){
-        this.width = width;
-    }
-
-    set setHeight(height = 0){
-        this.height = height;
-    }
-
     crashWith(sprite){
-        
+        return !(
+            (this.y + this.height < sprite.y) ||
+            (this.y > sprite.y + sprite.height) ||
+            (this.x + this.width < sprite.x) ||
+            (this.x > sprite.x + sprite.width)
+        );
     }
 }
