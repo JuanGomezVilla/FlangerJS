@@ -16,8 +16,8 @@ let FJSscreen = {
     /**
      * Object representing a fade effect
      * @namespace
-     * @property {number} x - Coordinates on the X axis, default 0
-     * @property {number} y - Coordinates on the Y axis, default 0
+     * @property {number} x - Coordinates on the X axis, default 0 (high value to avoid initial wrong hovers)
+     * @property {number} y - Coordinates on the Y axis, default 0 (high value to avoid initial wrong hovers)
      * @property {boolean} click - Click control, single press, default false
      * @property {boolean} pressed - Pressure control, long press, default false
      * @property {boolean} isHoveringElement - Possibility of being on an object, default false
@@ -265,7 +265,7 @@ let FJSscreen = {
      * **Clear the screen**
      * 
      * Clean all the content on the screen. Call the beginning of each loop.
-     * By default, it is used by the FJSscene class.
+     * By default, it is used by the FJSscene class
      * @returns {void}
      * @function
      * @public
@@ -279,7 +279,7 @@ let FJSscreen = {
      * 
      * Draws the background color of the screen. The user must provide a
      * color, as a string, within the list of supported formats
-     * @param {string} color 
+     * @param {string} color - Background color
      * @returns {void}
      * @function
      * @public
@@ -308,7 +308,10 @@ let FJSscreen = {
      * *Ends a render cycle**
      * 
      * Function called at the end of each rendering cycle, is used to control the
-     * mouse, possible effects like fade, or cursor icon
+     * mouse, possible effects like fade, or cursor icon, etc
+     * @returns {void}
+     * @function
+     * @public
      */
     finishCicle: function(){
         //Capture the fade to avoid calling it constantly
@@ -341,7 +344,17 @@ let FJSscreen = {
         //At the end of the cycle, it is considered that it would have finished sitting on an object
         this.mouse.hoveringElement = false;
     },
+    /**
+     * **Finish current scene**
+     * 
+     * Ends the scene that is currently running. This method can be carried out because
+     * the scene is always stored in the general variable of the interval
+     * @returns {void}
+     * @function
+     * @public
+     */
     finishCurrentScene: function(){
+        //Cancel the main interval
         cancelAnimationFrame(interval);
     }
 } 
@@ -444,7 +457,7 @@ class FJSscene {
      * @public
      */
     finish(){
-        //Cancel the animation with the interval
+        //Cancels the interval, associated with the animation
         cancelAnimationFrame(interval);
     }
 } 
@@ -773,7 +786,7 @@ const FJScolor = {
  * Therefore, it is important to mention that the objects like checkboxes,
  * buttons, etc., extend this class.
  * @author JuanGV
- * @version 1.0.0.0
+ * @version 1.0.0
  * @name FJScontroller
  * @license MIT
  */
@@ -810,6 +823,9 @@ class FJScontroller {
      * @param {function} onHover Function when mouse hover object
      * @param {function} onPressed Function when mouse press object
      * @param {function} onClick Function when mouse click the object
+     * @param {boolean} cursorPointer Boolean indicating whether to use the cursor pointer style
+     * @param {boolean} disabled Sets the enabled state of the button
+     * @constructor
      */
     constructor(x, y, draw, onHover, onPressed, onClick, cursorPointer = false, disabled = false){
         /**
@@ -826,6 +842,7 @@ class FJScontroller {
          */
         this.y = y;
 
+        //Cursor style if hovered and object is enabled
         this.useCursorPointer = cursorPointer;
         this.disabled = disabled;
 
@@ -843,14 +860,18 @@ class FJScontroller {
     }
 
     /**
+     * **Draw object**
+     * 
      * Method to draw the button on the canvas, will execute the function
      * that the user passed to it in the constructor. This method avoids
      * that two layers are superimposed on each other, giving rise to shapes
      * pixelated or not smooth.
+     * @returns {void}
+     * @function
      * @public
      */
     draw(){
-        //When the mouse is over the object
+        //When the mouse is over the object and is not disabled
         if(this.hover() && !this.disabled){
             //Tells the main class that an object is being hovered over
             FJSscreen.mouse.hoveringElement = this.useCursorPointer;
@@ -864,13 +885,18 @@ class FJScontroller {
     }
 
     /**
+     * **Update object**
+     * 
      * Method to check clicks on the button. In case the mouse is hovering
      * and a click is detected, the onClick method is executed. Important
      * to mention that when clicking on the object, the click will be
-     * automatically cancelled.
+     * automatically cancelled
+     * @returns {void}
+     * @function
      * @public
      */
     update(){
+        //When the mouse is clicking, it is over the object and the object is not disabled
         if(this.hover() && FJSscreen.mouse.click && !this.disabled){
             //Execute function click
             this.click();
@@ -880,6 +906,8 @@ class FJScontroller {
     }
 
     /**
+     * **Hover**
+     * 
      * Function used to check if the mouse is hovering over the object
      * @returns {boolean} Boolean indicating if the mouse is sitting on the object
      * @public
@@ -894,11 +922,31 @@ class FJScontroller {
         );
     }
 
+    /**
+     * **Enabled**
+     * 
+     * Returns whether the object is enabled or not, returns the
+     * opposite value of the original disabled attribute
+     * @returns {boolean} True if not disabled, false otherwise
+     * @function
+     * @public
+     */
     get enabled(){
+        //Returns the opposite value of the original attribute
         return !this.disabled;
     }
 
+    /**
+     * **Enabled**
+     * 
+     * Sets if the object is enabled or not, sets the value opposite
+     * of the parameter passed over to the original, which is disabled
+     * @returns {void}
+     * @function
+     * @public
+     */
     set enabled(enabled){
+        //Sets the value to the opposite of the one passed by parameter
         this.disabled = !enabled;
     }
 } 
@@ -940,8 +988,11 @@ class FJSbutton extends FJScontroller {
     }
 
     /**
+     * **Get width**
+     * 
      * Returns the width of the object
      * @returns {number} Width in pixels
+     * @function
      * @public
      */
     getWidth(){
@@ -950,8 +1001,11 @@ class FJSbutton extends FJScontroller {
     }
 
     /**
+     * **Get height**
+     * 
      * Returns the height of the object
      * @returns {number} Height in pixels
+     * @function
      * @public
      */
     getHeight(){
@@ -960,8 +1014,11 @@ class FJSbutton extends FJScontroller {
     }
 
     /**
+     * **Set width**
+     * 
      * Method to change the width of the object, there is no default value
      * @param {number} width Width in pixels
+     * @function
      * @public
      */
     setWidth(width){
@@ -970,8 +1027,11 @@ class FJSbutton extends FJScontroller {
     }
 
     /**
+     * **Set height**
+     * 
      * Method to change the height of the object, there is no default value
      * @param {number} height Height in pixels
+     * @function
      * @public
      */
     setHeight(height){
@@ -1076,6 +1136,8 @@ class FJSprogress {
 } 
  
 /**
+ * **Tile**
+ * 
  * Class to handle with a single tile, i.e. an image without a grid.
  * It is useful if you are not going to use packages of sprites and
  * you are going to print a simple image
@@ -1086,19 +1148,21 @@ class FJSprogress {
  */
 class FJStile {
     /**
+     * **Constructor**
+     * 
      * Loads the image automatically, and executes a possible switch
      * when the image has been loaded. It is useful for triggering
      * actions likestart the game once the data has been loaded
-     * @param {*} data - A dictionary with events and the path of the image, etc
+     * @param {*} data - A dictionary with events and the path of the image, etc. It may just be the path
      * @constructor
      */
     constructor(data){
+        //Dictionary to save possible data
         let temporalData = {};
-        if(typeof data === "object" && data !== null && Object.keys(data).length > 0){
-            temporalData = data;
-        } else {
-            temporalData.path = data;
-        }
+        
+        //If the object is of the dictionary type, save the data in the temporary variable
+        if(typeof data === "object" && data !== null && Object.keys(data).length > 0) temporalData = data;
+        else temporalData.path = data; //Creating the path key
         
         //It will save a possible load function and the tile
         this.onLoad = temporalData.onLoad || function(){};
@@ -1116,6 +1180,8 @@ class FJStile {
     }
     
     /**
+     * **Draw**
+     * 
      * Draw the tile that was originally loaded from the constructor.
      * Not to be confused as a tileset. Draw the image directly.
      * Parameters are all default. The coordinates to 0 and the
@@ -1134,25 +1200,68 @@ class FJStile {
     }
 } 
  
+/**
+ * **Tile with rotation**
+ * 
+ * Class to host a tile with rotation. Unlike class simple drawing
+ * of a tile, this will have to indicate the angle of rotation at
+ * the beginning of the drawing parameters
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJStileRotation
+ * @license MIT
+ */
 class FJStileRotation {
+    /**
+     * **Constructor**
+     * 
+     * Loads the image automatically, and executes a possible switch
+     * when the image has been loaded. It is useful for triggering
+     * actions likestart the game once the data has been loaded
+     * @param {*} data - A dictionary with events and the path of the image, etc. It may just be the path
+     * @constructor
+     */
     constructor(data){
-        //Guardará una posible función de carga y el tile
+        //Dictionary to save possible data
+        let temporalData = {};
+        
+        //If the object is of the dictionary type, save the data in the temporary variable
+        if(typeof data === "object" && data !== null && Object.keys(data).length > 0) temporalData = data;
+        else temporalData.path = data; //Creating the path key
+
+        //It will save a possible load function
         this.onLoad = data.onLoad || function(){};
 
-        //Cargará la imagen
+        //Load the image
         this.tile = new Image();
-        //Función para cuando termine la carga
+        //Function for when the charge is finished
         this.tile.onload = () => {
             this.width = this.tile.width;
             this.height = this.tile.height;
             this.onLoad();
         };
-        //Ruta del tile
+        //Tile path and angle
         this.tile.src = data.path || data.src;
         this.angle = 0;
     }
 
+    /**
+     * **Draw**
+     * 
+     * Draws the chart on the canvas with a past rotation
+     * by parameter. Its default value is 0, although it is
+     * recommended to specify a value
+     * @param {number} [angle=0] - Angle of rotation, value not translated with Math.PI
+     * @param {number} [x=0] - Location on the X axis
+     * @param {number} [y=0] - Location on the Y axis
+     * @param {number} [width=this.width] - Tile width on canvas
+     * @param {number} [height=this.height] - Tile height on canvas
+     * @returns {void}
+     * @function
+     * @public
+     */
     draw(angle=0, x=0, y=0, width=this.width, height=this.height){
+        //Draw the image on the canvas with an angle
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(this.angle);
@@ -1161,40 +1270,61 @@ class FJStileRotation {
     }
 } 
  
+/**
+ * **Tileset**
+ * 
+ * Class to handle with sets of tiles. what will they be
+ * concentrated in the same image. To perform rotations
+ * with a specific sprite, you must use the class
+ * but with suffix Rotation
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJStileset
+ * @license MIT
+ */
 class FJStileset {
+    /**
+     * **Constructor**
+     * 
+     * Directly load the image in an own variable. When the image
+     * has been loaded, it will execute a callback function. Unlike
+     * the other classes to draw images, here it is mandatory to pass a
+     * dictionary and not a single parameter
+     * @param {*} data - A dictionary with events, the tiles, and the path
+     * @constructor
+     */
     constructor(data){
-        //Guardará una posible función de carga y los tiles
+        //Will save a possible loading function and tiles
         this.onLoad = data.onLoad || function(){};
         this.tiles = data.tiles;
 
-        //Cargará la imagen
+        //Load the image
         this.tileset = new Image();
-        //Función para cuando termine la carga
+        //Function for when the charge is finished
         this.tileset.onload = () => this.onLoad();
-        //Ruta del tileset
+        //Tileset path
         this.tileset.src = data.path || data.src;
     }
 
     /**
+     * **Draw a tile**
      * 
+     * Draw a tile with a name. It is important to remember that each tile
+     * has associated a name, or an identifier, something at the user's choice
      * @param {string} tileName - Name of the tile to draw
-     * @param {number} x - Location on the X axis of the canvas
-     * @param {number} y - Location on the Y axis of the canvas
-     * @param {number} width - Width of the tile on the canvas
-     * @param {number} height - Tile height on canvas
+     * @param {number} [x=0] - Location on the X axis of the canvas
+     * @param {number} [y=0] - Location on the Y axis of the canvas
+     * @param {number} [width=*] - Width of the tile on the canvas
+     * @param {number} [height=*] - Tile height on canvas
      * @returns {void}
      * @function
      * @public
      */
-    drawTile(tileName, x=0, y=0, width, height){
+    drawTile(tileName, x=0, y=0, width=this.tiles[tileName], height=this.tiles[tileName]){
+        //Capture the tile to draw
         let tile = this.tiles[tileName];
-        ctx.drawImage(
-            this.tileset,
-            tile.x, tile.y,
-            tile.w, tile.h,
-            x, y,
-            width, height
-        );
+        //Draw the image based on the passed data
+        ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, x, y, width, height);
     }
 } 
  
@@ -1255,9 +1385,9 @@ class FJSaudio {
      * 
      * Plays the audio. The audio will not be heard if the user does not
      * previously interact with the screen
-     * @function
      * @returns {void}
      * @throws {Error} If there is an error while playing the audio
+     * @function
      * @public
      */
     play() {
@@ -1280,8 +1410,8 @@ class FJSaudio {
      * Toggles between playing and pausing the audio
      * If the audio is paused, it will play it
      * If the audio is playing, it will pause it
-     * @function
      * @returns {void}
+     * @function
      * @public
      */
     togglePause(){
@@ -1294,8 +1424,8 @@ class FJSaudio {
      * **Stop audio**
      * 
      * Stops the current audio playback and sets the current playback time to 0
-     * @function
      * @returns {void}
+     * @function
      * @public
      */
     stop(){
@@ -1307,8 +1437,8 @@ class FJSaudio {
      * **Replay audio**
      * 
      * Restarts the audio playback from the beginning
-     * @function
      * @returns {void}
+     * @function
      * @public
      */
     replay(){
@@ -1322,9 +1452,9 @@ class FJSaudio {
      * **Change audio**
      * 
      * Method to load a new audio passing its path
-     * @function
      * @returns {void}
      * @param {string} src - The new audio file path
+     * @functions
      * @public
      */
     changeAudio(src){
@@ -1343,6 +1473,7 @@ class FJSaudio {
      * 
      * Returns the original object audio
      * @returns {object} Original object audio
+     * @function
      * @public
      */
     getObject(){
@@ -1366,9 +1497,8 @@ class FJSaudio {
      * **Duration**
      * 
      * Returns the duration of the audio element
-     * @function
      * @returns {number} The duration of the audio in seconds
-     * @property duration
+     * @property {number} duration
      * @public
      */
     get duration(){
@@ -1377,10 +1507,9 @@ class FJSaudio {
     }
 
     /**
-     * **Volume status**
+     * **Volume**
      * 
      * Returns the volume of the audio element
-     * @function
      * @returns {number} The volume, value between 0 and 1
      * @property {number} volume
      * @public
@@ -1391,7 +1520,7 @@ class FJSaudio {
     }
 
     /**
-     * **Volume status**
+     * **Volume**
      * 
      * Sets the volume of the audio object
      * @param {number} volume - The volume level to set. A number between 0 and 1
@@ -1408,7 +1537,7 @@ class FJSaudio {
      * 
      * Gets the muted state of the audio object
      * @function
-     * @returns {boolean} muted state
+     * @returns {boolean} Muted state
      * @property {boolean} muted
      * @public
      */
@@ -1432,13 +1561,15 @@ class FJSaudio {
 } 
  
 /**
+ * **WebSocket**
+ * 
  * Class to create a direct interface with an object of type websocket.
  * Once the constructor is executed, it creates a connection to the
  * server, there is no init method. The objective of the class is to
  * save lines and directly pass the methods action in different
  * situations triggered by the websocket
  * @author JuanGV
- * @version 1.0.0.0
+ * @version 1.0.0
  * @name FJSwebsocket
  * @license MIT
  */
@@ -1451,11 +1582,14 @@ class FJSwebsocket {
     #websocket;
 
     /**
+     * **Constructor**
+     * 
      * Constructor of the object, methods must be passed to it (optional)
      * of the actions in case of receiving a message, when the connection,
      * if it is closed, or if an error is raised. Besides, the user must
      * provide the address of the server.
-     * @param {Array} data server, onMessage, onOpen, onClose, onError
+     * @param {Array} data - server, onMessage, onOpen, onClose, onError
+     * @constructor
      */
     constructor(data){
         //Default actions before possible events with the server
@@ -1478,8 +1612,13 @@ class FJSwebsocket {
     }
 
     /**
+     * **Send data**
+     * 
      * Send data through the connection with the websocket
-     * @param {object} data Data to send
+     * @param {object} data - Data to send
+     * @returns {void}
+     * @function
+     * @public
      */
     send(data){
         //Using its own websocket, send the data passed
@@ -1487,8 +1626,12 @@ class FJSwebsocket {
     }
 
     /**
+     * **Get original websocket**
+     * 
      * Method to obtain the websocket of the connection
      * @returns {object} Returns the main websocket
+     * @function
+     * @public
      */
     getWebsocket(){
         //Returns the shortcut to the websocket
@@ -1496,10 +1639,40 @@ class FJSwebsocket {
     }
 } 
  
+/**
+ * **WebRTC**
+ * 
+ * Class to establish a communication channel between two clients,
+ * considered as peer to peer connections. The receiving user has
+ * to send a verification code and vice versa, to complete the
+ * connection between both points. IMPORTANT: this class is found
+ * under development and may still bring bugs or need improvements
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJSwebrtc
+ * @license MIT
+ */
 class FJSwebrtc {
+    /**
+     * **Constructor**
+     * 
+     * Sets the object to handle with WebRTC connections. It will be passed
+     * by parameter the callback functions when a trigger is triggered
+     * action, and will be processed from those methods
+     * @param {Array} data - onMessage
+     * @constructor
+     */
     constructor(data){
+        //Callback functions
+        this.onMessage = data.onMessage;
+        this.onClientConnected = data.onClientConnected;
+        this.onYouConnected = data.onYouConnected;
+
+        //The channel is initially null and the servers can be those indicated by the user or one by default
         this.channel = null;
         this.servers = data.servers || "stun:stun.l.google.com:19302";
+
+        //Creates the connection to the servers and a function for when a data channel is created on the connection
         this.connection = new RTCPeerConnection({iceServers: [{urls: this.servers}]});
         this.connection.ondatachannel = (event) => {
             //Save the channel;
@@ -1507,20 +1680,27 @@ class FJSwebrtc {
             //Action to take when the offer recipient receives a message
             this.channel.onmessage = (event) => this.onMessage(event.data);
         };
+        //Cuando el usuario se ha conectado
         this.connection.onconnectionstatechange = (event) => {
             document.getElementById('connectionState').innerText = this.connection.connectionState;
         };
+        //Cuando tu te has conectado
         this.connection.oniceconnectionstatechange = (event) => {
             document.getElementById('iceConnectionState').innerText = this.connection.iceConnectionState;
         };
-        this.onMessage = data.onMessage;
+        
     }
 
     /**
+     * **Accept remote offer**
+     * 
      * Method that accepts an offer. If the value is in string, converts it to
      * JSON, otherwise return it in the variable. use this method
      * to accept a remote call and to receive the answer.
-     * @param {data} data Offer value, can be string or JSON
+     * @param {data} data - Offer value, can be string or JSON
+     * @returns {void}
+     * @function
+     * @public
      */
     async acceptRemoteOffer(data){
         //Check the value and cast it if necessary
@@ -1529,21 +1709,31 @@ class FJSwebrtc {
         await this.connection.setRemoteDescription(jsonData)
     }
 
+    /**
+     * **Create offer**
+     * 
+     * Method used to create an offer and send it to the customer to check
+     * the connection, this process will also be done by the other client
+     * @returns {void}
+     * @function
+     * @public
+     */
     async createOffer(){
         //Create a channel and set an action for the offer sender when they receive a message
         this.channel = this.connection.createDataChannel("data");
         this.channel.onmessage = (event) => this.onMessage(event.data);
 
+        //Cuando se genera un candidato en la conexión
         this.connection.onicecandidate = (event) => {
-        // console.log('onicecandidate', event)
-        if (!event.candidate) {
-            document.getElementById('createdOffer').value = JSON.stringify(this.connection.localDescription)
-            document.getElementById('createdOffer').hidden = false
-        }
+            //Si el evento no contiene algún candidato
+            if (!event.candidate) {
+                document.getElementById('createdOffer').value = JSON.stringify(this.connection.localDescription)
+                document.getElementById('createdOffer').hidden = false
+            }
         }
 
-        const offer = await this.connection.createOffer()
-        await this.connection.setLocalDescription(offer)
+        //Create an offer with the connection and set it as a local description
+        await this.connection.setLocalDescription(await this.connection.createOffer())
     }
 
     

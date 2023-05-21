@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Game Title</title>
+        <!-- Title and logo -->
+        <title>Title</title>
         <link rel="icon" href="assets/icon.ico">
-        <link rel="stylesheet" href="css/main.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="UTF-8">
 
-        <!-- BASE -->
-        <script src="js/FlangerJS.js"></script>
+        <!-- Settings -->
+        <meta charset="UTF-8" />
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="css/styles.css">
+
+        <!-- Framework -->
+        <script src="../../Flanger.js"></script>
+        <script src="js/FJStheme.js"></script>
+
+        <!-- Scripts -->
+        <script src="js/Settings.js"></script>
+        <script src="js/Classes.js"></script>
+        <script src="js/Utils.js"></script>
         <script src="js/Objects.js"></script>
         <script src="js/Scenes.js"></script>
-        <script src="js/Settings.js"></script>
-        <script src="js/Theme.js"></script>
     </head>
     <body>
         <div class="container">
-            <canvas></canvas>
+            <canvas id="canvasGame"></canvas>
         </div>
         <script>
 
-            //Establishes the main base
-            FJSscreen.init({
-                width: 338,
-                height: 600
-            });
-
-            //Initialize the loading scene
-            loadingScene.init();
-
+            //Launch screen and drivers
+            FJSscreen.init({id:"canvasGame", width:338, height:600});
+            
         </script>
     </body>
 </html>

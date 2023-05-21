@@ -1,12 +1,15 @@
+/* Page */
 body {
-    background-color: black;
+    background-color: #000000;
     margin: 0 auto;
 }
 
+/* HTML, document, and centered container */
 html, body, .container {
     height: 100%;
 }
 
+/* Centered container */
 .container {
     display: -webkit-flexbox;
     display: -ms-flexbox;
@@ -17,4 +20,9 @@ html, body, .container {
     -webkit-align-items: center;
     align-items: center;
     justify-content: center;
+}
+
+/* Canvas styles */
+canvas {
+    border-radius: 12px;
 }

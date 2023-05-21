@@ -1,15 +1,7 @@
 /*
-SCENES
-Paste in this file all the scenes that you are going to use
+    SCENES
+
+    Write here all the scenes that you are going to use in the game.
+    It is recommended that they be written in chronological order,
+    or of execution, although it is not mandatory
 */
-
-let loadingScene = new FJSscene({
-    onRunning: function(){
-        FJSscreen.clear();
-        FJSscreen.drawBackgroundColor("red");
-
-        botonEmpezar.update();
-        botonEmpezar.draw();
-
-    }
-});
