@@ -1,3 +1,4 @@
+/* Page body styles */
 body {
     background-color: #0d1117;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -8,31 +9,43 @@ body {
     margin-bottom: 75px;
 }
 
+/* Dividing line */
 hr {
     margin: 40px 0px;
     border: none;
     border-top: 1px solid rgba(255, 255, 255, .5);
 }
 
+/* Checkboxs */
 .checkbox-form {
     user-select: none;
 }
 
+/* Input of type checkbox */
 input[type=checkbox] {
-    background-color: red;
+    background: #3b3b3b;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    border: 1px solid rgb(240, 246, 252, 0.1);
+    border-radius: 4px;
+    margin: 10px 10px 0px 0px
 }
 
+/* Container of a textarea */
 .textarea-container {
     flex: 1 1 auto;
-
 }
 
+/* Styles for form elements */
 textarea, button, input {
     border: 1px solid rgb(240, 246, 252, 0.1);
     background-color: #21262d;
     border-radius: 6px;
 }
 
+/* Text's box */
 textarea {
     width: 100%;
     resize: none;
@@ -45,6 +58,7 @@ textarea {
     box-sizing: border-box;
 }
 
+/* Buttons, text type inputs, and text boxes */
 button, input[type=text], textarea {
     position: relative;
     font-size: 16px;
@@ -52,6 +66,7 @@ button, input[type=text], textarea {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
 }
 
+/* Buttons */
 button {
     user-select: none;
     font-weight: 500;
@@ -60,47 +75,40 @@ button {
     padding: 5px 16px;
 }
 
+/* Text type inputs */
 input[type=text] {
     padding: 4px 10px;
+    outline: none;
 }
 
+/* When the mouse rests on a button */
 button:hover {
     background-color: #30363d;
     border-color: rgb(240, 246, 252, 0.8)
 }
 
-input[type=text] {
-    outline: none;
-}
-
-input[type=checkbox] {
-    background: #3b3b3b;
-    appearance: none;
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-    border: 1px solid rgb(240, 246, 252, 0.1);
-    border-radius: 4px;
-    margin: 10px 10px 0px 0px
-}
-
+/* When a checkbox type input is selected */
 input[type=checkbox]:checked {
     background-color: rgb(240, 246, 252, 0.8)
 }
 
+/* Styles for a disabled text */
 .disabled-text {
     color: rgba(132, 132, 132, 0.8);
 }
 
+/* Styles for a table, the row, a regular cell, and a header cell */
 table, tr, td, th {
     border-collapse: collapse;
     border: 1px solid rgba(132, 132, 132, 0.8);
 }
 
+/* Table */
 table {
     width: 100%;
 }
 
+/* Normal and header cell */
 td, th {
     padding: 5px;
 }

@@ -1,4 +1,6 @@
 /**
+ * **Tile**
+ * 
  * Class to handle with a single tile, i.e. an image without a grid.
  * It is useful if you are not going to use packages of sprites and
  * you are going to print a simple image
@@ -9,19 +11,21 @@
  */
 class FJStile {
     /**
+     * **Constructor**
+     * 
      * Loads the image automatically, and executes a possible switch
      * when the image has been loaded. It is useful for triggering
      * actions likestart the game once the data has been loaded
-     * @param {*} data - A dictionary with events and the path of the image, etc
+     * @param {*} data - A dictionary with events and the path of the image, etc. It may just be the path
      * @constructor
      */
     constructor(data){
+        //Dictionary to save possible data
         let temporalData = {};
-        if(typeof data === "object" && data !== null && Object.keys(data).length > 0){
-            temporalData = data;
-        } else {
-            temporalData.path = data;
-        }
+        
+        //If the object is of the dictionary type, save the data in the temporary variable
+        if(typeof data === "object" && data !== null && Object.keys(data).length > 0) temporalData = data;
+        else temporalData.path = data; //Creating the path key
         
         //It will save a possible load function and the tile
         this.onLoad = temporalData.onLoad || function(){};
@@ -39,6 +43,8 @@ class FJStile {
     }
     
     /**
+     * **Draw**
+     * 
      * Draw the tile that was originally loaded from the constructor.
      * Not to be confused as a tileset. Draw the image directly.
      * Parameters are all default. The coordinates to 0 and the
