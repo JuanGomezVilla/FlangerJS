@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Title and logo -->
+        <title>Random Blocks</title>
+        <link rel="icon" href="assets/icon.ico">
+
+        <!-- Settings -->
+        <meta charset="UTF-8" />
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="css/styles.css">
+
+        <!-- Framework -->
+        <script src="../../Flanger.js"></script>
+        <script src="js/FJStheme.js"></script>
+
+        <!-- Scripts -->
+        <script src="js/Settings.js"></script>
+        <script src="js/Classes.js"></script>
+        <script src="js/Utils.js"></script>
+        <script src="js/Objects.js"></script>
+        <script src="js/Scenes.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <canvas id="canvasGame"></canvas>
+        </div>
+        <script>
+
+            //Launch screen and drivers
+            FJSscreen.init({id:"canvasGame", width:338, height:600});
+
+            //Player
+            let player = {
+                x: 338/2-25,
+                y: 500,
+                width: 50,
+                height: 50,
+                speed: 3,
+                update: function(){
+                    if(FJSscreen.keyboard.a && this.x > 0) this.x -= this.speed;
+                    if(FJSscreen.keyboard.d && this.x < FJSscreen.width - this.width) this.x += this.speed;
+
+                    enemies.forEach((enemy) => {
+                        if(this.crashWith(enemy)) Utils.finishSinglePlayerGame();
+                    });
+                },
+                draw: function(){
+                    FJSutils.fillRect(this.x, this.y, this.width, this.height);
+                },
+                crashWith: function(gameObject){
+                    return !(
+                        (this.y + this.height < gameObject.y) ||
+                        (this.y > gameObject.y + gameObject.height) ||
+                        (this.x + this.width < gameObject.x) ||
+                        (this.x > gameObject.x + gameObject.width)
+                    );
+                },
+                reset: function(){
+                    this.x = FJSscreen.getCentralPointX() - 25;
+                    this.y = 500;
+                    this.width = 50;
+                    this.height = 50;
+                    this.speed = 3;
+                }
+            };
+            
+            //Start the game scene
+            let logoSprite = new FJStile({
+                src:"assets/logo.png",
+                onLoad: function(){
+                    //singlePlayerScene.init();
+                }
+            });
+            
+        </script>
+    </body>
+</html>

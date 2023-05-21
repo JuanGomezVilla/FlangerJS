@@ -16,8 +16,15 @@ class FJStile {
      * @constructor
      */
     constructor(data){
+        let temporalData = {};
+        if(typeof data === "object" && data !== null && Object.keys(data).length > 0){
+            temporalData = data;
+        } else {
+            temporalData.path = data;
+        }
+        
         //It will save a possible load function and the tile
-        this.onLoad = data.onLoad || function(){};
+        this.onLoad = temporalData.onLoad || function(){};
         //Load the image
         this.tile = new Image();
         //Function for when the charge is finished
@@ -28,9 +35,9 @@ class FJStile {
             this.onLoad();
         };
         //Tile path
-        this.tile.src = data.path || data.src;
+        this.tile.src = temporalData.path || temporalData.src;
     }
-
+    
     /**
      * Draw the tile that was originally loaded from the constructor.
      * Not to be confused as a tileset. Draw the image directly.

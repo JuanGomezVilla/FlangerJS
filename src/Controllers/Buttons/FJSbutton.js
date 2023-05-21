@@ -18,7 +18,7 @@ class FJSbutton extends FJScontroller {
      */
     constructor(data){
         //Super to pass the data to the parent constructor
-        super(data.x, data.y, data.draw, data.onHover, data.onPressed, data.onClick, true);
+        super(data.x, data.y, data.draw, data.onHover, data.onPressed, data.onClick, true, false);
         /**
          * Width in pixels
          * @type {number}
@@ -35,8 +35,11 @@ class FJSbutton extends FJScontroller {
     }
 
     /**
+     * **Get width**
+     * 
      * Returns the width of the object
      * @returns {number} Width in pixels
+     * @function
      * @public
      */
     getWidth(){
@@ -45,8 +48,11 @@ class FJSbutton extends FJScontroller {
     }
 
     /**
+     * **Get height**
+     * 
      * Returns the height of the object
      * @returns {number} Height in pixels
+     * @function
      * @public
      */
     getHeight(){
@@ -55,8 +61,11 @@ class FJSbutton extends FJScontroller {
     }
 
     /**
+     * **Set width**
+     * 
      * Method to change the width of the object, there is no default value
      * @param {number} width Width in pixels
+     * @function
      * @public
      */
     setWidth(width){
@@ -65,8 +74,11 @@ class FJSbutton extends FJScontroller {
     }
 
     /**
+     * **Set height**
+     * 
      * Method to change the height of the object, there is no default value
      * @param {number} height Height in pixels
+     * @function
      * @public
      */
     setHeight(height){

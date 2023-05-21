@@ -23,11 +23,11 @@ let FJSscreen = {
      * @property {boolean} isHoveringElement - Possibility of being on an object, default false
     */
     mouse: {
-        x: 0, //Coordinates on the X axis
-        y: 0, //Coordinates on the Y axis
+        x: -999, //Coordinates on the X axis
+        y: -999, //Coordinates on the Y axis
         click: false, //Click control, single press
         pressed: false, //Pressure control, long press
-        isHoveringElement: false //Possibility of being on an object
+        hoveringElement: false //Possibility of being on an object
     },
     /**
      * Object representing a fade effect
@@ -63,7 +63,7 @@ let FJSscreen = {
          * @function
          * @public
          */
-        begin: function(r=0, g=0, b=0, callback=function(){}){
+        init: function(r=0, g=0, b=0, callback=function(){}){
             this.reset(); //Reset values
             this.r = r; //Sets the red value
             this.g = g; //Sets the green value
@@ -85,6 +85,8 @@ let FJSscreen = {
             this.running = false;
             //Hide the fade layer with transparency at 0
             this.transparency = 0;
+            //Resets the speed
+            this.speed = 0.01;
         }  
     },
     /**
@@ -335,8 +337,11 @@ let FJSscreen = {
         //Cancel mouse click
         this.cancelClick();
         //Changes the mouse icon if it was resting on an object
-        canvas.style.cursor = this.mouse.isHoveringElement ? "pointer" : "default";
+        canvas.style.cursor = this.mouse.hoveringElement ? "pointer" : "default";
         //At the end of the cycle, it is considered that it would have finished sitting on an object
-        this.mouse.isHoveringElement = false;
+        this.mouse.hoveringElement = false;
+    },
+    finishCurrentScene: function(){
+        cancelAnimationFrame(interval);
     }
 }

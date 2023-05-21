@@ -4,7 +4,7 @@
  * Therefore, it is important to mention that the objects like checkboxes,
  * buttons, etc., extend this class.
  * @author JuanGV
- * @version 1.0.0.0
+ * @version 1.0.0
  * @name FJScontroller
  * @license MIT
  */
@@ -41,8 +41,11 @@ class FJScontroller {
      * @param {function} onHover Function when mouse hover object
      * @param {function} onPressed Function when mouse press object
      * @param {function} onClick Function when mouse click the object
+     * @param {boolean} cursorPointer Boolean indicating whether to use the cursor pointer style
+     * @param {boolean} disabled Sets the enabled state of the button
+     * @constructor
      */
-    constructor(x, y, draw, onHover, onPressed, onClick, cursorPointer = false){
+    constructor(x, y, draw, onHover, onPressed, onClick, cursorPointer = false, disabled = false){
         /**
          * Coordinates on the X axis
          * @type {number}
@@ -57,7 +60,9 @@ class FJScontroller {
          */
         this.y = y;
 
+        //Cursor style if hovered and object is enabled
         this.useCursorPointer = cursorPointer;
+        this.disabled = disabled;
 
         //Set the private attributes
         this.#drawMethod = draw || function(){};
@@ -73,17 +78,21 @@ class FJScontroller {
     }
 
     /**
+     * **Draw object**
+     * 
      * Method to draw the button on the canvas, will execute the function
      * that the user passed to it in the constructor. This method avoids
      * that two layers are superimposed on each other, giving rise to shapes
      * pixelated or not smooth.
+     * @returns {void}
+     * @function
      * @public
      */
     draw(){
-        //When the mouse is over the object
-        if(this.hover()){
+        //When the mouse is over the object and is not disabled
+        if(this.hover() && !this.disabled){
             //Tells the main class that an object is being hovered over
-            FJSscreen.mouseHoveringElement = this.useCursorPointer;
+            FJSscreen.mouse.hoveringElement = this.useCursorPointer;
             //If the mouse is being pressed, execute onPressed, otherwise onHover
             if(FJSscreen.mouse.pressed) this.#onPressed();
             else this.#onHover();
@@ -94,14 +103,19 @@ class FJScontroller {
     }
 
     /**
+     * **Update object**
+     * 
      * Method to check clicks on the button. In case the mouse is hovering
      * and a click is detected, the onClick method is executed. Important
      * to mention that when clicking on the object, the click will be
-     * automatically cancelled.
+     * automatically cancelled
+     * @returns {void}
+     * @function
      * @public
      */
     update(){
-        if(this.hover() && FJSscreen.mouse.click){
+        //When the mouse is clicking, it is over the object and the object is not disabled
+        if(this.hover() && FJSscreen.mouse.click && !this.disabled){
             //Execute function click
             this.click();
             //Cancel the click
@@ -110,6 +124,8 @@ class FJScontroller {
     }
 
     /**
+     * **Hover**
+     * 
      * Function used to check if the mouse is hovering over the object
      * @returns {boolean} Boolean indicating if the mouse is sitting on the object
      * @public
@@ -122,5 +138,33 @@ class FJScontroller {
             (this.x + (this.width) < FJSscreen.mouse.x) ||
             (this.x > FJSscreen.mouse.x)
         );
+    }
+
+    /**
+     * **Enabled**
+     * 
+     * Returns whether the object is enabled or not, returns the
+     * opposite value of the original disabled attribute
+     * @returns {boolean} True if not disabled, false otherwise
+     * @function
+     * @public
+     */
+    get enabled(){
+        //Returns the opposite value of the original attribute
+        return !this.disabled;
+    }
+
+    /**
+     * **Enabled**
+     * 
+     * Sets if the object is enabled or not, sets the value opposite
+     * of the parameter passed over to the original, which is disabled
+     * @returns {void}
+     * @function
+     * @public
+     */
+    set enabled(enabled){
+        //Sets the value to the opposite of the one passed by parameter
+        this.disabled = !enabled;
     }
 }

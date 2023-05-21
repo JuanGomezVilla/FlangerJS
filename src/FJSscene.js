@@ -52,6 +52,10 @@ class FJSscene {
         this.#update();
     }
 
+    togglePause(){
+        this.pause = !this.pause
+    }
+
     /**
      * **Updates the scene**
      * 
@@ -66,20 +70,20 @@ class FJSscene {
         interval = requestAnimationFrame(() => this.#update());
         
         //Capture current time value
-        let now = Date.now();
+        //let now = Date.now();
 
         //Calculate the time between the obtained and the later
-        let delta = now - this.then;
+        //let delta = now - this.then;
 
         //If the calculated value is greater than the fps interval, run the function
-        if(delta > FJSscreen.fpsInterval){
+        //if(delta > FJSscreen.fpsInterval){
             //Calculate post time from fps
-            this.then = now - (delta % FJSscreen.fpsInterval);
+            //this.then = now - (delta % FJSscreen.fpsInterval);
             //Execute the update method
             this.#updateMethod();
             //The representation cycle ends
             FJSscreen.finishCicle();
-        }
+        //}
     }
 
     /**
