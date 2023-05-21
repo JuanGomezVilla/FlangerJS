@@ -91,3 +91,16 @@ input[type=checkbox]:checked {
 .disabled-text {
     color: rgba(132, 132, 132, 0.8);
 }
+
+table, tr, td, th {
+    border-collapse: collapse;
+    border: 1px solid rgba(132, 132, 132, 0.8);
+}
+
+table {
+    width: 100%;
+}
+
+td, th {
+    padding: 5px;
+}

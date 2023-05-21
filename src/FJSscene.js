@@ -96,7 +96,7 @@ class FJSscene {
      * @public
      */
     finish(){
-        //Cancel the animation with the interval
+        //Cancels the interval, associated with the animation
         cancelAnimationFrame(interval);
     }
 }

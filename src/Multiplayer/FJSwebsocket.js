@@ -1,11 +1,13 @@
 /**
+ * **WebSocket**
+ * 
  * Class to create a direct interface with an object of type websocket.
  * Once the constructor is executed, it creates a connection to the
  * server, there is no init method. The objective of the class is to
  * save lines and directly pass the methods action in different
  * situations triggered by the websocket
  * @author JuanGV
- * @version 1.0.0.0
+ * @version 1.0.0
  * @name FJSwebsocket
  * @license MIT
  */
@@ -18,11 +20,14 @@ class FJSwebsocket {
     #websocket;
 
     /**
+     * **Constructor**
+     * 
      * Constructor of the object, methods must be passed to it (optional)
      * of the actions in case of receiving a message, when the connection,
      * if it is closed, or if an error is raised. Besides, the user must
      * provide the address of the server.
-     * @param {Array} data server, onMessage, onOpen, onClose, onError
+     * @param {Array} data - server, onMessage, onOpen, onClose, onError
+     * @constructor
      */
     constructor(data){
         //Default actions before possible events with the server
@@ -45,8 +50,13 @@ class FJSwebsocket {
     }
 
     /**
+     * **Send data**
+     * 
      * Send data through the connection with the websocket
-     * @param {object} data Data to send
+     * @param {object} data - Data to send
+     * @returns {void}
+     * @function
+     * @public
      */
     send(data){
         //Using its own websocket, send the data passed
@@ -54,8 +64,12 @@ class FJSwebsocket {
     }
 
     /**
+     * **Get original websocket**
+     * 
      * Method to obtain the websocket of the connection
      * @returns {object} Returns the main websocket
+     * @function
+     * @public
      */
     getWebsocket(){
         //Returns the shortcut to the websocket

@@ -16,8 +16,8 @@ let FJSscreen = {
     /**
      * Object representing a fade effect
      * @namespace
-     * @property {number} x - Coordinates on the X axis, default 0
-     * @property {number} y - Coordinates on the Y axis, default 0
+     * @property {number} x - Coordinates on the X axis, default 0 (high value to avoid initial wrong hovers)
+     * @property {number} y - Coordinates on the Y axis, default 0 (high value to avoid initial wrong hovers)
      * @property {boolean} click - Click control, single press, default false
      * @property {boolean} pressed - Pressure control, long press, default false
      * @property {boolean} isHoveringElement - Possibility of being on an object, default false
@@ -265,7 +265,7 @@ let FJSscreen = {
      * **Clear the screen**
      * 
      * Clean all the content on the screen. Call the beginning of each loop.
-     * By default, it is used by the FJSscene class.
+     * By default, it is used by the FJSscene class
      * @returns {void}
      * @function
      * @public
@@ -279,7 +279,7 @@ let FJSscreen = {
      * 
      * Draws the background color of the screen. The user must provide a
      * color, as a string, within the list of supported formats
-     * @param {string} color 
+     * @param {string} color - Background color
      * @returns {void}
      * @function
      * @public
@@ -308,7 +308,10 @@ let FJSscreen = {
      * *Ends a render cycle**
      * 
      * Function called at the end of each rendering cycle, is used to control the
-     * mouse, possible effects like fade, or cursor icon
+     * mouse, possible effects like fade, or cursor icon, etc
+     * @returns {void}
+     * @function
+     * @public
      */
     finishCicle: function(){
         //Capture the fade to avoid calling it constantly
@@ -341,7 +344,17 @@ let FJSscreen = {
         //At the end of the cycle, it is considered that it would have finished sitting on an object
         this.mouse.hoveringElement = false;
     },
+    /**
+     * **Finish current scene**
+     * 
+     * Ends the scene that is currently running. This method can be carried out because
+     * the scene is always stored in the general variable of the interval
+     * @returns {void}
+     * @function
+     * @public
+     */
     finishCurrentScene: function(){
+        //Cancel the main interval
         cancelAnimationFrame(interval);
     }
 }

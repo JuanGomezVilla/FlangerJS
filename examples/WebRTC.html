@@ -1,76 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>webrtc</title>
-    <script src="FJSwebrtc.js"></script>
-  </head>
-  <body>
-    <script>
+    <head>
+        <title>FlangerJS - WebRTC</title>
+        <meta charset="UTF-8" />
+        <script src="../src/Multiplayer/FJSwebrtc.js"></script>
+        <link rel="stylesheet" href="../assets/styles.css">
+    </head>
+    <body>
+        <script>
 
-        var canal = new FJSwebrtc({
-            onMessage: function(mensaje){
-                alert(mensaje);
-            }
-        });
+            let channelWebRTC = new FJSwebrtc({
+                onMessage: function(mensaje){
+                    alert(mensaje);
+                }
+            });
 
-    </script>
-
-    <table width="100%" border="1">
-      <tr>
-        <th>#</th>
-        <th>initiator</th>
-        <th>peer</th>
-      </tr>
-      <tr>
-        <td>step 1</td>
-        <td>
-          <input type="button" value="create offer" onclick="canal.createOffer()" />
-          <input id="createdOffer" type="text" hidden />
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>step 2</td>
-        <td></td>
-        <td>
-          <input id="remoteOffer" type="text" placeholder="offer from initiator" />
-          <input type="button" value="accept offer" onclick="canal.acceptRemoteOffer(remoteOffer.value)" />
-        </td>
-      </tr>
-      <tr>
-        <td>step 3</td>
-        <td></td>
-        <td>
-          <input type="button" value="create answer" onclick="canal.createAnswer()" />
-          <input id="createdAnswer" type="text" hidden />
-        </td>
-      </tr>
-      <tr>
-        <td>step 4</td>
-        <td>
-          <input id="remoteAnswer" type="text" placeholder="answer from peer" />
-          <input type="button" value="accept answer" onclick="canal.acceptRemoteOffer(remoteAnswer.value)" />
-        </td>
-        <td></td>
-      </tr>
-    </table>
-    <hr />
-    <input id="text" type="text" />
-    <input type="button" value="send" onclick="canal.sendData(text.value)" />
-    <hr />
-    <table border="1">
-      <tr>
-        <th colspan="2">connection</th>
-      </tr>
-      <tr>
-        <th>connectionState</th>
-        <td id="connectionState">unknown</td>
-      </tr>
-      <tr>
-        <th>iceConnectionState</th>
-        <td id="iceConnectionState">unknown</td>
-      </tr>
-    </table>
-  </body>
+        </script>
+        <h1>FlangerJS - WebRTC</h1>
+        <table>
+            <tr>
+                <th>Steps</th>
+                <th>Initiator</th>
+                <th>Peer</th>
+            </tr>
+            <tr>
+                <td style="text-align: center;">1</td>
+                <td>
+                    <button onclick="channelWebRTC.createOffer()">Create offer</button>
+                    <input id="createdOffer" type="text" onclick="this.select()" hidden />
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">2</td>
+                <td></td>
+                <td>
+                    <input id="remoteOffer" type="text" placeholder="Offer from initiator..." onclick="this.select()" />
+                    <button onclick="channelWebRTC.acceptRemoteOffer(remoteOffer.value)">Accept offer</button>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">3</td>
+                <td></td>
+                <td>
+                    <button onclick="channelWebRTC.createAnswer()">Create answer</button>
+                    <input id="createdAnswer" type="text" onclick="this.select()" hidden />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">4</td>
+                <td>
+                    <input id="remoteAnswer" type="text" placeholder="Answer from peer..." />
+                    <button onclick="channelWebRTC.acceptRemoteOffer(remoteAnswer.value)">Accept answer</button>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <hr>
+        <input id="text" type="text" placeholder="Message..." />
+        <button onclick="channelWebRTC.sendData(text.value)">Send</button>
+        <hr>
+        <table style="width: min-content;">
+            <tr>
+                <th colspan="2">connection</th>
+            </tr>
+            <tr>
+                <th>connectionState</th>
+                <td id="connectionState">unknown</td>
+            </tr>
+            <tr>
+                <th>iceConnectionState</th>
+                <td id="iceConnectionState">unknown</td>
+            </tr>
+        </table>
+    </body>
 </html>

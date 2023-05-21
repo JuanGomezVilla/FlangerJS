@@ -55,9 +55,9 @@ class FJSaudio {
      * 
      * Plays the audio. The audio will not be heard if the user does not
      * previously interact with the screen
-     * @function
      * @returns {void}
      * @throws {Error} If there is an error while playing the audio
+     * @function
      * @public
      */
     play() {
@@ -80,8 +80,8 @@ class FJSaudio {
      * Toggles between playing and pausing the audio
      * If the audio is paused, it will play it
      * If the audio is playing, it will pause it
-     * @function
      * @returns {void}
+     * @function
      * @public
      */
     togglePause(){
@@ -94,8 +94,8 @@ class FJSaudio {
      * **Stop audio**
      * 
      * Stops the current audio playback and sets the current playback time to 0
-     * @function
      * @returns {void}
+     * @function
      * @public
      */
     stop(){
@@ -107,8 +107,8 @@ class FJSaudio {
      * **Replay audio**
      * 
      * Restarts the audio playback from the beginning
-     * @function
      * @returns {void}
+     * @function
      * @public
      */
     replay(){
@@ -122,9 +122,9 @@ class FJSaudio {
      * **Change audio**
      * 
      * Method to load a new audio passing its path
-     * @function
      * @returns {void}
      * @param {string} src - The new audio file path
+     * @functions
      * @public
      */
     changeAudio(src){
@@ -143,6 +143,7 @@ class FJSaudio {
      * 
      * Returns the original object audio
      * @returns {object} Original object audio
+     * @function
      * @public
      */
     getObject(){
@@ -166,9 +167,8 @@ class FJSaudio {
      * **Duration**
      * 
      * Returns the duration of the audio element
-     * @function
      * @returns {number} The duration of the audio in seconds
-     * @property duration
+     * @property {number} duration
      * @public
      */
     get duration(){
@@ -177,10 +177,9 @@ class FJSaudio {
     }
 
     /**
-     * **Volume status**
+     * **Volume**
      * 
      * Returns the volume of the audio element
-     * @function
      * @returns {number} The volume, value between 0 and 1
      * @property {number} volume
      * @public
@@ -191,7 +190,7 @@ class FJSaudio {
     }
 
     /**
-     * **Volume status**
+     * **Volume**
      * 
      * Sets the volume of the audio object
      * @param {number} volume - The volume level to set. A number between 0 and 1
@@ -208,7 +207,7 @@ class FJSaudio {
      * 
      * Gets the muted state of the audio object
      * @function
-     * @returns {boolean} muted state
+     * @returns {boolean} Muted state
      * @property {boolean} muted
      * @public
      */
