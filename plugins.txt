@@ -1,7 +1,6 @@
 src\FJSscreen.js
 src\FJSscene.js
 src\FJSutils.js
-src\FJScolor.js
 src\Controllers\FJScontroller.js
 src\Controllers\Buttons\FJSbutton.js
 src\Controllers\Checkboxs\FJScheckbox.js
