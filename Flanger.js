@@ -1041,6 +1041,8 @@ class FJSbutton extends FJScontroller {
 } 
  
 /**
+ * **Checkbox**
+ * 
  * Button class, extends the _FJScontroller_ class, to obtain the objects
  * initials, such as hover, coordinates, and dimensions. If you want to
  * create a more path button, use FJSbuttonPath
@@ -1053,19 +1055,23 @@ class FJSbutton extends FJScontroller {
 class FJScheckbox extends FJScontroller {
     /**
      * 
-     * @param {*} data 
+     * @param {*} data
+     * @constructor
      */
     constructor(data){
+        //Calls the constructor of the extending class
         super(data.x, data.y, () => {
             if(this.checked) this.onChecked();
             else this.drawMethod();
         }, data.onHover, data.onPressed, data.onClick, true);
+        //Text linked to the checkbox
         this.text = data.text;
+        //Value (a value assigned by the user that is not visible on the interface)
         this.value = data.value;
         this.checked = data.checked || false;
-        //Gráfico sin checked, por defecto función vacía
+        //Unchecked graph, default empty function
         this.drawMethod = data.draw || function(){};
-        //Gráfico a dibujar cuando está checked, por defecto el método de dibujo
+        //Draw when checked, default draw method
         this.onChecked = data.onChecked || this.drawMethod;
         /**
          * Width in pixels
@@ -1083,13 +1089,17 @@ class FJScheckbox extends FJScontroller {
     }
 
     /**
-     * Método para comprobar si el checkbox está seleccionado, se puede
-     * acceder a este estado directamente por la variable o por este
-     * método. Utilizado en caso de dudas
-     * @returns {boolean} Verdadero si el checkbox está seleccionado, de lo contrario, falso
+     * **Is checked**
+     * 
+     * Method to check if the checkbox is selected, you can
+     * access this state directly by the variable or by this
+     * method. Used in case of doubt
+     * @returns {boolean} True if the checkbox is selected, false otherwise
+     * @function
+     * @public
      */
     isChecked(){
-        //Captura el estado propio de checked y lo devuelve
+        //Captures the checked status and returns it
         return this.checked;
     }
 } 
@@ -1325,6 +1335,67 @@ class FJStileset {
         let tile = this.tiles[tileName];
         //Draw the image based on the passed data
         ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, x, y, width, height);
+    }
+} 
+ 
+/**
+ * **Tileset (tiles with rotation)**
+ * 
+ * Class to handle with sets of tiles. what will they be
+ * concentrated in the same image. To perform rotations
+ * with a specific sprite, you must use the class
+ * but with suffix Rotation
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJStilesetRotation
+ * @license MIT
+ */
+class FJStilesetRotation {
+    /**
+     * **Constructor**
+     * 
+     * Like the FJStileset class, it loads the image in the same way, the only
+     * difference is the way of drawing, for the angles
+     * @param {*} data - A dictionary with events, the tiles, and the path
+     * @constructor
+     */
+    constructor(data){
+        //Will save a possible loading function and tiles
+        this.onLoad = data.onLoad || function(){};
+        this.tiles = data.tiles;
+
+        //Load the image
+        this.tileset = new Image();
+        //Function for when the charge is finished
+        this.tileset.onload = () => this.onLoad();
+        //Tileset path
+        this.tileset.src = data.path || data.src;
+    }
+
+    /**
+     * **Draw a tile with a rotation**
+     * 
+     * Draw a tile with a name, and with a rotation (angle).
+     * Similar documentation in the class FJStileset. 
+     * @param {string} tileName - Name of the tile to draw
+     * @param {number} [angle=0] - Rotation angle of the tile to draw
+     * @param {number} [x=0] - Location on the X axis of the canvas
+     * @param {number} [y=0] - Location on the Y axis of the canvas
+     * @param {number} [width=*] - Width of the tile on the canvas
+     * @param {number} [height=*] - Tile height on canvas
+     * @returns {void}
+     * @function
+     * @public
+     */
+    drawTile(tileName, angle=0, x=0, y=0, width=this.tiles[tileName], height=this.tiles[tileName]){
+        //Capture the tile to draw
+        let tile = this.tiles[tileName];
+        //Draw the image based on the passed data
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(this.angle);
+        ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, -width / 2, -height / 2, width, height);
+        ctx.restore();
     }
 } 
  
