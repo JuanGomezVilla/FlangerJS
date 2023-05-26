@@ -15,6 +15,7 @@ class FJSbutton extends FJScontroller {
      * Constructor of the object. Receive initial features
      * and the processing methods for user actions.
      * @param {array} data x, y, width, height, draw, onHover, onClick, onPressed
+     * @constructor
      */
     constructor(data){
         //Super to pass the data to the parent constructor

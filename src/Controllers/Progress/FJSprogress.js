@@ -1,40 +1,76 @@
 /**
- * Clase para definir una barra de progreso con las acciones ya
- * implementadas. Se considera como un control de usuario y no
- * de juego por presentarse en la interfaz
+ * **Progress**
+ * 
+ * Class to define a progress bar with the actions already
+ * implemented. It is considered as a user control and not
+ * of game to be presented in the interface. The user has
+ * to define the format of the progress bar
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJSprogress
+ * @license MIT
  */
 class FJSprogress {
+    /**
+     * **Constructor**
+     * 
+     * Constructor of the object. Receives initial data such as location,
+     * dimensions, speed, and callback functions to draw, to end, etc.
+     * @param {array} data x, y, width, height, draw, progress, speed, draw, onFinish
+     * @constructor
+     */
     constructor(data){
-        this.x = data.x; //Ubicación en el eje X
-        this.y = data.y; //Ubicación en el eje Y
-        this.width = data.width; //Ancho del objeto
-        this.height = data.height; //Alto del objeto
-        this.progress = data.progress || 0; //Progreso actual, por defecto 0
-        this.speed = data.speed || 1; //Velocidad de avance, por defecto 1
-        //Función de dibujado. Si el valor no es nulo, le pasará el progreso a la función
-        //En caso de no especificar datos para esta función, le asigna un método vacío
+        this.x = data.x; //Location on the X axis
+        this.y = data.y; //Y-axis location
+        this.width = data.width; //Object width
+        this.height = data.height; //Object height
+        this.progress = data.progress || 0; //Current progress, default 0
+        this.speed = data.speed || 1; //Speed rate, default 1
+        //Draw function. If the value is not null, it will pass the progress to the function
+        //In case of not specifying data for this function, it assigns an empty method
         this.draw = data.draw != null ? () => data.draw(this.progress) : function(){};
-        this.onFinish = data.onFinish || null; //Función de callback para finalizar, por defecto nulo
+        this.onFinish = data.onFinish || null; //Callback function to finish, defaults to null
+        this.finished = false; //Trigger to finish animation
     }
 
     /**
-     * Función de actualización de los datos. Avanzará el
-     * valor del progreso según la velocidad especificada
-     * y al terminar ejecutará una posible función de callback
+     * **Update**
+     * 
+     * Data update function. will advance the value of progress
+     * according to the specified speed and when finished it
+     * will execute a callback function
+     * @returns {void}
+     * @function
+     * @public
      */
     update(){
-        //Comprueba si el progreso es inferior a 100
+        //Check if progress is less than 100
         if(this.progress < 100){
-            //En ese caso, aumenta el progreso según la velocidad fijada
+            //In that case, it increases the progress according to the set speed
             this.progress += this.speed;
-        //Si el método onFinish no es nulo, ejecuta una sola vez el método
-        } else if(this.onFinish != null){
-            //Evita que el valor se vaya de rango por una alta velocidad
+        //If the onFinish method is not null, execute the method once
+        } else if(!this.finished){
+            //Prevents the value from going out of range due to high speed
             this.progress = 100;
-            //Ejecuta el método onFinish
+            //Execute the onFinish method
             this.onFinish();
-            //Anula el valor de dicho método para no ser repetido de nuevo
-            this.onFinish = null;
+            //Activates the trigger to avoid repeat
+            this.finished = true;
         }
+    }
+
+    /**
+     * **Reset values**
+     * 
+     * Method to reset all values, setting the progress to its
+     * value defaults to 0, and the trigger from finished to off
+     * @returns {void}
+     * @function
+     * @public
+     */
+    reset(){
+        //Sets progress to 0 and disables the finished trigger
+        this.progress = 0;
+        this.finished = false;
     }
 }

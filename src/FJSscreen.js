@@ -126,30 +126,41 @@ let FJSscreen = {
         let width = data.width;
         let height = data.height;
 
+        //If the user specifies an aspect ratio
         if(data.aspectRatio != null) {
-            const aspectRatio = data.aspectRatio.split(":", 2);
-            const aspectX = aspectRatio[0];
-            const aspectY = aspectRatio[1];
+            //Obtaining the aspect ratio by separating the two points, and for each axis
+            let aspectRatio = data.aspectRatio.split(":", 2);
+            let aspectX = aspectRatio[0];
+            let aspectY = aspectRatio[1];
 
+            //If the user does not specify any width or height
             if(data.height == null && data.width == null){
+                //Error message and stop
                 console.error("One size parameter must be specified");
                 return;
+            //If there are both values ​​for width and height
             } else if(data.height != null && data.width != null){
+                //Error message and stop
                 console.error("Only one size parameter is allowed");
                 return;
-            } else if(data.height == null){              
-                height = parseInt((data.width * aspectY) / aspectX);
+            //If the width is null
             } else if(data.width == null){
+                //Width calculation
                 width = parseInt((data.height * aspectX) / aspectY);
+            //In case the height value is null
+            } else if(data.height == null){
+                //Height calculation
+                height = parseInt((data.width * aspectY) / aspectX);
             }
         }
 
         //Checking that values ​​for width and height exist
         if(width != null && height != null){
+            //If the aspect ratio is zero
             if(data.aspectRatio == null){
                 //Verify that the data passed are integers
                 if(!Number.isInteger(data.width) || !Number.isInteger(data.height)){
-                    //Error message
+                    //Error message and stop
                     console.error("Width and height must be integers");
                     return;
                 }
@@ -163,6 +174,7 @@ let FJSscreen = {
             canvas.width = this.width;
             canvas.height = this.height;
         } else {
+            //Sets the canvas values
             this.width = canvas.width;
             this.height = canvas.height;
         }

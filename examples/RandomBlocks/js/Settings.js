@@ -2,7 +2,7 @@ let settings = {
     enemies: {
         width: 50,
         height: 50,
-        color: FJScolor.Black,
+        color: "#000000",
         speed: 3
     },
     singlePlayer: {

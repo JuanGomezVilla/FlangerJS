@@ -126,30 +126,41 @@ let FJSscreen = {
         let width = data.width;
         let height = data.height;
 
+        //If the user specifies an aspect ratio
         if(data.aspectRatio != null) {
-            const aspectRatio = data.aspectRatio.split(":", 2);
-            const aspectX = aspectRatio[0];
-            const aspectY = aspectRatio[1];
+            //Obtaining the aspect ratio by separating the two points, and for each axis
+            let aspectRatio = data.aspectRatio.split(":", 2);
+            let aspectX = aspectRatio[0];
+            let aspectY = aspectRatio[1];
 
+            //If the user does not specify any width or height
             if(data.height == null && data.width == null){
+                //Error message and stop
                 console.error("One size parameter must be specified");
                 return;
+            //If there are both values ​​for width and height
             } else if(data.height != null && data.width != null){
+                //Error message and stop
                 console.error("Only one size parameter is allowed");
                 return;
-            } else if(data.height == null){              
-                height = parseInt((data.width * aspectY) / aspectX);
+            //If the width is null
             } else if(data.width == null){
+                //Width calculation
                 width = parseInt((data.height * aspectX) / aspectY);
+            //In case the height value is null
+            } else if(data.height == null){
+                //Height calculation
+                height = parseInt((data.width * aspectY) / aspectX);
             }
         }
 
         //Checking that values ​​for width and height exist
         if(width != null && height != null){
+            //If the aspect ratio is zero
             if(data.aspectRatio == null){
                 //Verify that the data passed are integers
                 if(!Number.isInteger(data.width) || !Number.isInteger(data.height)){
-                    //Error message
+                    //Error message and stop
                     console.error("Width and height must be integers");
                     return;
                 }
@@ -163,6 +174,7 @@ let FJSscreen = {
             canvas.width = this.width;
             canvas.height = this.height;
         } else {
+            //Sets the canvas values
             this.width = canvas.width;
             this.height = canvas.height;
         }
@@ -627,160 +639,6 @@ let FJSutils = {
 } 
  
 /**
- * **Color**
- * 
- * List of colors, extracted from the CSharp Color class. It's not possible
- * change some value since the class is constant. Each value has associated
- * a hexadecimal code, representing said color
- * @author JuanGV
- * @version 1.0.0
- * @name FJScolor
- * @license MIT
- */
-const FJScolor = {
-    AliceBlue: "#F0F8FF",
-    AntiqueWhite: "#FAEBD7",
-    Aqua: "#00FFFF",
-    Aquamarine: "#7FFFD4",
-    Azure: "#F0FFFF",
-    Beige: "#F5F5DC",
-    Bisque: "#FFE4C4",
-    Black: "#000000",
-    BlanchedAlmond: "#FFEBCD",
-    Blue: "#0000FF",
-    BlueViolet: "#8A2BE2",
-    Brown: "#A52A2A",
-    BurlyWood: "#DEB887",
-    CadetBlue: "#5F9EA0",
-    Chartreuse: "#7FFF00",
-    Chocolate: "#D2691E",
-    Coral: "#FF7F50",
-    CornflowerBlue: "#6495ED",
-    Cornsilk: "#FFF8DC",
-    Crimson: "#DC143C",
-    Cyan: "#00FFFF",
-    DarkBlue: "#00008B",
-    DarkCyan: "#008B8B",
-    DarkGoldenrod: "#B8860B",
-    DarkGray: "#A9A9A9",
-    DarkGreen: "#006400",
-    DarkKhaki: "#BDB76B",
-    DarkMagenta: "#8B008B",
-    DarkOliveGreen: "#556B2F",
-    DarkOrange: "#FF8C00",
-    DarkOrchid: "#9932CC",
-    DarkRed: "#8B0000",
-    DarkSalmon: "#E9967A",
-    DarkSeaGreen: "#8FBC8B",
-    DarkSlateBlue: "#483D8B",
-    DarkSlateGray: "#2F4F4F",
-    DarkTurquoise: "#00CED1",
-    DarkViolet: "#9400D3",
-    DeepPink: "#FF1493",
-    DeepSkyBlue: "#00BFFF",
-    DimGray: "#696969",
-    DodgerBlue: "#1E90FF",
-    Firebrick: "#B22222",
-    FloralWhite: "#FFFAF0",
-    ForestGreen: "#228B22",
-    Fuchsia: "#FF00FF",
-    Gainsboro: "#DCDCDC",
-    GhostWhite: "#F8F8FF",
-    Gold: "#FFD700",
-    Goldenrod: "#DAA520",
-    Gray: "#808080",
-    Green: "#008000",
-    GreenYellow: "#ADFF2F",
-    Honeydew: "#F0FFF0",
-    HotPink: "#FF69B4",
-    IndianRed: "#CD5C5C",
-    Indigo: "#4B0082",
-    Ivory: "#FFFFF0",
-    Khaki: "#F0E68C",
-    Lavender: "#E6E6FA",
-    LavenderBlush: "#FFF0F5",
-    LawnGreen: "#7CFC00",
-    LemonChiffon: "#FFFACD",
-    LightBlue: "#ADD8E6",
-    LightCoral: "#F08080",
-    LightCyan: "#E0FFFF",
-    LightGoldenrodYellow: "#FAFAD2",
-    LightGray: "#D3D3D3",
-    LightGreen: "#90EE90",
-    LightPink: "#FFB6C1",
-    LightSalmon: "#FFA07A",
-    LightSeaGreen: "#20B2AA",
-    LightSkyBlue: "#87CEFA",
-    LightSlateGray: "#778899",
-    LightSteelBlue: "#B0C4DE",
-    LightYellow: "#FFFFE0",
-    Lime: "#00FF00",
-    LimeGreen: "#32CD32",
-    Linen: "#FAF0E6",
-    Magenta: "#FF00FF",
-    Maroon: "#800000",
-    MediumAquamarine: "#66CDAA",
-    MediumBlue: "#0000CD",
-    MediumOrchid: "#BA55D3",
-    MediumPurple: "#9370DB",
-    MediumSeaGreen: "#3CB371",
-    MediumSlateBlue: "#7B68EE",
-    MediumSpringGreen: "#00FA9A",
-    MediumTurquoise: "#48D1CC",
-    MediumVioletRed: "#C71585",
-    MidnightBlue: "#191970",
-    MintCream: "#F5FFFA",
-    MistyRose: "#FFE4E1",
-    Moccasin: "#FFE4B5",
-    NavajoWhite: "#FFDEAD",
-    Navy: "#000080",
-    OldLace: "#FDF5E6",
-    Olive: "#808000",
-    OliveDrab: "#6B8E23",
-    Orange: "#FFA500",
-    OrangeRed: "#FF4500",
-    Orchid: "#DA70D6",
-    PaleGoldenrod: "#EEE8AA",
-    PaleGreen: "#98FB98",
-    PaleTurquoise: "#AFEEEE",
-    PaleVioletRed: "#DB7093",
-    PapayaWhip: "#FFEFD5",
-    PeachPuff: "#FFDAB9",
-    Peru: "#CD853F",
-    Pink: "#FFC0CB",
-    Plum: "#DDA0DD",
-    PowderBlue: "#B0E0E6",
-    Purple: "#800080",
-    Red: "#FF0000",
-    RosyBrown: "#BC8F8F",
-    RoyalBlue: "#4169E1",
-    SaddleBrown: "#8B4513",
-    Salmon: "#FA8072",
-    SandyBrown: "#F4A460",
-    SeaGreen: "#2E8B57",
-    Seashell: "#FFF5EE",
-    Sienna: "#A0522D",
-    Silver: "#C0C0C0",
-    SkyBlue: "#87CEEB",
-    SlateBlue: "#6A5ACD",
-    SlateGray: "#708090",
-    Snow: "#FFFAFA",
-    SpringGreen: "#00FF7F",
-    SteelBlue: "#4682B4",
-    Tan: "#D2B48C",
-    Teal: "#008080",
-    Thistle: "#D8BFD8",
-    Tomato: "#FF6347",
-    Turquoise: "#40E0D0",
-    Violet: "#EE82EE",
-    Wheat: "#F5DEB3",
-    White: "#FFFFFF",
-    WhiteSmoke: "#F5F5F5",
-    Yellow: "#FFFF00",
-    YellowGreen: "#9ACD32"
-}; 
- 
-/**
  * Class to create controllers that respond to user actions, eg hover,
  * click. The class provides the methods common to all types of controllers.
  * Therefore, it is important to mention that the objects like checkboxes,
@@ -842,9 +700,16 @@ class FJScontroller {
          */
         this.y = y;
 
+        /**
+         * Object disabled state
+         * @type {boolean}
+         * @public
+         */
+        this.disabled = disabled;
+
         //Cursor style if hovered and object is enabled
         this.useCursorPointer = cursorPointer;
-        this.disabled = disabled;
+        
 
         //Set the private attributes
         this.#drawMethod = draw || function(){};
@@ -968,6 +833,7 @@ class FJSbutton extends FJScontroller {
      * Constructor of the object. Receive initial features
      * and the processing methods for user actions.
      * @param {array} data x, y, width, height, draw, onHover, onClick, onPressed
+     * @constructor
      */
     constructor(data){
         //Super to pass the data to the parent constructor
@@ -1054,8 +920,11 @@ class FJSbutton extends FJScontroller {
  */
 class FJScheckbox extends FJScontroller {
     /**
+     * **Constructor**
      * 
-     * @param {*} data
+     * Constructor of the object. Receive initial features
+     * and the processing methods for user actions.
+     * @param {*} data x, y, width, height, draw, onHover, onClick, onPressed, onChecked, value, checked, text
      * @constructor
      */
     constructor(data){
@@ -1068,6 +937,11 @@ class FJScheckbox extends FJScontroller {
         this.text = data.text;
         //Value (a value assigned by the user that is not visible on the interface)
         this.value = data.value;
+        /**
+         * Checked trigger
+         * @type {boolean}
+         * @public
+         */
         this.checked = data.checked || false;
         //Unchecked graph, default empty function
         this.drawMethod = data.draw || function(){};
@@ -1079,7 +953,6 @@ class FJScheckbox extends FJScontroller {
          * @public
          */
         this.width = data.width;
-
         /**
          * Height in pixels
          * @type {number}
@@ -1105,43 +978,128 @@ class FJScheckbox extends FJScontroller {
 } 
  
 /**
- * Clase para definir una barra de progreso con las acciones ya
- * implementadas. Se considera como un control de usuario y no
- * de juego por presentarse en la interfaz
+ * **Progress**
+ * 
+ * Class to define a progress bar with the actions already
+ * implemented. It is considered as a user control and not
+ * of game to be presented in the interface. The user has
+ * to define the format of the progress bar
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJSprogress
+ * @license MIT
  */
 class FJSprogress {
+    /**
+     * **Constructor**
+     * 
+     * Constructor of the object. Receives initial data such as location,
+     * dimensions, speed, and callback functions to draw, to end, etc.
+     * @param {array} data x, y, width, height, draw, progress, speed, draw, onFinish
+     * @constructor
+     */
     constructor(data){
-        this.x = data.x; //Ubicación en el eje X
-        this.y = data.y; //Ubicación en el eje Y
-        this.width = data.width; //Ancho del objeto
-        this.height = data.height; //Alto del objeto
-        this.progress = data.progress || 0; //Progreso actual, por defecto 0
-        this.speed = data.speed || 1; //Velocidad de avance, por defecto 1
-        //Función de dibujado. Si el valor no es nulo, le pasará el progreso a la función
-        //En caso de no especificar datos para esta función, le asigna un método vacío
+        this.x = data.x; //Location on the X axis
+        this.y = data.y; //Y-axis location
+        this.width = data.width; //Object width
+        this.height = data.height; //Object height
+        this.progress = data.progress || 0; //Current progress, default 0
+        this.speed = data.speed || 1; //Speed rate, default 1
+        //Draw function. If the value is not null, it will pass the progress to the function
+        //In case of not specifying data for this function, it assigns an empty method
         this.draw = data.draw != null ? () => data.draw(this.progress) : function(){};
-        this.onFinish = data.onFinish || null; //Función de callback para finalizar, por defecto nulo
+        this.onFinish = data.onFinish || null; //Callback function to finish, defaults to null
+        this.finished = false; //Trigger to finish animation
     }
 
     /**
-     * Función de actualización de los datos. Avanzará el
-     * valor del progreso según la velocidad especificada
-     * y al terminar ejecutará una posible función de callback
+     * **Update**
+     * 
+     * Data update function. will advance the value of progress
+     * according to the specified speed and when finished it
+     * will execute a callback function
+     * @returns {void}
+     * @function
+     * @public
      */
     update(){
-        //Comprueba si el progreso es inferior a 100
+        //Check if progress is less than 100
         if(this.progress < 100){
-            //En ese caso, aumenta el progreso según la velocidad fijada
+            //In that case, it increases the progress according to the set speed
             this.progress += this.speed;
-        //Si el método onFinish no es nulo, ejecuta una sola vez el método
-        } else if(this.onFinish != null){
-            //Evita que el valor se vaya de rango por una alta velocidad
+        //If the onFinish method is not null, execute the method once
+        } else if(!this.finished){
+            //Prevents the value from going out of range due to high speed
             this.progress = 100;
-            //Ejecuta el método onFinish
+            //Execute the onFinish method
             this.onFinish();
-            //Anula el valor de dicho método para no ser repetido de nuevo
-            this.onFinish = null;
+            //Activates the trigger to avoid repeat
+            this.finished = true;
         }
+    }
+
+    /**
+     * **Reset values**
+     * 
+     * Method to reset all values, setting the progress to its
+     * value defaults to 0, and the trigger from finished to off
+     * @returns {void}
+     * @function
+     * @public
+     */
+    reset(){
+        //Sets progress to 0 and disables the finished trigger
+        this.progress = 0;
+        this.finished = false;
+    }
+} 
+ 
+/**
+ * **Sprite**
+ * 
+ * Class to use with simple sprites, which have some coordinates
+ * and a width and height. Can check for collisions, and should
+ * be used with objects that extend of the same class
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJSsprite
+ * @license MIT
+ */
+class FJSsprite {
+    /**
+     * **Constructor**
+     * 
+     * Sets the typical parameters of a sprite, such as coordinates
+     * and dimensions. Data must be integers
+     * @param {number} x - Coordinates on the X axis
+     * @param {number} y - Coordinates on the Y axis
+     * @param {number} width - Sprite width
+     * @param {number} height - Sprite height
+     */
+    constructor(x, y, width, height){
+        this.x = x; //Coordinates on the X axis
+        this.y = y; //Coordinates on the Y axis
+        this.width = width; //Sprite width
+        this.height = height; //Sprite height
+    }
+
+    /**
+     * **Crash with sprite**
+     * 
+     * Method to check if a collision has occurred with another
+     * sprite. The sprite that is passed by parameter must
+     * extend the same class or contain the attributes of
+     * coordinates (x, y) and dimensions (width, height)
+     * @param {object} sprite - Object to check for collision
+     * @returns {boolean} Returns true if a collision occurred, false otherwise
+     */
+    crashWith(sprite){
+        return !(
+            (this.y + this.height < sprite.y) ||
+            (this.y > sprite.y + sprite.height) ||
+            (this.x + this.width < sprite.x) ||
+            (this.x > sprite.x + sprite.width)
+        );
     }
 } 
  
@@ -1314,6 +1272,17 @@ class FJStileset {
         this.tileset.onload = () => this.onLoad();
         //Tileset path
         this.tileset.src = data.path || data.src;
+
+        //First sample
+        let sampleTile = Object.values(this.tiles)[0];
+
+        this.heightKey = this.widthKey = null;
+
+        if("w" in sampleTile) this.widthKey = "w";
+        else if("width" in sampleTile) this.widthKey = "width";
+
+        if("h" in sampleTile) this.heightKey = "h";
+        else if("height" in sampleTile) this.heightKey = "height";
     }
 
     /**
@@ -1330,7 +1299,7 @@ class FJStileset {
      * @function
      * @public
      */
-    drawTile(tileName, x=0, y=0, width=this.tiles[tileName], height=this.tiles[tileName]){
+    drawTile(tileName, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey]){
         //Capture the tile to draw
         let tile = this.tiles[tileName];
         //Draw the image based on the passed data

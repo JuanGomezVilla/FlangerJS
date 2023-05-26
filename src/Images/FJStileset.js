@@ -32,6 +32,17 @@ class FJStileset {
         this.tileset.onload = () => this.onLoad();
         //Tileset path
         this.tileset.src = data.path || data.src;
+
+        //First sample
+        let sampleTile = Object.values(this.tiles)[0];
+
+        this.heightKey = this.widthKey = null;
+
+        if("w" in sampleTile) this.widthKey = "w";
+        else if("width" in sampleTile) this.widthKey = "width";
+
+        if("h" in sampleTile) this.heightKey = "h";
+        else if("height" in sampleTile) this.heightKey = "height";
     }
 
     /**
@@ -48,7 +59,7 @@ class FJStileset {
      * @function
      * @public
      */
-    drawTile(tileName, x=0, y=0, width=this.tiles[tileName], height=this.tiles[tileName]){
+    drawTile(tileName, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey]){
         //Capture the tile to draw
         let tile = this.tiles[tileName];
         //Draw the image based on the passed data

@@ -60,9 +60,16 @@ class FJScontroller {
          */
         this.y = y;
 
+        /**
+         * Object disabled state
+         * @type {boolean}
+         * @public
+         */
+        this.disabled = disabled;
+
         //Cursor style if hovered and object is enabled
         this.useCursorPointer = cursorPointer;
-        this.disabled = disabled;
+        
 
         //Set the private attributes
         this.#drawMethod = draw || function(){};

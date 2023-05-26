@@ -12,8 +12,11 @@
  */
 class FJScheckbox extends FJScontroller {
     /**
+     * **Constructor**
      * 
-     * @param {*} data
+     * Constructor of the object. Receive initial features
+     * and the processing methods for user actions.
+     * @param {*} data x, y, width, height, draw, onHover, onClick, onPressed, onChecked, value, checked, text
      * @constructor
      */
     constructor(data){
@@ -26,6 +29,11 @@ class FJScheckbox extends FJScontroller {
         this.text = data.text;
         //Value (a value assigned by the user that is not visible on the interface)
         this.value = data.value;
+        /**
+         * Checked trigger
+         * @type {boolean}
+         * @public
+         */
         this.checked = data.checked || false;
         //Unchecked graph, default empty function
         this.drawMethod = data.draw || function(){};
@@ -37,7 +45,6 @@ class FJScheckbox extends FJScontroller {
          * @public
          */
         this.width = data.width;
-
         /**
          * Height in pixels
          * @type {number}

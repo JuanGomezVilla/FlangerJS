@@ -1,0 +1,30 @@
+<script src="../Flanger.js"></script>
+<canvas></canvas>
+<script>
+
+FJSscreen.init({width:338, height:600, border:true});
+
+let spritesScenes = new FJSscene({
+    update: function(){
+        FJSscreen.clear();
+        FJSscreen.setBackgroundColor("#454545");
+
+        //tilesetCars.drawTile("policeCar", 20, 20, 50, 50);
+        tilesetCars.drawTile("policeCar", 20, 20);
+    }
+});
+
+
+let tilesetCars = new FJStileset({
+    src: "cars.png",
+    tiles: {
+        policeCar: {x:130, y:16, w:48, h:93}
+    },
+    onLoad: function(){
+        spritesScenes.init();
+    }
+});
+
+
+
+</script>
