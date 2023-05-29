@@ -1,4 +1,6 @@
-let FJSgamepads = {
+//TODO
+
+/*let FJSgamepads = {
     gamepads: [],
     init: function(data){
         this.onConnect = data.onConnect || function(){};
@@ -11,4 +13,4 @@ let FJSgamepads = {
             
         });
     }
-}
+}*/

@@ -1,5 +1,35 @@
+//Players
 let player1, player2;
 
+//Elements loaded
+let loaded = 0;
+function checkLoad(){
+    loaded++;
+    if(loaded == 3) singlePlayerScene.init();
+}
+
+let keyFinishPress = {
+    Escape: true,
+    gamepadB: true
+};
+
+//TILES
+let logoSprite = new FJStile({src:"assets/logo.png", auto:false, onLoad:checkLoad});
+let directionsTile = new FJStile({src:"assets/directions.png", auto:false, onLoad:checkLoad});
+let tilesetCars = new FJStilesetRotation({
+    src: "assets/cars.png",
+    auto: false,
+    tiles: {
+        policeCar: {x:130, y:16, w:48, h:93},
+        blackCar: {x:67, y:17, w:47, h:91},
+        taxi: {x:65, y:120, w:51, h:99},
+        furgon: {x:124, y:226, w:55, h:103},
+        deportivo: {x:122, y:346, w:45, h:86}
+    },
+    onLoad: checkLoad
+});
+
+//BUTTONS
 let buttonPause = new FJSbutton({
     x: 8, y:8, width: 40, height:40, cursorPointer: true,
     draw: function(){
@@ -10,7 +40,7 @@ let buttonPause = new FJSbutton({
     },
     onClick: function(){
         if(settings.singlePlayer.finish) Utils.resetSinglePlayer();
-        singlePlayerScene.togglePause();
+        else singlePlayerScene.togglePause();
     }
 });
 
@@ -50,6 +80,7 @@ let buttonMultiPlayer = new FJSbutton({
     }
 });
 
+//LOADING BARS
 let loadingBar = new FJSprogress({
     x: 338/2-220/2, y:600/2-20/2, width: 220, height: 20, speed: 0.5,
     draw: function(progress){
@@ -69,5 +100,3 @@ let loadingBar = new FJSprogress({
         });
     }
 });
-
-

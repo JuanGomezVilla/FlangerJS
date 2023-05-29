@@ -17,12 +17,12 @@ class Enemy {
      * @param {number} y Location on the Y axis
      * @constructor
      */
-    constructor(x, y){
+    constructor(x, y, width, height, car){
         this.x = x; //Location on the X axis
         this.y = y; //Location on the Y axis
-        this.width = settings.enemies.width; //Enemy width, value according to settings
-        this.height = settings.enemies.height; //Enemy height, value according to settings
-        this.color = settings.enemies.color; //Enemy color, value according to settings
+        this.width = width;
+        this.height = height;
+        this.car = car;
     }
 
     /**
@@ -50,7 +50,8 @@ class Enemy {
      */
     draw(){
         //With the tools of the library draw the object directly
-        FJSutils.fillRect(this.x, this.y, this.width, this.height, this.color);
+        tilesetCars.drawTile(this.car, Math.PI, this.x + this.width/2, this.y+this.height/2, this.width, this.height);
+        //FJSutils.fillRect(this.x, this.y, this.width, this.height, this.color);
     }
 }
 

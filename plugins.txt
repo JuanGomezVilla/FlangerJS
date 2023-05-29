@@ -1,6 +1,7 @@
 src\FJSscreen.js
 src\FJSscene.js
 src\FJSutils.js
+src\FJSperformance.js
 src\Controllers\FJScontroller.js
 src\Controllers\Buttons\FJSbutton.js
 src\Controllers\Checkboxs\FJScheckbox.js
@@ -12,6 +13,4 @@ src\Images\FJStileset.js
 src\Images\FJStilesetRotation.js
 src\Audio\FJSaudio.js
 src\Multiplayer\FJSwebsocket.js
-src\Multiplayer\FJSwebrtc.js
 src\Gamepad\FJSgamepad.js
-src\Gamepad\FJSgamepads.js

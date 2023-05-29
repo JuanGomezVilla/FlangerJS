@@ -26,16 +26,13 @@ class FJStileset {
         this.onLoad = data.onLoad || function(){};
         this.tiles = data.tiles;
 
-        //Load the image
-        this.tileset = new Image();
-        //Function for when the charge is finished
-        this.tileset.onload = () => this.onLoad();
-        //Tileset path
-        this.tileset.src = data.path || data.src;
+        //If auto load is enabled, load the image
+        if(data.auto != false) this.load();
+
+        this.src = data.path || data.src;
 
         //First sample
         let sampleTile = Object.values(this.tiles)[0];
-
         this.heightKey = this.widthKey = null;
 
         if("w" in sampleTile) this.widthKey = "w";
@@ -43,6 +40,23 @@ class FJStileset {
 
         if("h" in sampleTile) this.heightKey = "h";
         else if("height" in sampleTile) this.heightKey = "height";
+    }
+
+    /**
+     * **Load the tileset**
+     * 
+     * Method to load the image, and run a callback function
+     * @returns {void}
+     * @function
+     * @public
+     */
+    load(){
+        //Load the image
+        this.tileset = new Image();
+        //Function for when the charge is finished
+        this.tileset.onload = () => this.onLoad();
+        //Tileset path
+        this.tileset.src = this.src;
     }
 
     /**

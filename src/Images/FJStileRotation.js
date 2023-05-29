@@ -29,18 +29,33 @@ class FJStileRotation {
 
         //It will save a possible load function
         this.onLoad = data.onLoad || function(){};
+        this.src = temporalData.path || temporalData.src;
 
+        //If auto load is enabled, load the image
+        if(data.auto != false) this.load();
+        this.angle = 0;
+    }
+
+    /**
+     * **Load the tile**
+     * 
+     * Method to load the image, and run a callback function
+     * @returns {void}
+     * @function
+     * @public
+     */
+    load(){
         //Load the image
         this.tile = new Image();
         //Function for when the charge is finished
         this.tile.onload = () => {
+            //Saves the width and height, and runs a possible on load function
             this.width = this.tile.width;
             this.height = this.tile.height;
             this.onLoad();
         };
-        //Tile path and angle
-        this.tile.src = data.path || data.src;
-        this.angle = 0;
+        //Tile path
+        this.tile.src = this.src;
     }
 
     /**
@@ -62,7 +77,7 @@ class FJStileRotation {
         //Draw the image on the canvas with an angle
         ctx.save();
         ctx.translate(x, y);
-        ctx.rotate(this.angle);
+        ctx.rotate(angle);
         ctx.drawImage(this.tile, -width / 2, -height / 2, width, height);
         ctx.restore();
     }

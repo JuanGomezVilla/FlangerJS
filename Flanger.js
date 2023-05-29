@@ -369,8 +369,8 @@ let FJSscreen = {
         //Cancel the main interval
         cancelAnimationFrame(interval);
     }
-} 
- 
+}
+
 /**
  * **Scene**
  * 
@@ -472,8 +472,8 @@ class FJSscene {
         //Cancels the interval, associated with the animation
         cancelAnimationFrame(interval);
     }
-} 
- 
+}
+
 /**
  * **Utils**
  * 
@@ -636,8 +636,62 @@ let FJSutils = {
         //Draws the text at the specified location
         ctx.fillText(text, x, y);
     }
-} 
- 
+}
+
+/**
+ * **Performance**
+ * 
+ * Class designed to check game performance. There are
+ * different methods to do this inside the class. 
+ * IMPORTANT: use only in development environments
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJSperformance
+ * @license MIT
+ */
+let FJSperformance = {
+    /**
+     * **Method 1**
+     * 
+     * Method used to check the number of frames in
+     * one second. Advance through rendering cycle
+     * @property {boolean} counting - Trigger to avoid repetitions
+     * @property {number} frames - Number of frames in a second
+     * @property {Function} update - Function to update the process
+     */
+    method1: {
+        counting: false, //Trigger to avoid repetitions
+        frames: 0, //Number of frames in a second
+        /**
+         * **Update frames**
+         * 
+         * Function to count the number of frames that have happened.
+         * setInterval is not called, setTimeout is used
+         * @returns {void}
+         * @function
+         * @public
+         */
+        update: function(){
+            //If the trigger is disabled
+            if(!this.counting){
+                //Activate the trigger
+                this.counting = true;
+                //Start the countdown of 1000 milliseconds (1 second)
+                setTimeout(() => {
+                    //Print the number of frames on the console
+                    console.log(this.frames);
+                    //Deactivate the activator
+                    this.counting = false;
+                    //Reset the number of frames
+                    this.frames = 0;
+                }, 1000);
+            }
+            //Increases the number of frames by 1
+            this.frames++;
+        }
+    }
+}
+
 /**
  * Class to create controllers that respond to user actions, eg hover,
  * click. The class provides the methods common to all types of controllers.
@@ -814,8 +868,8 @@ class FJScontroller {
         //Sets the value to the opposite of the one passed by parameter
         this.disabled = !enabled;
     }
-} 
- 
+}
+
 /**
  * Button class, extends the _FJScontroller_ class, to obtain the objects
  * initials, such as hover, coordinates, and dimensions. If you want to
@@ -904,8 +958,8 @@ class FJSbutton extends FJScontroller {
         //The attribute receives a new value
         this.height = height;
     }
-} 
- 
+}
+
 /**
  * **Checkbox**
  * 
@@ -975,8 +1029,8 @@ class FJScheckbox extends FJScontroller {
         //Captures the checked status and returns it
         return this.checked;
     }
-} 
- 
+}
+
 /**
  * **Progress**
  * 
@@ -1052,8 +1106,8 @@ class FJSprogress {
         this.progress = 0;
         this.finished = false;
     }
-} 
- 
+}
+
 /**
  * **Sprite**
  * 
@@ -1101,8 +1155,8 @@ class FJSsprite {
             (this.x > sprite.x + sprite.width)
         );
     }
-} 
- 
+}
+
 /**
  * **Tile**
  * 
@@ -1134,6 +1188,21 @@ class FJStile {
         
         //It will save a possible load function and the tile
         this.onLoad = temporalData.onLoad || function(){};
+        this.src = temporalData.path || temporalData.src;
+
+        //If auto load is enabled, load the image
+        if(data.auto != false) this.load();
+    }
+
+    /**
+     * **Load the tile**
+     * 
+     * Method to load the image, and run a callback function
+     * @returns {void}
+     * @function
+     * @public
+     */
+    load(){
         //Load the image
         this.tile = new Image();
         //Function for when the charge is finished
@@ -1144,7 +1213,7 @@ class FJStile {
             this.onLoad();
         };
         //Tile path
-        this.tile.src = temporalData.path || temporalData.src;
+        this.tile.src = this.src;
     }
     
     /**
@@ -1166,8 +1235,8 @@ class FJStile {
         //Draw the image on the canvas with the main context
         ctx.drawImage(this.tile, x, y, width, height);
     }
-} 
- 
+}
+
 /**
  * **Tile with rotation**
  * 
@@ -1199,18 +1268,33 @@ class FJStileRotation {
 
         //It will save a possible load function
         this.onLoad = data.onLoad || function(){};
+        this.src = temporalData.path || temporalData.src;
 
+        //If auto load is enabled, load the image
+        if(data.auto != false) this.load();
+        this.angle = 0;
+    }
+
+    /**
+     * **Load the tile**
+     * 
+     * Method to load the image, and run a callback function
+     * @returns {void}
+     * @function
+     * @public
+     */
+    load(){
         //Load the image
         this.tile = new Image();
         //Function for when the charge is finished
         this.tile.onload = () => {
+            //Saves the width and height, and runs a possible on load function
             this.width = this.tile.width;
             this.height = this.tile.height;
             this.onLoad();
         };
-        //Tile path and angle
-        this.tile.src = data.path || data.src;
-        this.angle = 0;
+        //Tile path
+        this.tile.src = this.src;
     }
 
     /**
@@ -1232,12 +1316,12 @@ class FJStileRotation {
         //Draw the image on the canvas with an angle
         ctx.save();
         ctx.translate(x, y);
-        ctx.rotate(this.angle);
+        ctx.rotate(angle);
         ctx.drawImage(this.tile, -width / 2, -height / 2, width, height);
         ctx.restore();
     }
-} 
- 
+}
+
 /**
  * **Tileset**
  * 
@@ -1266,16 +1350,13 @@ class FJStileset {
         this.onLoad = data.onLoad || function(){};
         this.tiles = data.tiles;
 
-        //Load the image
-        this.tileset = new Image();
-        //Function for when the charge is finished
-        this.tileset.onload = () => this.onLoad();
-        //Tileset path
-        this.tileset.src = data.path || data.src;
+        //If auto load is enabled, load the image
+        if(data.auto != false) this.load();
+
+        this.src = data.path || data.src;
 
         //First sample
         let sampleTile = Object.values(this.tiles)[0];
-
         this.heightKey = this.widthKey = null;
 
         if("w" in sampleTile) this.widthKey = "w";
@@ -1283,6 +1364,23 @@ class FJStileset {
 
         if("h" in sampleTile) this.heightKey = "h";
         else if("height" in sampleTile) this.heightKey = "height";
+    }
+
+    /**
+     * **Load the tileset**
+     * 
+     * Method to load the image, and run a callback function
+     * @returns {void}
+     * @function
+     * @public
+     */
+    load(){
+        //Load the image
+        this.tileset = new Image();
+        //Function for when the charge is finished
+        this.tileset.onload = () => this.onLoad();
+        //Tileset path
+        this.tileset.src = this.src;
     }
 
     /**
@@ -1305,8 +1403,8 @@ class FJStileset {
         //Draw the image based on the passed data
         ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, x, y, width, height);
     }
-} 
- 
+}
+
 /**
  * **Tileset (tiles with rotation)**
  * 
@@ -1333,12 +1431,37 @@ class FJStilesetRotation {
         this.onLoad = data.onLoad || function(){};
         this.tiles = data.tiles;
 
+        //If auto load is enabled, load the image
+        if(data.auto != false) this.load();
+
+        this.src = data.path || data.src;
+
+        //First sample
+        let sampleTile = Object.values(this.tiles)[0];
+        this.heightKey = this.widthKey = null;
+
+        if("w" in sampleTile) this.widthKey = "w";
+        else if("width" in sampleTile) this.widthKey = "width";
+
+        if("h" in sampleTile) this.heightKey = "h";
+        else if("height" in sampleTile) this.heightKey = "height";
+    }
+
+    /**
+     * **Load the tileset**
+     * 
+     * Method to load the image, and run a callback function
+     * @returns {void}
+     * @function
+     * @public
+     */
+    load(){
         //Load the image
         this.tileset = new Image();
         //Function for when the charge is finished
         this.tileset.onload = () => this.onLoad();
         //Tileset path
-        this.tileset.src = data.path || data.src;
+        this.tileset.src = this.src
     }
 
     /**
@@ -1356,18 +1479,18 @@ class FJStilesetRotation {
      * @function
      * @public
      */
-    drawTile(tileName, angle=0, x=0, y=0, width=this.tiles[tileName], height=this.tiles[tileName]){
+    drawTile(tileName, angle=0, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey]){
         //Capture the tile to draw
         let tile = this.tiles[tileName];
         //Draw the image based on the passed data
         ctx.save();
         ctx.translate(x, y);
-        ctx.rotate(this.angle);
+        ctx.rotate(angle);
         ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, -width / 2, -height / 2, width, height);
         ctx.restore();
     }
-} 
- 
+}
+
 /**
  * **Audio**
  * 
@@ -1598,8 +1721,8 @@ class FJSaudio {
         //Gets the audio and set the muted state of the original object
         this.#audio.muted = muted;
     }
-} 
- 
+}
+
 /**
  * **WebSocket**
  * 
@@ -1677,212 +1800,121 @@ class FJSwebsocket {
         //Returns the shortcut to the websocket
         return this.websocket;
     }
-} 
- 
+}
+
 /**
- * **WebRTC**
+ * **Gamepad**
  * 
- * Class to establish a communication channel between two clients,
- * considered as peer to peer connections. The receiving user has
- * to send a verification code and vice versa, to complete the
- * connection between both points. IMPORTANT: this class is found
- * under development and may still bring bugs or need improvements
- * @author JuanGV
- * @version 1.0.0
- * @name FJSwebrtc
- * @license MIT
- */
-class FJSwebrtc {
-    /**
-     * **Constructor**
-     * 
-     * Sets the object to handle with WebRTC connections. It will be passed
-     * by parameter the callback functions when a trigger is triggered
-     * action, and will be processed from those methods
-     * @param {Array} data - onMessage
-     * @constructor
-     */
-    constructor(data){
-        //Callback functions
-        this.onMessage = data.onMessage;
-        this.onClientConnected = data.onClientConnected;
-        this.onYouConnected = data.onYouConnected;
-
-        //The channel is initially null and the servers can be those indicated by the user or one by default
-        this.channel = null;
-        this.servers = data.servers || "stun:stun.l.google.com:19302";
-
-        //Creates the connection to the servers and a function for when a data channel is created on the connection
-        this.connection = new RTCPeerConnection({iceServers: [{urls: this.servers}]});
-        this.connection.ondatachannel = (event) => {
-            //Save the channel;
-            this.channel = event.channel;
-            //Action to take when the offer recipient receives a message
-            this.channel.onmessage = (event) => this.onMessage(event.data);
-        };
-        //Cuando el usuario se ha conectado
-        this.connection.onconnectionstatechange = (event) => {
-            document.getElementById('connectionState').innerText = this.connection.connectionState;
-        };
-        //Cuando tu te has conectado
-        this.connection.oniceconnectionstatechange = (event) => {
-            document.getElementById('iceConnectionState').innerText = this.connection.iceConnectionState;
-        };
-        
-    }
-
-    /**
-     * **Accept remote offer**
-     * 
-     * Method that accepts an offer. If the value is in string, converts it to
-     * JSON, otherwise return it in the variable. use this method
-     * to accept a remote call and to receive the answer.
-     * @param {data} data - Offer value, can be string or JSON
-     * @returns {void}
-     * @function
-     * @public
-     */
-    async acceptRemoteOffer(data){
-        //Check the value and cast it if necessary
-        const jsonData = typeof data === "string" ? JSON.parse(data) : data;
-        //Sets the connection a description as response
-        await this.connection.setRemoteDescription(jsonData)
-    }
-
-    /**
-     * **Create offer**
-     * 
-     * Method used to create an offer and send it to the customer to check
-     * the connection, this process will also be done by the other client
-     * @returns {void}
-     * @function
-     * @public
-     */
-    async createOffer(){
-        //Create a channel and set an action for the offer sender when they receive a message
-        this.channel = this.connection.createDataChannel("data");
-        this.channel.onmessage = (event) => this.onMessage(event.data);
-
-        //Cuando se genera un candidato en la conexión
-        this.connection.onicecandidate = (event) => {
-            //Si el evento no contiene algún candidato
-            if (!event.candidate) {
-                document.getElementById('createdOffer').value = JSON.stringify(this.connection.localDescription)
-                document.getElementById('createdOffer').hidden = false
-            }
-        }
-
-        //Create an offer with the connection and set it as a local description
-        await this.connection.setLocalDescription(await this.connection.createOffer())
-    }
-
-    
-    
-
-    async createAnswer() {
-        this.connection.onicecandidate = (event) => {
-        if (!event.candidate) {
-            document.getElementById('createdAnswer').value = JSON.stringify(this.connection.localDescription)
-            document.getElementById('createdAnswer').hidden = false
-        }
-        }
-
-        const answer = await this.connection.createAnswer()
-        await this.connection.setLocalDescription(answer)
-    }
-
-    async sendData(data) {
-        //If channel exists, send data, otherwise notify user that data cannot be sent
-        if(this.channel) this.channel.send(data);
-        else console.error("Data cannot be sent because there is no communication channel");
-    }
-} 
- 
-/**
- * Clase para conectar un solo mando de Gamepad. A diferencia de
- * la clase {@link FJSgamepads}, esta * solo puede controlar las
- * acciones de un mando y es útil si el juego no está enfocado
- * para una experiencia multijugador en el mismo dispositivo
+ * Class to connect a single Gamepad controller. A difference of
+ * the {@link FJSgamepads} class, this * can only control the
+ * actions of a controller and is useful if the game is not focused
+ * for a multiplayer experience on the same device
  */
 let FJSgamepad = {
     /**
-     * Variable del gamepad, inicialmente será un valor nulo. Aloja
-     * todos los datos del dispositivo. Es en pocas palabras, el
-     * controlador principal. Es un dato público y accesible
+     * Gamepad variable, will initially be a null value. hosts
+     * all device data. It is in a nutshell, the
+     * main controller. It is a public and accessible data
      */
     gamepad: null,
     /**
-     * Función de arranque. Establecerá los escuchadores principales
-     * y posibles métodos de callback
-     * @param {object} data 
+     * Boot function. Will set the primary listeners
+     * and possible callback methods
+     * @param {object} data
+     * @returns {void}
+     * @function
+     * @public
      */
     init: function(data){
-        //Funciones para conectar, desconectar, o en caso de error
-        //Si el usuario no aporta una definición de esa función, será un método vacío
+        //Functions to connect, disconnect, or on error
+        //If the user does not provide a definition of that function, it will be an empty method
         this.onConnect = data.onConnect || function(){};
         this.onDisconnect = data.onDisconnect || function(){};
         this.onError = data.onError || function(){};
 
-        //Escuchador para cuando un mando se conecta, el usuario debe presionar una tecla de dicho mando
+        //Listener for when a remote is connected, the user must press a key of said remote
         window.addEventListener("gamepadconnected", (event) => {
-            //Si el valor del gamepad es nulo, no hay mandos conectados, por lo tanto, se puede guardar
+            //If the gamepad value is null, there are no controllers connected, therefore it can be saved
             if(this.gamepad == null){
-                //El gamepad recibe el controlador del gamepad que se acaba de conectar
+                //The gamepad receives the driver from the gamepad that was just connected
                 this.gamepad = event.gamepad;
-                //Se ejecuta una posible función definida por el usuario
+                //A possible user-defined function is executed
                 this.onConnect(event);
             } else {
                 this.onError(event);
             }
         });
-        //Escuchador para cuando el mando se desconecte
+        //Listener for when the remote is disconnected
         window.addEventListener("gamepaddisconnected", (event) => {
-            //Si el atributo gamepad es diferente de nulo
-            //Y el id del gamepad desconectado es equivalente al id del atributo gamepad
+            //If the gamepad attribute is different from null
+            //And the id of the disconnected gamepad is equivalent to the id of the gamepad attribute
             if(this.gamepad != null && event.gamepad.id == this.gamepad.id){
-                //El gamepad es vaciado
+                //The gamepad is emptied
                 this.gamepad = null;
-                //Ejecución de una posible función de desconexión
+                //Execution of a possible trip function
                 this.onDisconnect(event);
             }
         });
     },
-    updateGamepad: function(){
+    /**
+     * **Update gamepad**
+     * 
+     * Function to update gamepad data
+     * @returns {void}
+     * @function
+     * @public
+     */
+    update: function(){
         this.gamepad = navigator.getGamepads()[0];
     },
-    getAxe: function(axe, sensibilidad=3){
+    /**
+     * **Get axe**
+     * 
+     * Method to obtain one of the command axes
+     * @param {number} axe Axis, can be vertical or horizontal
+     * @param {number} sensitivity Detection sensitivity
+     * @returns 
+     */
+    getAxe: function(axe, sensitivity=3){
         //parseFloat vs Number
-        return parseFloat(this.gamepad.axes[axe].toFixed(sensibilidad));
+        return parseFloat(this.gamepad.axes[axe].toFixed(sensitivity));
     },
+    /**
+     * **Get button**
+     * 
+     * Function to get one of the gamepad buttons
+     * @param {number} iterator Indicates the order of the button in the set
+     * @returns {object} Button object
+     */
     getButton: function(iterator){
         return this.gamepad.buttons[iterator];
     },
-    //Método que devuelve si el mando está conectado
+    /**
+     * **Is connected**
+     * 
+     * Function that returns if the controller is connected
+     * @returns {boolean}
+     * @function
+     * @public
+     */
     isConnected: function(){
         return this.gamepad != null;
     },
+    /**
+     * **Vibrate**
+     * 
+     * Method to vibrate the controller, not implemented yet
+     * @returns {void}
+     * @function
+     * @public
+     */
     vibrate: function(){
-        /*this.gamepad.vibrationActuator.playEffect("dual-rumble", {
+        this.gamepad.vibrationActuator.playEffect("dual-rumble", {
             startDelay: 0,
             duration: 200,
             weakMagnitude: 1.0,
             strongMagnitude: 1.0,
-        });*/
+        });
     }
-} 
- 
-let FJSgamepads = {
-    gamepads: [],
-    init: function(data){
-        this.onConnect = data.onConnect || function(){};
-        this.onDisconnect = data.onDisconnect || function(){};
+}
 
-        window.addEventListener("gamepadconnected", (event) => {
-            this.onConnect(event);
-        });
-        window.addEventListener("gamepaddisconnected", (event) => {
-            
-        });
-    }
-} 
- 

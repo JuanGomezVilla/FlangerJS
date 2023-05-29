@@ -1,72 +1,115 @@
 /**
- * Clase para conectar un solo mando de Gamepad. A diferencia de
- * la clase {@link FJSgamepads}, esta * solo puede controlar las
- * acciones de un mando y es útil si el juego no está enfocado
- * para una experiencia multijugador en el mismo dispositivo
+ * **Gamepad**
+ * 
+ * Class to connect a single Gamepad controller. A difference of
+ * the {@link FJSgamepads} class, this * can only control the
+ * actions of a controller and is useful if the game is not focused
+ * for a multiplayer experience on the same device
  */
 let FJSgamepad = {
     /**
-     * Variable del gamepad, inicialmente será un valor nulo. Aloja
-     * todos los datos del dispositivo. Es en pocas palabras, el
-     * controlador principal. Es un dato público y accesible
+     * Gamepad variable, will initially be a null value. hosts
+     * all device data. It is in a nutshell, the
+     * main controller. It is a public and accessible data
      */
     gamepad: null,
     /**
-     * Función de arranque. Establecerá los escuchadores principales
-     * y posibles métodos de callback
-     * @param {object} data 
+     * Boot function. Will set the primary listeners
+     * and possible callback methods
+     * @param {object} data
+     * @returns {void}
+     * @function
+     * @public
      */
     init: function(data){
-        //Funciones para conectar, desconectar, o en caso de error
-        //Si el usuario no aporta una definición de esa función, será un método vacío
+        //Functions to connect, disconnect, or on error
+        //If the user does not provide a definition of that function, it will be an empty method
         this.onConnect = data.onConnect || function(){};
         this.onDisconnect = data.onDisconnect || function(){};
         this.onError = data.onError || function(){};
 
-        //Escuchador para cuando un mando se conecta, el usuario debe presionar una tecla de dicho mando
+        //Listener for when a remote is connected, the user must press a key of said remote
         window.addEventListener("gamepadconnected", (event) => {
-            //Si el valor del gamepad es nulo, no hay mandos conectados, por lo tanto, se puede guardar
+            //If the gamepad value is null, there are no controllers connected, therefore it can be saved
             if(this.gamepad == null){
-                //El gamepad recibe el controlador del gamepad que se acaba de conectar
+                //The gamepad receives the driver from the gamepad that was just connected
                 this.gamepad = event.gamepad;
-                //Se ejecuta una posible función definida por el usuario
+                //A possible user-defined function is executed
                 this.onConnect(event);
             } else {
                 this.onError(event);
             }
         });
-        //Escuchador para cuando el mando se desconecte
+        //Listener for when the remote is disconnected
         window.addEventListener("gamepaddisconnected", (event) => {
-            //Si el atributo gamepad es diferente de nulo
-            //Y el id del gamepad desconectado es equivalente al id del atributo gamepad
+            //If the gamepad attribute is different from null
+            //And the id of the disconnected gamepad is equivalent to the id of the gamepad attribute
             if(this.gamepad != null && event.gamepad.id == this.gamepad.id){
-                //El gamepad es vaciado
+                //The gamepad is emptied
                 this.gamepad = null;
-                //Ejecución de una posible función de desconexión
+                //Execution of a possible trip function
                 this.onDisconnect(event);
             }
         });
     },
-    updateGamepad: function(){
+    /**
+     * **Update gamepad**
+     * 
+     * Function to update gamepad data
+     * @returns {void}
+     * @function
+     * @public
+     */
+    update: function(){
         this.gamepad = navigator.getGamepads()[0];
     },
-    getAxe: function(axe, sensibilidad=3){
+    /**
+     * **Get axe**
+     * 
+     * Method to obtain one of the command axes
+     * @param {number} axe Axis, can be vertical or horizontal
+     * @param {number} sensitivity Detection sensitivity
+     * @returns 
+     */
+    getAxe: function(axe, sensitivity=3){
         //parseFloat vs Number
-        return parseFloat(this.gamepad.axes[axe].toFixed(sensibilidad));
+        return parseFloat(this.gamepad.axes[axe].toFixed(sensitivity));
     },
+    /**
+     * **Get button**
+     * 
+     * Function to get one of the gamepad buttons
+     * @param {number} iterator Indicates the order of the button in the set
+     * @returns {object} Button object
+     */
     getButton: function(iterator){
         return this.gamepad.buttons[iterator];
     },
-    //Método que devuelve si el mando está conectado
+    /**
+     * **Is connected**
+     * 
+     * Function that returns if the controller is connected
+     * @returns {boolean}
+     * @function
+     * @public
+     */
     isConnected: function(){
         return this.gamepad != null;
     },
+    /**
+     * **Vibrate**
+     * 
+     * Method to vibrate the controller, not implemented yet
+     * @returns {void}
+     * @function
+     * @public
+     */
     vibrate: function(){
-        /*this.gamepad.vibrationActuator.playEffect("dual-rumble", {
+        this.gamepad.vibrationActuator.playEffect("dual-rumble", {
             startDelay: 0,
             duration: 200,
             weakMagnitude: 1.0,
             strongMagnitude: 1.0,
-        });*/
+        });
     }
 }

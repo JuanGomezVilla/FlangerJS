@@ -42,6 +42,9 @@ let menuScene = new FJSscene({
     }
 });
 
+
+
+
 //SINGLE PLAYER SCENE
 let singlePlayerScene = new FJSscene({
     pause: false, //Initial state of the screen
@@ -50,6 +53,26 @@ let singlePlayerScene = new FJSscene({
         Utils.resetSinglePlayer();
     },
     update: function(){
+        if(FJSgamepad.isConnected()){
+            FJSgamepad.update();
+
+            //Comprobar que en el ciclo anterior
+
+            keyAPressed = FJSgamepad.getButton(0).pressed;
+
+            if(!keyAPressed) keyFinishPress.gamepadB = true;
+            if(keyAPressed && keyFinishPress.gamepadB && !settings.singlePlayer.finish){
+                singlePlayerScene.togglePause();
+                keyFinishPress.gamepadB = false;
+            }
+        } else {
+            if(!FJSscreen.keyboard.Escape) keyFinishPress.Escape = true;
+            if(FJSscreen.keyboard.Escape && keyFinishPress.Escape && !settings.singlePlayer.finish){
+                singlePlayerScene.togglePause();
+                keyFinishPress.Escape = false;
+            }
+        }
+
         //Clears the screen and set a background color
         FJSscreen.clear();
         FJSscreen.setBackgroundColor("#3AAFA9");
@@ -74,24 +97,29 @@ let singlePlayerScene = new FJSscene({
         if(this.pause){
             //Draw a dark layer and pause text
             FJSutils.fillRect(0, 0, FJSscreen.width, FJSscreen.height, "rgb(0,0,0,0.5)");
-            if(settings.singlePlayer.finish){
-                FJSutils.fillText("Fin del juego", 169, 300, "white", "bold italic", 30, "Verdana", "center");
-            } else {
-                FJSutils.fillText("Pause", 169, 300, "white", "bold italic", 30, "Verdana", "center");
-            }
-
+            FJSutils.fillText(settings.singlePlayer.finish ? "Fin del juego" : "Pause", 169, 300, "white", "bold italic", 30, "Verdana", "center");
             buttonReturnToMenu.draw();
+        } else {
+            //Directions
+            directionsTile.draw(61, 550);
         }
 
         //Draw the pause button
         buttonPause.draw();
-
+        
         //If the first enemy reaches the limit of the screen, it is eliminated
-        if(enemies[0].y > FJSscreen.height) enemies.shift();
-        //If the last enemy created reaches a limit, another one is created
-        if(enemies[enemies.length - 1].y > 300) Utils.createRandomEnemy();
+        if(enemies[0].y > FJSscreen.height){
+            enemies.shift();
+            settings.singlePlayer.points++;
+        }
 
-        console.log("Actualizando singleplayer");
+        //If the last enemy created reaches a limit, another one is created
+        if(enemies[enemies.length - 1].y > 200) Utils.createRandomEnemy();
+
+        settings.enemies.speed += 0.002;
+
+        //Points
+        FJSutils.fillText(`${settings.singlePlayer.points}/${settings.singlePlayer.record}`, 338/2, 50, "#FFFFFF", "bold", 30, "Verdana", "center", "middle");
     }
 });
 
@@ -118,7 +146,6 @@ let multiPlayerScene = new FJSscene({
                         this.life--;
                         break;
                     }
-                    
                 }
             }
         });
@@ -160,9 +187,3 @@ let multiPlayerScene = new FJSscene({
         console.log("ESCENA multiplayer");
     }
 });
-
-
-
-
-
-

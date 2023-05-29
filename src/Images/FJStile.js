@@ -29,6 +29,21 @@ class FJStile {
         
         //It will save a possible load function and the tile
         this.onLoad = temporalData.onLoad || function(){};
+        this.src = temporalData.path || temporalData.src;
+
+        //If auto load is enabled, load the image
+        if(data.auto != false) this.load();
+    }
+
+    /**
+     * **Load the tile**
+     * 
+     * Method to load the image, and run a callback function
+     * @returns {void}
+     * @function
+     * @public
+     */
+    load(){
         //Load the image
         this.tile = new Image();
         //Function for when the charge is finished
@@ -39,7 +54,7 @@ class FJStile {
             this.onLoad();
         };
         //Tile path
-        this.tile.src = temporalData.path || temporalData.src;
+        this.tile.src = this.src;
     }
     
     /**

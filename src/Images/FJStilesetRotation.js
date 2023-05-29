@@ -24,12 +24,37 @@ class FJStilesetRotation {
         this.onLoad = data.onLoad || function(){};
         this.tiles = data.tiles;
 
+        //If auto load is enabled, load the image
+        if(data.auto != false) this.load();
+
+        this.src = data.path || data.src;
+
+        //First sample
+        let sampleTile = Object.values(this.tiles)[0];
+        this.heightKey = this.widthKey = null;
+
+        if("w" in sampleTile) this.widthKey = "w";
+        else if("width" in sampleTile) this.widthKey = "width";
+
+        if("h" in sampleTile) this.heightKey = "h";
+        else if("height" in sampleTile) this.heightKey = "height";
+    }
+
+    /**
+     * **Load the tileset**
+     * 
+     * Method to load the image, and run a callback function
+     * @returns {void}
+     * @function
+     * @public
+     */
+    load(){
         //Load the image
         this.tileset = new Image();
         //Function for when the charge is finished
         this.tileset.onload = () => this.onLoad();
         //Tileset path
-        this.tileset.src = data.path || data.src;
+        this.tileset.src = this.src
     }
 
     /**
@@ -47,13 +72,13 @@ class FJStilesetRotation {
      * @function
      * @public
      */
-    drawTile(tileName, angle=0, x=0, y=0, width=this.tiles[tileName], height=this.tiles[tileName]){
+    drawTile(tileName, angle=0, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey]){
         //Capture the tile to draw
         let tile = this.tiles[tileName];
         //Draw the image based on the passed data
         ctx.save();
         ctx.translate(x, y);
-        ctx.rotate(this.angle);
+        ctx.rotate(angle);
         ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, -width / 2, -height / 2, width, height);
         ctx.restore();
     }

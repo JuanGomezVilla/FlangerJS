@@ -24,6 +24,7 @@ echo.
 rem Interpret the parameters that are written by console
 if "%~1" == "-help" if "%~1" == "-h" goto :Help
 if "%~1" == "-export" if "%~1" == "-compile" goto :Export
+if "%~1" == "-create-plugin-list" goto :CreatePluginList
 
 rem Send to help
 if "%~1" == "" goto :Help
@@ -48,25 +49,27 @@ rem Loop where it will store each line of plugins.txt in the variable A
 for /F "tokens=*" %%A in (plugins.txt) do (
     rem Paste the content into the file and add line breaks
     type %%A >> %nameFile%
-    echo. >> %nameFile%
-    echo. >> %nameFile%
+    echo.>> %nameFile%
+    echo.>> %nameFile%
 )
 
 rem Applies a line break
 echo.
 rem Write that the process has finished
 echo.  [32mProcess finished...[37m
-
-
 goto :EOF
 
+rem Create plugin list
+:CreatePluginList
+echo.  Not implemented yet...
+goto :EOF
 
-
+rem Help commands
 :Help
 echo.
 %print%  Use command -compile or -export to generate a file
 %print%  You need to set a name file, or use -default
+%print%  Write -create-plugin-list to create a file of plugins
 %print%
 %print%  Example: flanger -export -default
-
 goto :EOF

@@ -31,23 +31,44 @@
             //Launch screen and drivers
             FJSscreen.init({id:"canvasGame", width:338, height:600});
 
+            //Inits gamepad
+            FJSgamepad.init({
+                onConnect: function(){
+                    alert("Gamepad connected");
+                }
+            });
+
             //Player
             let player = {
-                x: 338/2-25,
-                y: 500,
-                width: 50,
-                height: 50,
-                speed: 3,
                 update: function(){
-                    if(FJSscreen.keyboard.a && this.x > 0) this.x -= this.speed;
-                    if(FJSscreen.keyboard.d && this.x < FJSscreen.width - this.width) this.x += this.speed;
+                    if(FJSgamepad.isConnected()){
+                        
+                        this.x += FJSgamepad.getAxe(0) * 3;
+
+                        
+
+                        if(this.x < 0) this.x = 0;
+                        if(this.x > FJSscreen.width - this.width) this.x = 338-50;
+                    } else {
+                        if(FJSscreen.keyboard.a && this.x > 0) this.x -= this.speed;
+                        if(FJSscreen.keyboard.d && this.x < FJSscreen.width - this.width) this.x += this.speed;
+                    }
+
+                    
 
                     enemies.forEach((enemy) => {
-                        if(this.crashWith(enemy)) Utils.finishSinglePlayerGame();
+                        if(this.crashWith(enemy)){
+                            Utils.finishSinglePlayerGame();
+                            if(settings.singlePlayer.points > settings.singlePlayer.record){
+                                settings.singlePlayer.record = settings.singlePlayer.points;
+                                localStorage.setItem("singlePlayerRecord", settings.singlePlayer.record);
+                            }
+                        }
                     });
                 },
                 draw: function(){
-                    FJSutils.fillRect(this.x, this.y, this.width, this.height);
+                    tilesetCars.drawTile("policeCar", 0, this.x + this.width/2, this.y+this.height/2, this.width, this.height);
+                    //FJSutils.fillRect(this.x, this.y, this.width, this.height);
                 },
                 crashWith: function(gameObject){
                     return !(
@@ -59,20 +80,22 @@
                 },
                 reset: function(){
                     this.x = FJSscreen.getCentralPointX() - 25;
-                    this.y = 500;
-                    this.width = 50;
-                    this.height = 50;
+                    this.y = 450;
+                    this.width = 48;
+                    this.height = 93;
                     this.speed = 3;
                 }
             };
+
+
+
             
-            //Start the game scene
-            let logoSprite = new FJStile({
-                src:"assets/logo.png",
-                onLoad: function(){
-                    loadingScene.init();
-                }
-            });            
+
+            logoSprite.load();
+            directionsTile.load();
+            tilesetCars.load();
+            
+            
             
         </script>
     </body>

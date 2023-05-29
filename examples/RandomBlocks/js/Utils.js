@@ -1,14 +1,26 @@
 let Utils = {
     createRandomEnemy: function(){
+        let randomCar = FJSutils.randomChoice(Object.keys(tilesetCars.tiles));
+        
+        let temporalCar = tilesetCars.tiles[randomCar]
+        let temporalWidth = temporalCar.w;
+        let temporalHeight = temporalCar.h;
         enemies.push(new Enemy(
-            FJSutils.randomNumber(0, FJSscreen.width - settings.enemies.width),
-            -settings.enemies.height
+            FJSutils.randomNumber(0, FJSscreen.width - temporalWidth),
+            -temporalHeight,
+            temporalWidth,
+            temporalHeight,
+            randomCar
         ));
     },
     resetSinglePlayer: function(){
         settings.singlePlayer.finish = false;
+        settings.singlePlayer.points = 0;
+        settings.enemies.speed = 5;
+        singlePlayerScene.pause = false;
         enemies = [];
         player.reset();
+        
         this.createRandomEnemy();
     },
     finishSinglePlayerGame: function(){
