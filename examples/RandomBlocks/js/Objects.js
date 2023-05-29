@@ -5,7 +5,7 @@ let player1, player2;
 let loaded = 0;
 function checkLoad(){
     loaded++;
-    if(loaded == 3) singlePlayerScene.init();
+    if(loaded == 3) loadingScene.init();
 }
 
 let keyFinishPress = {
