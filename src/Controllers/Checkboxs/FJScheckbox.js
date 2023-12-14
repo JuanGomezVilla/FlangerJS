@@ -24,7 +24,10 @@ class FJScheckbox extends FJScontroller {
         super(data.x, data.y, () => {
             if(this.checked) this.onChecked();
             else this.drawMethod();
-        }, data.onHover, data.onPressed, data.onClick, true);
+        }, data.onHover, data.onPressed, () => {
+            this.checked = !this.checked;
+            data.onClick();
+        }, true, data.disabled || false);
         //Text linked to the checkbox
         this.text = data.text;
         //Value (a value assigned by the user that is not visible on the interface)

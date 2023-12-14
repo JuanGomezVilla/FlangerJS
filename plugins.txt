@@ -6,6 +6,7 @@ src\Controllers\FJScontroller.js
 src\Controllers\Buttons\FJSbutton.js
 src\Controllers\Checkboxs\FJScheckbox.js
 src\Controllers\Progress\FJSprogress.js
+src\Fonts\FJSfont.js
 src\System\FJSsprite.js
 src\Images\FJStile.js
 src\Images\FJStileRotation.js

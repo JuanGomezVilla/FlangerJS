@@ -26,10 +26,12 @@ class FJStileset {
         this.onLoad = data.onLoad || function(){};
         this.tiles = data.tiles;
 
+        this.src = data.path || data.src;
+
         //If auto load is enabled, load the image
         if(data.auto != false) this.load();
 
-        this.src = data.path || data.src;
+        
 
         //First sample
         let sampleTile = Object.values(this.tiles)[0];
