@@ -1156,6 +1156,8 @@ class FJSfont {
          * @public
          */
         this.style = document.createElement("style");
+
+        if(data.auto != false) this.load();
     }
 
     /**
