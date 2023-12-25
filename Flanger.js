@@ -368,7 +368,23 @@ let FJSscreen = {
     finishCurrentScene: function(){
         //Cancel the main interval
         cancelAnimationFrame(interval);
-    }
+    },
+    /**
+     * **Load a font**
+     * 
+     * The user gives a nameFont, the source file and a callback function
+     * @returns {void}
+     * @function
+     * @public
+     */
+    loadFont(data){
+        //HTML tag that contains the CSS style, create a CSS for the font
+        let temporalStyle = document.createElement("style");
+        temporalStyle.innerText = `@font-face {font-family: '${data.nameFont}';src: url('${data.src}');}`;
+        //Insert the style in the header of the page, Loads a possible final load function, optionally user-defined
+        document.head.append(temporalStyle);
+        data.onLoad();
+    },
 }
 
 /**
