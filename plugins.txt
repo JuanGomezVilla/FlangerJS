@@ -8,6 +8,7 @@ src\Controllers\Checkboxs\FJScheckbox.js
 src\Controllers\Progress\FJSprogress.js
 src\Fonts\FJSfont.js
 src\System\FJSsprite.js
+src\System\FJSswitch.js
 src\Images\FJStile.js
 src\Images\FJStileRotation.js
 src\Images\FJStileset.js

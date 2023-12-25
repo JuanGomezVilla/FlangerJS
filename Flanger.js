@@ -1225,6 +1225,44 @@ class FJSsprite {
 }
 
 /**
+ * **Switch**
+ * 
+ * Class that works as a switch, it will execute a certain function
+ * when the user has launched the check() function for a certain
+ * number of times, also defined by the user
+ * @author JuanGV
+ * @version 1.0.0
+ * @name FJSswitch
+ * @license MIT
+ */
+class FJSswitch {
+
+    /**
+     * **Constructor**
+     * 
+     * Sets the switch data (times and callback)
+     * @param {Array} data - times, onFinish
+     */
+    constructor(data){
+        this.order = 0;
+        this.times = data.times;
+        this.onFinish = data.onFinish || function(){};
+    }
+
+    /**
+     * Method to check if the established times have been reached
+     * @function
+     * @public
+     */
+    check(){
+        //Increase order
+        this.order++;
+        //Checks if the order is equivalent to times, and executes a callback
+        if(this.order == this.times) this.onFinish();
+    }
+}
+
+/**
  * **Tile**
  * 
  * Class to handle with a single tile, i.e. an image without a grid.
@@ -1298,9 +1336,9 @@ class FJStile {
      * @function
      * @public
      */
-    draw(x=0, y=0, width=this.width, height=this.height){
+    draw(x=0, y=0, width=this.width, height=this.height, originX=0, originY=0){
         //Draw the image on the canvas with the main context
-        ctx.drawImage(this.tile, x, y, width, height);
+        ctx.drawImage(this.tile, x+originX, y+originY, width, height);
     }
 }
 
@@ -1379,12 +1417,12 @@ class FJStileRotation {
      * @function
      * @public
      */
-    draw(angle=0, x=0, y=0, width=this.width, height=this.height){
+    draw(angle=0, x=0, y=0, width=this.width, height=this.height, originX=0, originY=0){
         //Draw the image on the canvas with an angle
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(angle);
-        ctx.drawImage(this.tile, -width / 2, -height / 2, width, height);
+        ctx.drawImage(this.tile, -width / 2+originX, -height / 2+originY, width, height);
         ctx.restore();
     }
 }
@@ -1417,12 +1455,11 @@ class FJStileset {
         this.onLoad = data.onLoad || function(){};
         this.tiles = data.tiles;
 
+        //Sets the source image
         this.src = data.path || data.src;
 
         //If auto load is enabled, load the image
         if(data.auto != false) this.load();
-
-        
 
         //First sample
         let sampleTile = Object.values(this.tiles)[0];
@@ -1466,11 +1503,11 @@ class FJStileset {
      * @function
      * @public
      */
-    drawTile(tileName, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey]){
+    drawTile(tileName, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey], originX=0, originY=0){
         //Capture the tile to draw
         let tile = this.tiles[tileName];
         //Draw the image based on the passed data
-        ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, x, y, width, height);
+        ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, x+originX, y+originY, width, height);
     }
 }
 
@@ -1500,10 +1537,11 @@ class FJStilesetRotation {
         this.onLoad = data.onLoad || function(){};
         this.tiles = data.tiles;
 
+        //Sets the source image
+        this.src = data.path || data.src;
+
         //If auto load is enabled, load the image
         if(data.auto != false) this.load();
-
-        this.src = data.path || data.src;
 
         //First sample
         let sampleTile = Object.values(this.tiles)[0];
@@ -1548,14 +1586,14 @@ class FJStilesetRotation {
      * @function
      * @public
      */
-    drawTile(tileName, angle=0, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey]){
+    drawTile(tileName, angle=0, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey], originX=0, originY=0){
         //Capture the tile to draw
         let tile = this.tiles[tileName];
         //Draw the image based on the passed data
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(angle);
-        ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, -width / 2, -height / 2, width, height);
+        ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, -width / 2 + originX, -height / 2 + originY, width, height);
         ctx.restore();
     }
 }

@@ -72,8 +72,8 @@ class FJStile {
      * @function
      * @public
      */
-    draw(x=0, y=0, width=this.width, height=this.height){
+    draw(x=0, y=0, width=this.width, height=this.height, originX=0, originY=0){
         //Draw the image on the canvas with the main context
-        ctx.drawImage(this.tile, x, y, width, height);
+        ctx.drawImage(this.tile, x+originX, y+originY, width, height);
     }
 }

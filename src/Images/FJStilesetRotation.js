@@ -24,10 +24,11 @@ class FJStilesetRotation {
         this.onLoad = data.onLoad || function(){};
         this.tiles = data.tiles;
 
+        //Sets the source image
+        this.src = data.path || data.src;
+
         //If auto load is enabled, load the image
         if(data.auto != false) this.load();
-
-        this.src = data.path || data.src;
 
         //First sample
         let sampleTile = Object.values(this.tiles)[0];
@@ -72,14 +73,14 @@ class FJStilesetRotation {
      * @function
      * @public
      */
-    drawTile(tileName, angle=0, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey]){
+    drawTile(tileName, angle=0, x=0, y=0, width=this.tiles[tileName][this.widthKey], height=this.tiles[tileName][this.heightKey], originX=0, originY=0){
         //Capture the tile to draw
         let tile = this.tiles[tileName];
         //Draw the image based on the passed data
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(angle);
-        ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, -width / 2, -height / 2, width, height);
+        ctx.drawImage(this.tileset, tile.x, tile.y, tile.w, tile.h, -width / 2 + originX, -height / 2 + originY, width, height);
         ctx.restore();
     }
 }

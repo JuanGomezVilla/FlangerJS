@@ -73,12 +73,12 @@ class FJStileRotation {
      * @function
      * @public
      */
-    draw(angle=0, x=0, y=0, width=this.width, height=this.height){
+    draw(angle=0, x=0, y=0, width=this.width, height=this.height, originX=0, originY=0){
         //Draw the image on the canvas with an angle
         ctx.save();
         ctx.translate(x, y);
         ctx.rotate(angle);
-        ctx.drawImage(this.tile, -width / 2, -height / 2, width, height);
+        ctx.drawImage(this.tile, -width / 2+originX, -height / 2+originY, width, height);
         ctx.restore();
     }
 }
