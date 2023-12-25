@@ -27,7 +27,9 @@ let FJSscreen = {
         y: -999, //Coordinates on the Y axis
         click: false, //Click control, single press
         pressed: false, //Pressure control, long press
-        hoveringElement: false //Possibility of being on an object
+        hoveringElement: false, //Possibility of being on an object
+        isWheelDown: false, //Switch to verify if is wheel downn
+        isWheelUp: false, //Switch to verify if is wheel up
     },
     /**
      * Object representing a fade effect
@@ -194,6 +196,11 @@ let FJSscreen = {
             this.mouse.x = event.clientX - boundingClientRect.left;
             this.mouse.y = event.clientY - boundingClientRect.top;
         });
+        window.addEventListener("wheel", (event) => {
+            //If the wheel goes up, the positive switch is activated, otherwise the negative one
+            if(event.deltaY > 0) this.mouse.isWheelDown = true;
+            else this.mouse.isWheelUp = true;
+        });
 
         //If easter eggs are user activated
         if(data.easterEgg){
@@ -355,6 +362,9 @@ let FJSscreen = {
         canvas.style.cursor = this.mouse.hoveringElement ? "pointer" : "default";
         //At the end of the cycle, it is considered that it would have finished sitting on an object
         this.mouse.hoveringElement = false;
+        //Cancel the wheel switch
+        this.mouse.isWheelDown = false;
+        this.mouse.isWheelUp = false;
     },
     /**
      * **Finish current scene**
@@ -1682,7 +1692,8 @@ class FJSaudio {
         //Try block to handle any exceptions that might occur while playing the audio
         try {
             //Attempts to play the audio
-            this.#audio.play(); 
+            //this.#audio.play();
+            this.#audio.cloneNode(true).play();
         //Catch block to handle any exceptions thrown by the try block
         } catch(error) {
             //Logs the error to the console

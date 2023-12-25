@@ -64,7 +64,8 @@ class FJSaudio {
         //Try block to handle any exceptions that might occur while playing the audio
         try {
             //Attempts to play the audio
-            this.#audio.play(); 
+            //this.#audio.play();
+            this.#audio.cloneNode(true).play();
         //Catch block to handle any exceptions thrown by the try block
         } catch(error) {
             //Logs the error to the console
