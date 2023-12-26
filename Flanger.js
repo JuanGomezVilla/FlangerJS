@@ -50,7 +50,8 @@ let FJSscreen = {
         b: 0, //Blue color
         transparency: 0, //Transparency, value between 0 and 1
         running: false, //Animation trigger
-        speed: 0.01, //Default speed
+        speed: 0, //Speed, the user can modify that value
+        defaultSpeed: 0, //Default speed (used by the program)
         callback: function(){}, //Callback function on finish first phase
         /**
          * **Begin the animation**
@@ -88,7 +89,7 @@ let FJSscreen = {
             //Hide the fade layer with transparency at 0
             this.transparency = 0;
             //Resets the speed
-            this.speed = 0.01;
+            this.defaultSpeed = this.speed;
         }  
     },
     /**
@@ -342,18 +343,19 @@ let FJSscreen = {
             //Fill all the screen with the layer
             ctx.fillRect(0, 0, this.width, this.height);
             //Increases the transparency with the speed
-            this.fade.transparency += fade.speed;
+            this.fade.transparency += this.fade.defaultSpeed;
 
             //Detects when it has completed one the two phases
             if(this.fade.transparency >= 1){
-                //Change the speed to negative
-                this.fade.speed = -0.01;
+                //Change the speed to negative and correct the transparency
+                this.fade.defaultSpeed *= -1;
+                this.fade.transparency = 1;
                 //Runs the callback function
                 this.fade.callback();
             }
 
             //If the speed is negative and the transparency 0, end the fade by resetting the data
-            if(fade.speed < 0 && fade.transparency <= 0)  this.fade.reset();
+            if(this.fade.defaultSpeed < 0 && this.fade.transparency <= 0)  this.fade.reset();
         }
 
         //Cancel mouse click
