@@ -663,6 +663,57 @@ let FJSutils = {
         ctx.textBaseline = baseline;
         //Draws the text at the specified location
         ctx.fillText(text, x, y);
+    },
+    /**
+     * **Stroke rect**
+     * 
+     * Draw a rectangle with no fill color on the canvas
+     * @param {number} [x=0] - X axis coordinate
+     * @param {number} [y=0] - Y axis coordinate
+     * @param {number} [width=50] - Rectangle's width
+     * @param {number} [height=50] - Rectangle's height
+     * @param {string} [color="#000000"] - Rectangle's color
+     * @param {number} [lineWidth=2] - Line width 
+     */
+    strokeRect: function(x=0, y=0, width=50, height=50, color="#000000", lineWidth=2){
+        //Start the path
+        ctx.beginPath();
+        //Set the border color
+        ctx.strokeStyle = color;
+        //Line thickness
+        ctx.lineWidth = lineWidth;
+        //Draw the rectangle
+        ctx.rect(x, y, width, height);
+        //Close the path
+        ctx.closePath();
+        //Apply the drawing on the canvas
+        ctx.stroke();
+    },
+    /**
+     * **Stroke round rect**
+     * 
+     * Draw a round rectangle with no fill color on the canvas
+     * @param {number} [x=0] - X axis coordinate
+     * @param {number} [y=0] - Y axis coordinate
+     * @param {number} [width=50] - Rectangle's width
+     * @param {number} [height=50] - Rectangle's height
+     * @param {string} [color="#000000"] - Rectangle's color
+     * @param {number} [lineWidth=2] - Line width 
+     * @param {number} [radius=1] - Radius
+     */
+    strokeRoundRect: function(x=0, y=0, width=50, height=50, color="#000000", lineWidth=2, radius=1){
+        //Start the path
+        ctx.beginPath();
+        //Set the border color
+        ctx.strokeStyle = color;
+        //Line thickness
+        ctx.lineWidth = lineWidth;
+        //Draw a round rectangle
+        ctx.roundRect(x, y, width, height, radius);
+        //Close the path
+        ctx.closePath();
+        //Apply the drawing on the canvas
+        ctx.stroke();
     }
 }
 
